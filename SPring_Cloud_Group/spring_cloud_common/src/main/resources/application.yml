@@ -1,0 +1,76 @@
+EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
+EUREKA.INSTANCE.BASE.PORT: 8761
+EUREKA.INSTANCE.HOSTNAME: micocommon
+EUREKA.CONTEXT.IPADD: 127.0.0.1
+EUREKA.CONTEXT.PORT: 8750
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1
+EUREKA.INSTANCE.ADMIN.PORT: 8000
+EUREKA.INSTANCE.ADMIN.USR: admin
+EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
+server:
+  port: ${EUREKA.CONTEXT.PORT}
+spring:
+  application:
+    name: micocommon
+  profiles:
+    active: native
+# tag::configuration-eureka[]
+eureka:
+  instance:
+    hostname: ${EUREKA.INSTANCE.HOSTNAME}
+    ip-address: ${EUREKA.CONTEXT.IPADD}
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 10
+    home-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/
+    health-check-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/actuator/health
+    status-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/actuator/info
+    metadata-map:
+      user.name: ${EUREKA.INSTANCE.ADMIN.USR}
+      user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
+      management:
+        context-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/actuator
+  #    instance-id: ${eureka.instance.ip-address}:${server.port}
+  client:
+    registryFetchIntervalSeconds: 5
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+# end::configuration-eureka[]
+---
+sprint:
+  boot:
+    admin:
+      client:
+        url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
+        username: ${EUREKA.INSTANCE.ADMIN.USR}
+        password: ${EUREKA.INSTANCE.ADMIN.PWD}
+---
+# 通用数据库源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+    # Hikari 数据源专用配置
+    hikari:
+      username: drouis
+      password: 1q2w3e4R
+      jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      maximum-pool-size: 20
+      minimum-idle: 5
+  #JPA 相关配置
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

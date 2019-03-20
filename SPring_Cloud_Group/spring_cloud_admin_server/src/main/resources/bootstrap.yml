@@ -1,0 +1,53 @@
+EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
+EUREKA.INSTANCE.BASE.PORT: 8761
+EUREKA.CONTEXT.PATH: admin
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1
+EUREKA.INSTANCE.ADMIN.PORT: 8000
+EUREKA.INSTANCE.ADMIN.USR: admin
+EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
+spring:
+  profiles:
+    active:
+      - secure
+# tag::configuration-eureka[]
+eureka:
+  instance:
+    hostname: ${EUREKA.INSTANCE.ADMIN.HOSTNAME}
+    ip-address: ${EUREKA.INSTANCE.ADMIN.HOSTNAME}
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 10
+    home-page-url-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}
+    health-check-url-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
+    status-page-url-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+  client:
+    registryFetchIntervalSeconds: 5
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/eureka/
+#    fetch-registry: false // 注册服务错误，打开后无法注册本体服务
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+# end::configuration-eureka[]
+---
+spring:
+  profiles: insecure
+---
+spring:
+  profiles: secure
+  security:
+    user:
+      name: ${EUREKA.INSTANCE.ADMIN.USR}
+      password: ${EUREKA.INSTANCE.ADMIN.PWD}
+eureka:
+  instance:
+    metadata-map:
+      user.name: ${EUREKA.INSTANCE.ADMIN.USR}
+      user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
+    management:
+      context-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator

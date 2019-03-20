@@ -1,0 +1,10 @@
+EUREKA.CONST.PORT: 8000
+EUREKA.CONST.PATH: admin
+EUREKA.APPLICATION.NAME: spring-cloud-admin-server
+server:
+  port: ${EUREKA.CONST.PORT}
+  servlet:
+    context-path: /${EUREKA.CONST.PATH}
+spring:
+  application:
+    name: ${EUREKA.APPLICATION.NAME}

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://39.108.124.176:3306/driverschool</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <mapping class="com.rjpa.mic.Repository.Entity.LzhAdminEntity"/>
+    <mapping class="model.vo.LzhAdminEntity"/>
+    <mapping class="model.vo.LzhAdminMenusRightsEntity"/>
+    <mapping class="model.vo.LzhAdminPermissionEntity"/>
+    <mapping class="model.vo.LzhAdminRoleEntity"/>
+    <mapping class="model.vo.LzhAdminRolePermissionEntity"/>
+    <mapping class="model.vo.LzhAdminUserRoleEntity"/>
+    <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>

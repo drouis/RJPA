@@ -1,0 +1,10 @@
+EUREKA.CONST.PORT: 6100
+EUREKA.CONST.PATH: /micoUSerServer
+EUREKA.APPLICATION.NAME: spring-cloud-micouser-server
+server:
+  port: ${EUREKA.CONST.PORT}
+  servlet:
+    context-path: ${EUREKA.CONST.PATH}
+spring:
+  application:
+    name: ${EUREKA.APPLICATION.NAME}

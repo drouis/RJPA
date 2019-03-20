@@ -1,0 +1,13 @@
+EUREKA.CONST.PORT: 8759
+EUREKA.CONST.PATH: /gtw
+EUREKA.APPLICATION.NAME: spring-cloud-gateway-server
+server:
+  port: ${EUREKA.CONST.PORT}
+  servlet:
+    context-path: ${EUREKA.CONST.PATH}
+  undertow:
+    worker-threads: 4000
+    io-threads: 200
+spring:
+  application:
+    name: ${EUREKA.APPLICATION.NAME}

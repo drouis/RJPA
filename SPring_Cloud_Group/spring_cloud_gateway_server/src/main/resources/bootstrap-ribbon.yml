@@ -1,0 +1,13 @@
+# 关闭由eureka 分配的服务均衡
+ribbon:
+  eureka:
+    enabled: false
+  ConnectTimeout: 350000
+  ReadTimeout: 350000
+  MaxAutoRetries: 2
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true
+  okhttp:
+    enabled: true
+ribbon-route:
+

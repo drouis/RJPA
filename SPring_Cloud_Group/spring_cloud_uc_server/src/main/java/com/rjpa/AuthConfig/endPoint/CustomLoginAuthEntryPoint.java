@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 授权认证失败后调用
+ * 授权认证
  */
-
 public class CustomLoginAuthEntryPoint implements AuthenticationEntryPoint {
     private String loginUrl = "/login.html";
     @Value("${security.logoutSuccessUrl}")
@@ -22,6 +21,7 @@ public class CustomLoginAuthEntryPoint implements AuthenticationEntryPoint {
     String ignoringUrls;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        // 判定白名单内容
         if (logoutSuccessUrl != null) {
             loginUrl = (String) logoutSuccessUrl;
         }

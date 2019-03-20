@@ -6,6 +6,8 @@ import com.rjpa.AuthConfig.filter.CustomSecurityInterceptor;
 import com.rjpa.AuthConfig.handler.CustomLoginAuthFailureHandler;
 import com.rjpa.AuthConfig.handler.CustomLoginAuthSuccessHandler;
 import com.rjpa.AuthConfig.handler.CustomLogoutSuccessHandler;
+import com.rjpa.feign.client.UserServiceFeignClient;
+import com.rjpa.service.UserService;
 import model.utils.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,12 +36,7 @@ import org.springframework.stereotype.Component;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return super.userDetailsService();
-    }
+    UserService userService;
 
     @Value("${security.ignoring}")
     String ignoringUrls;
@@ -47,25 +45,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${security.logoutSuccessUrl}")
     String logoutSuccessUrl;
     private static String[] AUTH_WHITELIST = {};
+
+    /**
+     * 配置验证Url地址和验证方式
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         logger.debug("权限框架配置");
-        //设置不拦截
+        //设置拦截白名单
         if (ignoringUrls != null) {
             AUTH_WHITELIST = ignoringUrls.split(",");
             AUTH_WHITELIST = StringUtil.clearSpace(AUTH_WHITELIST);
         }
-        for(String au :AUTH_WHITELIST){
-            http.authorizeRequests().regexMatchers(au).permitAll();
+        for (String au : AUTH_WHITELIST) {
+            http.authorizeRequests().regexMatchers(au).permitAll();// 采用正则表达式匹配白名单的url地址
         }
         //设置过滤器
         http.authorizeRequests().and()
                 .httpBasic().authenticationEntryPoint(getCustomLoginAuthEntryPoint())
-                .and().addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class).addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class).logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())//用户权限登陆拦截器
-                .and().csrf().disable()
+                .and()
+                .addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class)// 访问用户权限验证方式拦截器
+                .addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class)// 验证访问URL权限拦截器
+                .logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())
+                .and().csrf().disable()// 阻止CSRF 的攻击
                 .authorizeRequests().anyRequest().authenticated()
-                .and().formLogin().loginProcessingUrl("/login").loginPage("/login.ftl").permitAll()
-                .and().logout().logoutUrl("/logout").permitAll();
+                .and().formLogin().loginProcessingUrl("/login").loginPage("/login.ftl").permitAll()// 设置登陆信息和登陆权限
+                .and().logout().logoutUrl("/logout").permitAll(); // 配置登出信息和登出权限
         logger.debug("配置忽略验证url");
     }
 
@@ -92,8 +99,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public DaoAuthenticationProvider getDaoAuthenticationProvider() {
+        // 配置用户信息来自于数据库设置
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
+        // 配置自定义数据库访问信息，通过远程用户服务获取用户信息
+        provider.setUserDetailsService(userService);
         provider.setHideUserNotFoundExceptions(false);
         provider.setPasswordEncoder(new BCryptPasswordEncoder());
         return provider;

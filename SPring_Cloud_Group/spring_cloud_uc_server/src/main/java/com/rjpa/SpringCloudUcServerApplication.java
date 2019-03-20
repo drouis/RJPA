@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableEurekaClient
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableFeignClients("com.rjpa.client")
+@EnableFeignClients("com.rjpa.feign")
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SpringCloudUcServerApplication {
 

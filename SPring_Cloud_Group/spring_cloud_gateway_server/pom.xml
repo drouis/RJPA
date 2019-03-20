@@ -59,6 +59,18 @@
             <artifactId>spring-cloud-starter-ribbon</artifactId>
             <version>${spring-cloud-ribbon.version}</version>
         </dependency>
+        <!-- 声明式注入 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!-- 共通类目模块引用 -->
+        <dependency>
+            <groupId>com.rjpa</groupId>
+            <artifactId>spring_cloud_common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -91,6 +103,24 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.rjpa.SpringCloudGatewayServerApplication</mainClass>
+                    <layout>ZIP</layout>
+                    <classifier>exec</classifier>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

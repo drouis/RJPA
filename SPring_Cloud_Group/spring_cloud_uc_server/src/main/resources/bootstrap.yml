@@ -43,16 +43,14 @@ management:
       show-details: ALWAYS
 # end::configuration-eureka[]
 ---
-sprint:
-  boot:
-    admin:
-      client:
-        url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
-        username: ${EUREKA.INSTANCE.ADMIN.USR}
-        password: ${EUREKA.INSTANCE.ADMIN.PWD}
-
----
+# 匹配正则表达式
+security:
+  ignoring: "\\/actuator\\/(\\w+), static/.*, druid/.*, /login.ftl, /login, /webjars/.*, /images/.*, /swagger2/.*"
+  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl"
+  successUrl: "/index.ftl"
+  logoutSuccessUrl: "/login.ftl"
 # 通用数据库源配置
+---
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -72,8 +70,3 @@ spring:
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-security:
-  ignoring: "/static/**/*, /druid/**/**, /login.ftl, /webjars/**/*, /images/**/*, /swagger2/**/*"
-  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl"
-  successUrl: "/index.ftl"
-  logoutSuccessUrl: "/login.ftl"

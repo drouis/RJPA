@@ -46,42 +46,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     String successUrls;
     @Value("${security.logoutSuccessUrl}")
     String logoutSuccessUrl;
-
+    private static String[] AUTH_WHITELIST = {};
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         logger.debug("权限框架配置");
-        String[] paths = null;
         //设置不拦截
-//        if (propertySourceBean.getProperty("security.ignoring") != null) {
-//            paths = propertySourceBean.getProperty("security.ignoring").toString().split(",");
-//            paths = StringUtil.clearSpace(paths);
-//        }
         if (ignoringUrls != null) {
-            paths = ignoringUrls.split(",");
-            paths = StringUtil.clearSpace(paths);
+            AUTH_WHITELIST = ignoringUrls.split(",");
+            AUTH_WHITELIST = StringUtil.clearSpace(AUTH_WHITELIST);
+        }
+        for(String au :AUTH_WHITELIST){
+            http.authorizeRequests().regexMatchers(au).permitAll();
         }
         //设置过滤器
-        http.authorizeRequests().antMatchers(paths).permitAll()
-                .and()
-                .httpBasic()
-                .authenticationEntryPoint(getCustomLoginAuthEntryPoint())
-                .and()
-                .addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class)
-                .logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())
-                .and()
-                .csrf().disable()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginProcessingUrl("/login")
-                .loginPage("/login.ftl")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .permitAll();
+        http.authorizeRequests().and()
+                .httpBasic().authenticationEntryPoint(getCustomLoginAuthEntryPoint())
+                .and().addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class).addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class).logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())//用户权限登陆拦截器
+                .and().csrf().disable()
+                .authorizeRequests().anyRequest().authenticated()
+                .and().formLogin().loginProcessingUrl("/login").loginPage("/login.ftl").permitAll()
+                .and().logout().logoutUrl("/logout").permitAll();
         logger.debug("配置忽略验证url");
     }
 

@@ -23,7 +23,7 @@ public class MicoUserMainController {
         return r;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/user/find/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/find/{id}")
     public Result findByUserId(@PathVariable Integer id) {
         User u = new User();
         u.setId(1);

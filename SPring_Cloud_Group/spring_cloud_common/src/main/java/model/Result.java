@@ -1,6 +1,7 @@
 package model;
 
 import io.swagger.annotations.ApiModel;
+import model.utils.SystemConstCode;
 
 @ApiModel
 public class Result<T> {
@@ -43,12 +44,12 @@ public class Result<T> {
         return new Result(errorMsg, String.valueOf(errorCode), null, false);
     }
 
-    public static Result error(String errorCode, String errorMsg) {
-        return new Result(errorMsg, errorCode, null, false);
+    public static Result error(Integer errorCode, String errorMsg) {
+        return new Result(errorMsg, String.valueOf(errorCode), null, false);
     }
 
     public static Result error(String errMsg) {
-        return error("6000000", errMsg);
+        return error(SystemConstCode.END_STR.getCode(), errMsg);
     }
 
     public String getMsg() {

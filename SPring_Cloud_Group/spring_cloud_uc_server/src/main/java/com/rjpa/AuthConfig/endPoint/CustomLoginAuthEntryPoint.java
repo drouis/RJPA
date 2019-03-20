@@ -1,5 +1,6 @@
 package com.rjpa.AuthConfig.endPoint;
 
+import model.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -17,16 +18,30 @@ public class CustomLoginAuthEntryPoint implements AuthenticationEntryPoint {
     private String loginUrl = "/login.html";
     @Value("${security.logoutSuccessUrl}")
     String logoutSuccessUrl;
-
+    @Value("${security.ignoring}")
+    String ignoringUrls;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         if (logoutSuccessUrl != null) {
             loginUrl = (String) logoutSuccessUrl;
         }
-        if (isAjaxRequest(request)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-        } else {
-            response.sendRedirect(loginUrl);
+        boolean redirectFlg = true;
+        if (ignoringUrls != null) {
+            String AUTH_WHITELIST[] = ignoringUrls.split(",");
+            AUTH_WHITELIST = StringUtil.clearSpace(AUTH_WHITELIST);
+            for(String au : AUTH_WHITELIST){
+                if(request.getServletPath().matches(au)){
+                    redirectFlg = false;
+                    break;
+                }
+            }
+        }
+        if(redirectFlg){
+            if (isAjaxRequest(request)) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+            } else {
+                response.sendRedirect(loginUrl);
+            }
         }
     }
 

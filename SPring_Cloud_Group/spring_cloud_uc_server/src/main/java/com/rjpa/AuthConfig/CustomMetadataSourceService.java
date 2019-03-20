@@ -2,7 +2,7 @@ package com.rjpa.AuthConfig;
 
 
 import com.google.gson.Gson;
-import com.rjpa.client.UserServiceFeignClient;
+import com.rjpa.feign.client.UserServiceFeignClient;
 import model.Result;
 import model.utils.StringUtil;
 import model.vo.LzhAdminPermissionEntity;
@@ -73,7 +73,7 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
             Result res = userService.getAdminPermissionUrls();
             List<LzhAdminPermissionEntity> pls = new Gson().fromJson(res.getData().toString(), ArrayList.class);
             if (null != res && 0 < pls.size()) {
-                for(LzhAdminPermissionEntity menuPermis:pls){
+                for (LzhAdminPermissionEntity menuPermis : pls) {
                     //查询拥有该权限的角色列表
                 }
             }

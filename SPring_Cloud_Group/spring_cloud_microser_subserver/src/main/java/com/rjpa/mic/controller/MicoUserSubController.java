@@ -34,7 +34,7 @@ public class MicoUserSubController {
         return r;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/urls")
+    @RequestMapping(method = RequestMethod.GET, value = "/permissionURLs")
     public Result findAllAdminPermission() {
         List<LzhAdminPermissionEntity> p = lzhAdminPermissionRepository.findAll();
         Result r = Result.ok(p);

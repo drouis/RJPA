@@ -80,7 +80,7 @@ public interface UserServiceFeignClient {
      * @return
      */
     @Headers({"Content-Type:application/json", "Accept: application/json"})
-    @RequestMapping(method = RequestMethod.GET, value = "/urls",
+    @RequestMapping(method = RequestMethod.GET, value = "/permissionURLs",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     Result getAdminPermissionUrls();

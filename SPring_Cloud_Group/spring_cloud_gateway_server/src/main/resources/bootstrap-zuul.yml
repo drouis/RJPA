@@ -35,6 +35,8 @@ hystrix:
           thread:
             timeoutInMilliseconds: 600000
 feign:
+  httpclient:
+    enabled: true
   hystrix:
     enabled: true
 ribbon:

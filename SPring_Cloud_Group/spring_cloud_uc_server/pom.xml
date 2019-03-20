@@ -115,7 +115,13 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>RELEASE</version>
         </dependency>
-
+        <!-- 网关路由 -->
+        <!-- 网关路由 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
+            <version>${spring-cloud-zuul.version}</version>
+        </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>

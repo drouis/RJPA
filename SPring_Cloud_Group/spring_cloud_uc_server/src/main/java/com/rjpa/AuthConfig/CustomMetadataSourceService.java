@@ -19,6 +19,7 @@ import org.springframework.util.PathMatcher;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 获取请求url需要的权限
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class CustomMetadataSourceService implements FilterInvocationSecurityMetadataSource {
     @Autowired
-    UserServiceFeignClient userService;
+    UserServiceFeignClient userServiceFeignClient;
 
     @Value("${security.ignoring}")
     String ignoringUrls;
@@ -41,7 +42,7 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        //获取当前访问url
+        // 获取当前访问url
         String url = ((FilterInvocation) object).getRequestUrl();
         int firstQuestionMarkIndex = url.indexOf("?");
         if (firstQuestionMarkIndex != -1) {
@@ -49,10 +50,10 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
         }
         List<ConfigAttribute> urlConfigAttributes = new ArrayList<>();
         try {
-            //设置不拦截
+            // 设置不拦截
             if (ignoringUrls != null) {
                 String[] paths = ignoringUrls.toString().split(",");
-                //判断是否符合规则
+                // 判断是否符合规则
                 for (String path : paths) {
                     String temp = StringUtil.clearSpace(path);
                     if (matcher.match(temp, url)) {
@@ -62,33 +63,31 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
                     }
                 }
             }
-            //如果不是拦截列表里的
+            // 如果不是拦截列表里的
             if (!isIntercept(url)) {
                 ConfigAttribute attribute = new SecurityConfig("ROLE_ANONYMOUS");
                 urlConfigAttributes.add(attribute);
                 return urlConfigAttributes;
             }
-            //查询匹配的url
-//            List<BaseMenu> menuList = baseMenuService.selectMenusByUrl(url);
-            Result res = userService.getAdminPermissionUrls();
-            List<LzhAdminPermissionEntity> pls = new Gson().fromJson(res.getData().toString(), ArrayList.class);
+            // 用户登陆后，获取用户相关的所有 权限，菜单，及匹配的权限url
+            List<LzhAdminPermissionEntity> pls = new ArrayList<LzhAdminPermissionEntity>();
+            Result res = userServiceFeignClient.getAdminPermissionUrls();
+            // 查询到数据库中的所有权限列表
+            if (null != res.getData() && 0 < ((ArrayList) res.getData()).size()) {
+                Gson gson = new Gson();
+                for (Map linkedHashMap : (ArrayList<Map>) res.getData()) {
+                    LzhAdminPermissionEntity permissionEntity = new LzhAdminPermissionEntity();
+                    permissionEntity = (LzhAdminPermissionEntity) gson.fromJson(gson.toJson(linkedHashMap), LzhAdminPermissionEntity.class);
+                    pls.add(permissionEntity);
+                }
+            }
             if (null != res && 0 < pls.size()) {
                 for (LzhAdminPermissionEntity menuPermis : pls) {
                     //查询拥有该权限的角色列表
+                    ConfigAttribute conf = new SecurityConfig(menuPermis.getPermission());
+                    urlConfigAttributes.add(conf);
                 }
             }
-//            if (menuList != null && menuList.size() > 0) {
-//                for (BaseMenu menu : menuList) {
-//
-//                    List<BaseRole> roles = baseRoleService.selectRolesByMenuId(menu.getId());
-//                    if (roles != null && roles.size() > 0) {
-//                        for (BaseRole role : roles) {
-            ConfigAttribute conf = new SecurityConfig("1");
-            urlConfigAttributes.add(conf);
-//                        }
-//                    }
-//                }
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

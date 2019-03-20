@@ -47,8 +47,8 @@ management:
 security:
   ignoring: "\\/actuator\\/(\\w+), static/.*, druid/.*, /login.ftl, /login, /webjars/.*, /images/.*, /swagger2/.*"
   intercept: "/**/*.jsp, /**/*.html, /**/*.ftl"
-  successUrl: "/index.ftl"
-  logoutSuccessUrl: "/login.ftl"
+  successUrl: "/index.html"
+  logoutSuccessUrl: "/login.html"
 # 通用数据库源配置
 ---
 spring:

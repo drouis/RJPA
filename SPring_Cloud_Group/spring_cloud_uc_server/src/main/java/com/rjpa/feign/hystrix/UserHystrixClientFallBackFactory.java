@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class UserHystrixClientFallBackFactory implements FallbackFactory<UserServiceFeignClient> {
     private static final Logger logger = LoggerFactory.getLogger(UserHystrixClientFallBackFactory.class);
 
-    private static final String ERROR_FALLBACK_STR = "来自 HystrixFallBackFactory 的系统消息:";
+    public static final String ERROR_FALLBACK_STR = "来自 HystrixFallBackFactory 的系统消息:";
 
     @Override
     public UserServiceFeignClient create(Throwable throwable) {

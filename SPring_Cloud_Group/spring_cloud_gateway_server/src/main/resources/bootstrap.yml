@@ -43,15 +43,3 @@ management:
     health:
       show-details: ALWAYS
 # end::configuration-eureka[]
----
-sprint:
-  boot:
-    admin:
-      client:
-        url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
-        username: ${EUREKA.INSTANCE.ADMIN.USR}
-        password: ${EUREKA.INSTANCE.ADMIN.PWD}
----
-feign:
-  httpclient:
-    enabled: true

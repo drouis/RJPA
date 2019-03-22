@@ -11,6 +11,13 @@ EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
 spring:
   profiles:
     active: native
+    # 静态文件请求匹配方式
+  mvc:
+    static-path-pattern: /**
+    # 修改默认的静态寻址资源目录 多个使用逗号分隔
+
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
 # tag::configuration-eureka[]
 eureka:
   instance:
@@ -45,9 +52,9 @@ management:
 ---
 # 匹配正则表达式
 security:
-  ignoring: "\\/actuator\\/(\\w+), static/.*, druid/.*, /login.ftl, /login, /webjars/.*, /images/.*, /swagger2/.*"
+  ignoring: "\\/actuator\\/(\\w+), static/.*, druid/.*, /login.html,\\/login/.*, /webjars/.*, /images/.*, /swagger2/.*"
   intercept: "/**/*.jsp, /**/*.html, /**/*.ftl"
-  successUrl: "/index.html"
+  successUrl: "/welcome"
   logoutSuccessUrl: "/login.html"
 # 通用数据库源配置
 ---

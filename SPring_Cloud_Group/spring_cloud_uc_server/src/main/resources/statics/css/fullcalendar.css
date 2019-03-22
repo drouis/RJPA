@@ -61,6 +61,7 @@ html .fc,
 	
 .fc-header-title h2 {
 	margin-top: 0;
+	font-size: 12px;
 	white-space: nowrap;
 	}
 	
@@ -279,25 +280,10 @@ a.fc-event {
 	}
 	
 .fc-event-skin {
-	border-color: #36c;     /* default BORDER color */
-	border-color: #616161 #3F3F3F #363636;
-	border-color: #305F9C #305F9C #002A80; /* default BACKGROUND color */
+	border-color: #1d7ab6;     /* default BORDER color */
+	background-color: #3693cf; /* default BACKGROUND color */
 	color: #fff;            /* default TEXT color */
-	
-	background: url(../img/csshack/blue-gradient.png) repeat-x #0A5DB8;
-	-webkit-background-size: 100% 100%;
-	-moz-background-size: 100% 100%;
-	-o-background-size: 100% 100%;
-	background-size: 100% 100%;
-	background: url('../img/overlay-pattern.png'), -moz-linear-gradient(top, #65B2DD, #045AB2 50%, #004995 50%, #0A5DB8);
-	background: url('../img/overlay-pattern.png'), -webkit-linear-gradient(top, #65B2DD, #045AB2 50%, #004995 50%, #0A5DB8);
-	background: url('../img/overlay-pattern.png'), -webkit-gradient(linear, left top, left bottom, from(#65B2DD), to(#0A5DB8), color-stop(0.5, #045AB2), color-stop(0.5, #004995));
-	background: url('../img/overlay-pattern.png'), -ms-linear-gradient(top, #65B2DD, #045AB2 50%, #004995 50%, #0A5DB8);
-	background: url('../img/overlay-pattern.png'), -o-linear-gradient(top, #65B2DD, #045AB2 50%, #004995 50%, #0A5DB8);
-	background: url('../img/overlay-pattern.png'), linear-gradient(top, #65B2DD, #045AB2 50%, #004995 50%, #0A5DB8);
-	
-	cursor: move;
-}
+	}
 	
 .fc-event-inner {
 	position: relative;

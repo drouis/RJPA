@@ -9,7 +9,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 
 @EnableEurekaClient
@@ -17,7 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @SpringBootApplication
 @EnableZuulProxy
 @EnableHystrix
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+//@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableFeignClients("com.rjpa.feign")
 public class SpringCloudUcServerApplication {
 

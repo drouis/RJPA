@@ -34,6 +34,27 @@ public class MicoUserSubController {
         return r;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/user/name")
+    public Result findUserByName(@RequestParam(value = "userName") String userName) {
+        Result r = null;
+        List<LzhAdminEntity> u = lzhAdminRepository.findByUserName(userName);
+        if (null != u && 0 < u.size()) {
+            r = Result.ok(u.get(0));
+        }
+        return r;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/user/phone")
+    public Result findUserByPhone(@RequestParam(value = "phone") String phone) {
+        Result r = null;
+        List<LzhAdminEntity> u = lzhAdminRepository.findByPhoneNumber(phone);
+        if (null != u && 0 < u.size()) {
+            r = Result.ok(u.get(0));
+        }
+        return r;
+    }
+
+
     @RequestMapping(method = RequestMethod.GET, value = "/permissionURLs")
     public Result findAllAdminPermission() {
         List<LzhAdminPermissionEntity> p = lzhAdminPermissionRepository.findAll();

@@ -6,20 +6,23 @@ import model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * 用户中心用户信息维护界面业务service
+ */
 @Service
 public class IndexMvcServiceImpl implements IndexMvcService {
     @Override
     public Result getAllAdminMenusRights() {
         return Result.ok(adminMenusRightsRepository.getLzhAdminMenusRightsEntitiesByParentid(-1));
     }
-    
+
     /**
      * 获取全部主菜单，二级菜单，adminMenusRights
      *
      * @return
      */
     @Override
-    public Result getAdminMenusRights(long parentid) {
+    public Result getAdminMenusRights(int parentid) {
         return Result.ok(adminMenusRightsRepository.getLzhAdminMenusRightsEntitiesByParentid(parentid));
     }
 

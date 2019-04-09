@@ -8,3 +8,5 @@ server:
 spring:
   application:
     name: ${EUREKA.APPLICATION.NAME}
+info:
+  version: 1.0.0

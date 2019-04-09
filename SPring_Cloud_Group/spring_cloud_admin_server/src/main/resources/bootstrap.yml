@@ -1,7 +1,7 @@
-EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
+EUREKA.INSTANCE.BASE.HOST: 39.108.124.176
 EUREKA.INSTANCE.BASE.PORT: 8761
 EUREKA.CONTEXT.PATH: admin
-EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 39.108.124.176
 EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
@@ -19,6 +19,11 @@ eureka:
     home-page-url-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}
     health-check-url-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
     status-page-url-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+
+    home-page-url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}
+    status-page-url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+    health-check-url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
+
   client:
     registryFetchIntervalSeconds: 5
     register-with-eureka: true
@@ -44,10 +49,16 @@ spring:
     user:
       name: ${EUREKA.INSTANCE.ADMIN.USR}
       password: ${EUREKA.INSTANCE.ADMIN.PWD}
+  boot:
+    admin:
+      discovery:
+        converter:
+          management-context-path: ${EUREKA.CONTEXT.PATH}/actuator
+
 eureka:
   instance:
     metadata-map:
       user.name: ${EUREKA.INSTANCE.ADMIN.USR}
       user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
-    management:
-      context-path: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/${EUREKA.CONTEXT.PATH}/actuator
+      management:
+        context-path: ${EUREKA.CONTEXT.PATH}/actuator

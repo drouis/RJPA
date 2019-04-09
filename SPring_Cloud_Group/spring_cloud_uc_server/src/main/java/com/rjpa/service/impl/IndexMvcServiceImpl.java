@@ -1,6 +1,7 @@
-package com.rjpa.service;
+package com.rjpa.service.impl;
 
 import com.rjpa.repository.*;
+import com.rjpa.service.IndexMvcService;
 import model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

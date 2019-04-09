@@ -16,9 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/u")
 public class IndexMvcController {
 
-    @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/Welcome", "/"}, method = RequestMethod.GET)
     public String welcome() {
         Gson gson = new Gson();
         Result r = new Result();
@@ -54,7 +55,7 @@ public class IndexMvcController {
         return "index";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/Login"}, method = RequestMethod.GET)
     public String login() {
         return "login";
     }

@@ -1,10 +1,10 @@
-EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
+EUREKA.INSTANCE.BASE.HOST: 39.108.124.176
 EUREKA.INSTANCE.BASE.PORT: 8761
 EUREKA.INSTANCE.HOSTNAME: micoGWTServer
-EUREKA.CONTEXT.IPADD: 127.0.0.1
+EUREKA.CONTEXT.IPADD: 39.108.124.176
 EUREKA.CONTEXT.PORT: 8759
 EUREKA.CONTEXT.PATH: gtw
-EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 39.108.124.176
 EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
@@ -22,11 +22,17 @@ eureka:
     home-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
     health-check-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
     status-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+
+    home-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
+    status-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+    health-check-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
+
     metadata-map:
       user.name: ${EUREKA.INSTANCE.ADMIN.USR}
       user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
       management:
-        context-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator
+        # context-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator
+        context-path: ${EUREKA.CONTEXT.PATH}/actuator
   #    instance-id: ${eureka.instance.ip-address}:${server.port}
   client:
     registryFetchIntervalSeconds: 5

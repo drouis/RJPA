@@ -1,7 +1,7 @@
 package com.rjpa.controller;
 
-import com.rjpa.feign.client.UserServiceFeignClient;
 import com.rjpa.service.CommonLogsService;
+import com.rjpa.service.ILoginService;
 import model.Result;
 import model.utils.SystemConstCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,10 @@ public class UserRoleMvcController {
         Result r = new Result();
         String loginDataName = null;
         if (!StringUtils.isEmpty(usname)) {
-            r = userServiceFeignClient.getUserByUserName(usname);
+            r = iLoginService.getUserByUserName(usname);
             loginDataName = loginDataPrexStr + usname;
         } else {
-            r = userServiceFeignClient.getUserByPhone(phoneNumber);
+            r = iLoginService.getUserByPhone(phoneNumber);
             loginDataName = loginDataPrexStr + phoneNumber;
         }
         if (null != r && Integer.parseInt(r.getCode()) == (SystemConstCode.SUCCESS.getCode())) {
@@ -63,7 +63,7 @@ public class UserRoleMvcController {
     }
 
     @Autowired
-    UserServiceFeignClient userServiceFeignClient;
+    ILoginService iLoginService;
     @Autowired
     CommonLogsService commonLogsService;
 }

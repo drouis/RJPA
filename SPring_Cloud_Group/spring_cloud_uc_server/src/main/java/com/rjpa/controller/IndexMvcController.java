@@ -62,7 +62,7 @@ public class IndexMvcController {
         return indexView;
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/Login"}, method = RequestMethod.GET)
     public String login() {
         return "login";
     }

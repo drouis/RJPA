@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class IndexMvcServiceImpl implements IndexMvcService {
     @Override
     public Result getAllAdminMenusRights() {
-        return Result.ok(adminMenusRightsRepository.getLzhAdminMenusRightsEntitiesByParentid(-1));
+        return Result.ok(adminMenusRightsRepository.getLzhAdminMenusRightsEntitiesByParentidOrderByClassesAsc(-1));
     }
 
     /**
@@ -23,7 +23,7 @@ public class IndexMvcServiceImpl implements IndexMvcService {
      */
     @Override
     public Result getAdminMenusRights(int parentid) {
-        return Result.ok(adminMenusRightsRepository.getLzhAdminMenusRightsEntitiesByParentid(parentid));
+        return Result.ok(adminMenusRightsRepository.getLzhAdminMenusRightsEntitiesByParentidOrderByClassesAsc(parentid));
     }
 
     /**
@@ -36,7 +36,7 @@ public class IndexMvcServiceImpl implements IndexMvcService {
         return Result.ok(adminPermissionRepository.findAll());
     }
 
-    /**
+    /**x
      * 获取全部权限，adminRole
      *
      * @return

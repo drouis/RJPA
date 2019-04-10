@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface LzhAdminMenusRightsRepository extends JpaRepository<LzhAdminMenusRightsEntity, Integer> {
 
-    List<LzhAdminMenusRightsEntity> getLzhAdminMenusRightsEntitiesByParentid(int parentid);
+    List<LzhAdminMenusRightsEntity> getLzhAdminMenusRightsEntitiesByParentidOrderByClassesAsc(int parentid);
 
 }

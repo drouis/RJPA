@@ -357,7 +357,7 @@
 						</a>
 						<ul class="submenu">
 							<li class="" th:each="subMenu:${menu.subMenus}">
-								<a th:href="${subMenu.url}" class="dropdown-toggle">
+								<a th:href="'/micoUSC'+ ${subMenu.url}" class="dropdown-toggle">
 									<i th:class="' menu-icon ' + ${subMenu.icon}"></i><span th:text="${subMenu.name}"/>
 									<b class="arrow"></b>
 								</a>

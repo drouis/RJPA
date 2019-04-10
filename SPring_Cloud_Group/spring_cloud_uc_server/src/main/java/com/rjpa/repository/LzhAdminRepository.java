@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LzhAdminRepository extends JpaRepository<LzhAdminEntity, Integer> {
+    LzhAdminEntity findById(int id);
 
     List<LzhAdminEntity> findByUserName(String username);
 

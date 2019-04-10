@@ -11,6 +11,12 @@ public interface ISystemRoleUserService {
      */
     public Result getAdmin();
 
+    public AdminUserV getUserByUId(int id);
+
+    public boolean checkUserExist(String userName, String phoneNumber);
+
+    public AdminUserV checkUserExistByUId(int id);
+
     /**
      * 添加平台用户
      *

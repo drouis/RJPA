@@ -463,22 +463,119 @@
                 <!-- 页面内容 -->
                 <div class="page-header">
                     <h1>
-                        主页面<small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统用户管理</small>
+                        主页面
+                        <small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统用户管理</small>
                     </h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-                        <div class="alert alert-block alert-success">
-                            <button type="button" class="close" data-dismiss="alert">
-                                <i class="ace-icon fa fa-times"></i>
-                            </button>
-                            <i class="ace-icon fa fa-check green"></i>欢迎使用 SpErk 微服务系统 <strong class="green">SpErk
-                            <small>(v1.4)</small>
-                        </strong>, <a href="https://github.com/drouis/RJPA.git">github</a>
-                        </div>
                         <!-- 系统用户列表 -->
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 widget-container-col" id="widget-container-col-1">
+                                <div class="widget-box" id="widget-box-1">
+                                    <div class="widget-header">
+                                        <h5 class="widget-title">系统用户信息</h5>
+
+                                        <div class="widget-toolbar">
+                                            <div class="widget-menu">
+                                                <a href="#" data-action="settings" data-toggle="dropdown">
+                                                    <i class="ace-icon fa fa-bars"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
+                                                    <li>
+                                                        <a data-toggle="tab" href="#dropdown1">保存数据</a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a data-toggle="tab" href="#dropdown2">重置数据</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" data-action="fullscreen" class="orange2">
+                                                <i class="ace-icon fa fa-expand"></i>
+                                            </a>
+                                            <!--<a href="#" data-action="reload">-->
+                                            <!--<i class="ace-icon fa fa-refresh"></i>-->
+                                            <!--</a>-->
+                                            <!--<a href="#" data-action="reload">-->
+                                            <!--<i class="ace-icon fa fa-check"></i>-->
+                                            <!--</a>-->
+                                            <a href="#" data-action="collapse">
+                                                <i class="ace-icon fa fa-chevron-up"></i>
+                                            </a>
+                                            <!--<a href="#" data-action="close">-->
+                                            <!--<i class="ace-icon fa fa-times"></i>-->
+                                            <!--</a>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <form id="userForm" class="form-horizontal" role="form" th:action="@{/micoUSC/sys/addSysUser}" target="_self">
+                                                <input type="hidden" name="id" th:value="${adminv.id}"/>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-1"> 用户名 </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" id="form-field-1" class="col-xs-10 col-sm-5"
+                                                               name="userName" th:value="${adminv.userName}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-2"> 密码 </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" id="form-field-2" class="col-xs-10 col-sm-5"
+                                                               name="password"/>
+                                                    </div>
+                                                </div>
+                                                <div class="space-4"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-3"> 实名 </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" id="form-field-3" class="col-xs-10 col-sm-5"
+                                                               name="realName" th:value="${adminv.realName}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="space-4"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-4"> 年龄 </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" id="form-field-4" class="col-xs-10 col-sm-5"
+                                                               name="age" th:value="${adminv.age}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="space-4"></div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-5"> 手机号码 </label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" id="form-field-5" class="col-xs-10 col-sm-5"
+                                                               name="phoneNumber" th:value="${adminv.phoneNumber}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix form-actions">
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                        <button class="btn btn-info" type="button">
+                                                            <i class="ace-icon fa fa-check bigger-110"></i>Submit
+                                                        </button>
+                                                        &nbsp; &nbsp; &nbsp;
+                                                        <button class="btn" type="reset" onclick="formReset()">
+                                                            <i class="ace-icon fa fa-undo bigger-110"></i>Reset
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xs-12">
                                 <table id="simple-table" class="table  table-bordered table-hover">
@@ -486,11 +583,10 @@
                                     <tr>
                                         <th class="center">
                                             <label class="pos-rel">
-                                                <input type="checkbox" class="ace" />
+                                                <input type="checkbox" class="ace"/>
                                                 <span class="lbl"></span>
                                             </label>
                                         </th>
-                                        <th class="detail-col">详情</th>
                                         <th>用户名</th>
                                         <th>用户权限</th>
                                         <th class="hidden-480">注册日期</th>
@@ -499,145 +595,75 @@
                                         <th></th>
                                     </tr>
                                     </thead>
-
                                     <tbody>
-                                    <tr>
+                                    <tr th:each="admin,adminStat:${admins}">
                                         <td class="center">
-                                            <label class="pos-rel"><input type="checkbox" class="ace" /><span class="lbl"></span></label>
-                                        </td>
-                                        <td class="center">
-                                            <div class="action-buttons">
-                                                <a href="#" class="green bigger-140 show-details-btn" title="展示详情">
-                                                    <i class="ace-icon fa fa-angle-double-down"></i>
-                                                    <span class="sr-only">详情</span>
-                                                </a>
-                                            </div>
+                                            <label class="pos-rel"><input type="checkbox" class="ace"/>
+                                                <span class="lbl"></span></label>
                                         </td>
                                         <td>
-                                            <a href="#">用户名</a>
+                                            <a href="#" th:text="${admin.userName}"></a>
                                         </td>
                                         <td>管理员</td>
-                                        <td class="hidden-480">2017-06-15</td>
+                                        <td class="hidden-480" th:text="${admin.addDate}"></td>
                                         <td>2017-06-15</td>
                                         <td class="hidden-480">
-                                            <span class="label label-sm label-warning">状态Expiring</span>
+                                            <span class="label label-sm label-success" th:if="${admin.state} eq '1'">启用</span>
+                                            <span class="label label-sm label-warning" th:if="${admin.state} eq '2'">停用</span>
+                                            <span class="label label-sm label-warning" th:if="${admin.state} eq '3'">删除</span>
                                         </td>
 
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <button class="btn btn-xs btn-success">
-                                                    <i class="ace-icon fa fa-check bigger-120"></i>
-                                                </button> 停用 / 启用
-
-                                                <button class="btn btn-xs btn-info">
-                                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
-                                                </button> 编辑
-
+                                                <a th:href="'javascript:editUserJsonP(2,'+${admin.id}+')'">
+                                                    <button class="btn btn-xs btn-success"
+                                                            th:if="${admin.state} ge '2'">
+                                                        <i class="ace-icon fa fa-check bigger-120"></i> 启用
+                                                    </button>
+                                                </a>
+                                                <a th:href="'javascript:editUserJsonP(1,'+${admin.id}+')'">
+                                                    <button class="btn btn-xs btn-warning"
+                                                            th:if="${admin.state} eq '1'">
+                                                        <i class="ace-icon fa fa-flag bigger-120"></i> 停用
+                                                    </button>
+                                                </a>
+                                                <a th:href="'/micoUSC/sys/initSysUser?id='+${admin.id}">
+                                                    <button class="btn btn-xs btn-info">
+                                                        <i class="ace-icon fa fa-pencil bigger-120"></i> 编辑
+                                                    </button>
+                                                </a>
                                                 <button class="btn btn-xs btn-danger">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                                </button> 删除
-
-                                                <button class="btn btn-xs btn-warning">
-                                                    <i class="ace-icon fa fa-flag bigger-120"></i>
+                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i> 删除
                                                 </button>
                                             </div>
                                             <div class="hidden-md hidden-lg">
                                                 <div class="inline pos-rel">
-                                                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                    <button class="btn btn-minier btn-primary dropdown-toggle"
+                                                            data-toggle="dropdown" data-position="auto">
                                                         <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
                                                     </button>
                                                     <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
                                                         <li>
-                                                            <a href="#" class="tooltip-info" data-rel="tooltip" title="View">
+                                                            <a href="#" class="tooltip-info" data-rel="tooltip"
+                                                               title="View">
                                                                 <span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span>
                                                             </a>
                                                         </li>
 
                                                         <li>
-                                                            <a href="#" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                            <a href="#" class="tooltip-success" data-rel="tooltip"
+                                                               title="Edit">
                                                                 <span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span>
                                                             </a>
                                                         </li>
 
                                                         <li>
-                                                            <a href="#" class="tooltip-error" data-rel="tooltip" title="Delete">
+                                                            <a href="#" class="tooltip-error" data-rel="tooltip"
+                                                               title="Delete">
                                                                 <span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span>
                                                             </a>
                                                         </li>
                                                     </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <!-- 信息详情 -->
-                                    <tr class="detail-row">
-                                        <td colspan="8">
-                                            <div class="table-detail">
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-2">
-                                                        <div class="text-center">
-                                                            <img height="150" class="thumbnail inline no-margin-bottom" alt="Domain Owner's Avatar" src="assets/images/avatars/profile-pic.jpg" />
-                                                            <br />
-                                                            <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
-                                                                <div class="inline position-relative">
-                                                                    <a class="user-title-label" href="#">
-                                                                        <i class="ace-icon fa fa-circle light-green"></i>&nbsp;
-                                                                        <span class="white">文艺青年</span>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-7">
-                                                        <div class="space visible-xs"></div>
-                                                        <div class="profile-user-info profile-user-info-striped">
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-name"> Username </div>
-                                                                <div class="profile-info-value">
-                                                                    <span>文艺青年</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-name"> 年龄 </div>
-                                                                <div class="profile-info-value">
-                                                                    <span>38</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-name"> 注册日 </div>
-                                                                <div class="profile-info-value">
-                                                                    <span>2010/06/20</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="profile-info-row">
-                                                                <div class="profile-info-name"> 最后一次登陆 </div>
-                                                                <div class="profile-info-value">
-                                                                    <span>3 hours ago</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-3">
-                                                        <div class="space visible-xs"></div>
-                                                        <h4 class="header blue lighter less-margin">Send a message to Alex</h4>
-                                                        <div class="space-6"></div>
-                                                        <form>
-                                                            <fieldset>
-                                                                <textarea class="width-100" resize="none" placeholder="Type something…"></textarea>
-                                                            </fieldset>
-                                                            <div class="hr hr-dotted"></div>
-                                                            <div class="clearfix">
-                                                                <label class="pull-left">
-                                                                    <input type="checkbox" class="ace" />
-                                                                    <span class="lbl"> Email me a copy</span>
-                                                                </label>
-                                                                <button class="pull-right btn btn-sm btn-primary btn-white btn-round" type="button">
-                                                                    Submit
-                                                                    <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
@@ -653,7 +679,6 @@
                             <div class="col-sm-7"></div>
                         </div><!-- /.row -->
                         <div class="hr hr32 hr-dotted"></div>
-
                         <!-- 页面内容终止位 -->
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
@@ -674,7 +699,8 @@
             </div>
         </div>
     </div>
-    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse"><i
+            class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i></a>
 </div><!-- /.main-container -->
 <!-- basic scripts -->
 <!--[if !IE]> -->
@@ -684,7 +710,7 @@
 <script th:src="@{/assets/js/jquery-1.11.3.min.js}"></script>
 <![endif]-->
 <script type="text/javascript">
-    if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 <!-- page specific plugin scripts -->
@@ -697,7 +723,34 @@
 <script th:src="@{/assets/js/ace.min.js}"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+    function editUserJsonP(state, uid) {
+        var jumpUrl = '';
+        if (state == 1) {
+            jumpUrl = "/micoUSC/sys/stopSysUser"
+        } else {
+            jumpUrl = "/micoUSC/sys/actiSysUser"
+        }
+        var data = new Object();
+        data.id= uid;
+        $.ajax({
+            url: jumpUrl,
+            type: "POST",
+            data:data,
+            dataType: "jsonp",  //指定服务器返回的数据类型
+            jsonp: "callback",   //指定参数名称
+            jsonpCallback: "reloadPage",  //指定回调函数名称
+            success: function (data) {
+                console.info("调用success");
+            }
+        });
+    }
 
+    function reloadPage(obj) {
+        window.document.location.reload();
+    }
+    function formReset() {
+        document.getElementById("userForm").reset()
+    }
 </script>
 </body>
 </html>

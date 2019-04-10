@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @SessionAttributes({"authorizationRequest"})
-public class UserRoleMvcController {
+public class LoginMvcController {
     private static final String loginDataPrexStr = "shiro_login_count_";
 
     ModelAndView loginV = new ModelAndView("login");

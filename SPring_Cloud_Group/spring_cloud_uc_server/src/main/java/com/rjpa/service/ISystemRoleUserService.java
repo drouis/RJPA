@@ -3,13 +3,15 @@ package com.rjpa.service;
 import com.rjpa.vo.AdminUserV;
 import model.Result;
 
+import java.util.List;
+
 public interface ISystemRoleUserService {
     /**
      * 获取平台全部用户，admin
      *
      * @return
      */
-    public Result getAdmin();
+    public Result getAdmins();
 
     public AdminUserV getUserByUId(int id);
 
@@ -56,4 +58,6 @@ public interface ISystemRoleUserService {
      * @return
      */
     public Result delAdmin(int adminId);
+
+    public List<AdminUserV> getBundRoleUsers(int rid);
 }

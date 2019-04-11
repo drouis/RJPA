@@ -1,8 +1,13 @@
 package com.rjpa.controller.system;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
+import com.rjpa.controller.IndexMvcController;
+import com.rjpa.repository.RedisDao;
 import com.rjpa.service.ISystemRoleUserService;
 import com.rjpa.vo.AdminUserV;
+import com.rjpa.vo.IndexPageMenuV;
 import model.Result;
 import model.utils.SystemConstCode;
 import org.slf4j.Logger;
@@ -17,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 系统用户管理
@@ -27,6 +34,7 @@ public class SystemRoleUserMvcController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final ModelAndView indexView = new ModelAndView("/system/userManager");
     Result errMsg = new Result();
+    Gson gson = new Gson();
 
     /**
      * 系统用户列表
@@ -38,21 +46,29 @@ public class SystemRoleUserMvcController {
      */
     @RequestMapping(value = "/sysUser_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
     public ModelAndView sysUser_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
-        // 1 读取当前系统中所有的绑定用户
-        Result r = iSystemRoleUserService.getAdmin();
+        // TODO 1 读取当前系统中所有的绑定用户
+        Result r = iSystemRoleUserService.getAdmins();
         AdminUserV adminv = new AdminUserV();
         indexView.addObject("admins", r.getData());
         indexView.addObject("adminv", adminv);
+        String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
+        JSONArray ts = JSON.parseArray(str);
+        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
+        for (int i = 0; i < ts.size(); i++) {
+            IndexPageMenuV menu = gson.fromJson(ts.get(i).toString(), IndexPageMenuV.class);
+            menuVS.add(menu);
+        }
+        indexView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
         return indexView;
     }
 
     @RequestMapping(value = "/initSysUser", method = RequestMethod.GET)
     public ModelAndView initSysUser_(@RequestParam(value = "id") int id) {
         Result r = new Result();
-        // 1 读取当前系统中所有的绑定用户
+        // TODO 1 读取当前系统中所有的绑定用户
         AdminUserV adminv = iSystemRoleUserService.getUserByUId(id);
         indexView.addObject("adminv", adminv);
-        r = iSystemRoleUserService.getAdmin();
+        r = iSystemRoleUserService.getAdmins();
         indexView.addObject("admins", r.getData());
         return indexView;
     }
@@ -62,16 +78,16 @@ public class SystemRoleUserMvcController {
      */
     @RequestMapping(value = "/addSysUser", method = RequestMethod.POST)
     public ModelAndView addSysUser_(AdminUserV adminUserV) {
-        // 1 用户信息验证
-        // 1.1 登陆名重复验证,绑定手机验证
+        // TODO 1 用户信息验证
+        // TODO 1.1 登陆名重复验证,绑定手机验证
         boolean checkFlg = iSystemRoleUserService.checkUserExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
-        // 2 添加系统用户
+        // TODO 2 添加系统用户
         if (!checkFlg) {
             iSystemRoleUserService.addAdmin(adminUserV);
         }
         try {
-            // 2 读取当前系统中所有的绑定用户
-            Result r = iSystemRoleUserService.getAdmin();
+            // TODO 2 读取当前系统中所有的绑定用户
+            Result r = iSystemRoleUserService.getAdmins();
             indexView.addObject("admins", r.getData());
         } catch (Exception e) {
             errMsg = Result.error(SystemConstCode.ERROR.getMessage());
@@ -87,25 +103,24 @@ public class SystemRoleUserMvcController {
     @RequestMapping(value = "/editSysUser", method = RequestMethod.POST)
     public ModelAndView editSysUser_(AdminUserV adminUserV) {
         Result errMsg = new Result();
-        // 1 用户信息验证
-
-        // 1.1 系统用户存在验证
+        // TODO 1 用户信息验证
+        // TODO 1.1 系统用户存在验证
         AdminUserV checkData = iSystemRoleUserService.checkUserExistByUId(adminUserV.getId());
         if (checkData.getId() == 0) {
 
         }
-        // 1.2 登陆名重复验证,绑定手机验证
+        // TODO 1.2 登陆名重复验证,绑定手机验证
         boolean checkFlg = iSystemRoleUserService.checkUserExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
         try {
-            // 2 添加系统用户
+            // TODO 2 添加系统用户
             if (!checkFlg) {
                 iSystemRoleUserService.addAdmin(adminUserV);
             }
         } catch (Exception e) {
             errMsg = Result.error(SystemConstCode.ERROR.getMessage());
         }
-        // 2 读取当前系统中所有的绑定用户
-        Result r = iSystemRoleUserService.getAdmin();
+        // TODO 2 读取当前系统中所有的绑定用户
+        Result r = iSystemRoleUserService.getAdmins();
         indexView.addObject("admins", r.getData());
         indexView.addObject("errMsg", errMsg);
         return indexView;
@@ -142,8 +157,6 @@ public class SystemRoleUserMvcController {
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
-
-
     }
 
     /**
@@ -163,7 +176,38 @@ public class SystemRoleUserMvcController {
         try {
             // TODO 2 停用系统用户
             iSystemRoleUserService.forbAdmin(checkData);
+        } catch (Exception e) {
+            errMsg = Result.error(SystemConstCode.ERROR.getMessage());
+        }
+        // TODO 3 返回更新数据结果
+        try {
+            //前端传过来的回调函数名称
+            String callback = request.getParameter("callback");
+            //用回调函数名称包裹返回数据，这样，返回数据就作为回调函数的参数传回去了
+            String result = callback + "(" + new Gson().toJson(errMsg) + ")";
+            response.getWriter().write(result);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
 
+    /**
+     * 删除系统用户
+     */
+    @RequestMapping(value = "/delSysUser", method = RequestMethod.POST)
+    public void delSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        Result errMsg = new Result();
+        // TODO 1 用户信息验证
+        // TODO 1.1 系统用户存在验证
+        AdminUserV checkData = iSystemRoleUserService.checkUserExistByUId(adminUserV.getId());
+        if (checkData.getId() == 0) {
+
+        }
+        try {
+            // TODO 2 停用系统用户
+            iSystemRoleUserService.delAdmin(checkData.getId());
         } catch (Exception e) {
             errMsg = Result.error(SystemConstCode.ERROR.getMessage());
         }
@@ -181,4 +225,6 @@ public class SystemRoleUserMvcController {
 
     @Autowired
     private ISystemRoleUserService iSystemRoleUserService;
+    @Autowired
+    RedisDao redisDao;
 }

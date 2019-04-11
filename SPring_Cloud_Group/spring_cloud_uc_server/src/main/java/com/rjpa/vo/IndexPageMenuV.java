@@ -2,9 +2,10 @@ package com.rjpa.vo;
 
 import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class IndexPageMenuV extends LzhAdminMenusRightsEntity {
+public class IndexPageMenuV extends LzhAdminMenusRightsEntity implements Serializable {
     String selected = "";
     List<LzhAdminMenusRightsEntity> subMenus;
 

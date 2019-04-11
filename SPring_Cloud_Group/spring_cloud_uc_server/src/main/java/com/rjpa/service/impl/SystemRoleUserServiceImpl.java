@@ -1,7 +1,9 @@
 package com.rjpa.service.impl;
 
 import com.rjpa.repository.Entity.LzhAdminEntity;
+import com.rjpa.repository.Entity.LzhAdminUserRoleEntity;
 import com.rjpa.repository.LzhAdminRepository;
+import com.rjpa.repository.LzhAdminUserRoleRepository;
 import com.rjpa.service.ISystemRoleUserService;
 import com.rjpa.vo.AdminUserV;
 import model.Result;
@@ -10,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SystemRoleUserServiceImpl implements ISystemRoleUserService {
     @Override
-    public Result getAdmin() {
+    public Result getAdmins() {
         return Result.ok(adminRepository.findAll());
     }
 
@@ -33,6 +37,8 @@ public class SystemRoleUserServiceImpl implements ISystemRoleUserService {
     public Result addAdmin(AdminUserV adminUserV) {
         LzhAdminEntity admin = new LzhAdminEntity();
         BeanUtils.copyProperties(adminUserV, admin);
+        admin.setState(1);
+        admin.setAddDate(new Date(System.currentTimeMillis()));
         adminRepository.save(admin);
         Result r = Result.ok(admin);
         return r;
@@ -99,11 +105,27 @@ public class SystemRoleUserServiceImpl implements ISystemRoleUserService {
     public Result delAdmin(int adminId) {
         LzhAdminEntity admin = (LzhAdminEntity) adminRepository.findById(adminId);
         admin.setState(3);
-        adminRepository.save(admin);
+//        adminRepository.save(admin);
+        adminRepository.deleteById(admin.getId());
         Result r = Result.ok(admin);
+        return r;
+    }
+
+    @Override
+    public List<AdminUserV> getBundRoleUsers(int rid) {
+        List<AdminUserV> r = new ArrayList<AdminUserV>();
+        List<LzhAdminUserRoleEntity> bundRoleUsers = adminUserRoleRepository.findByRoleId(Long.valueOf(String.valueOf(rid)));
+        for (LzhAdminUserRoleEntity bundUid : bundRoleUsers) {
+            LzhAdminEntity u = (LzhAdminEntity) adminRepository.findById(new Long(bundUid.getUserId()).intValue());
+            AdminUserV v = new AdminUserV();
+            BeanUtils.copyProperties(u, v);
+            r.add(v);
+        }
         return r;
     }
 
     @Autowired
     LzhAdminRepository adminRepository;
+    @Autowired
+    LzhAdminUserRoleRepository adminUserRoleRepository;
 }

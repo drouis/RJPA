@@ -2,6 +2,7 @@ package com.rjpa.controller;
 
 import com.google.gson.Gson;
 import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
+import com.rjpa.repository.RedisDao;
 import com.rjpa.service.IndexMvcService;
 import com.rjpa.vo.IndexPageMenuV;
 import model.Result;
@@ -17,11 +18,13 @@ import java.util.List;
 
 @Controller
 public class IndexMvcController {
+    public static final String MENU_REDIS_NAME = "menuVS";
     private static final ModelAndView indexView = new ModelAndView("index");
+    Gson gson = new Gson();
 
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public ModelAndView welcome() {
-        Gson gson = new Gson();
+
         Result r = new Result();
         // TODO 权限管理 MenusPermissionMvcController
         // 获取全部主菜单，二级菜单，adminMenusRights
@@ -58,7 +61,8 @@ public class IndexMvcController {
         // 获取全部绑定权限的用户，adminUserRole
         // 获取平台全部用户，admin
 
-        indexView.addObject("menuVS", menuVS);
+        indexView.addObject(MENU_REDIS_NAME, menuVS);
+        redisDao.setCacheObject(MENU_REDIS_NAME, gson.toJson(menuVS));
         return indexView;
     }
 
@@ -69,5 +73,6 @@ public class IndexMvcController {
 
     @Autowired
     IndexMvcService indexMvcService;
-
+    @Autowired
+    RedisDao redisDao;
 }

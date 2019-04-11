@@ -22,11 +22,9 @@ eureka:
     home-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
     health-check-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
     status-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
-
     home-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
     status-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
     health-check-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
-
     metadata-map:
       user.name: ${EUREKA.INSTANCE.ADMIN.USR}
       user.password: ${EUREKA.INSTANCE.ADMIN.PWD}

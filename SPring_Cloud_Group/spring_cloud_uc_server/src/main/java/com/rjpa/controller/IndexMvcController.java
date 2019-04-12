@@ -26,7 +26,7 @@ public class IndexMvcController {
     public ModelAndView welcome() {
 
         Result r = new Result();
-        // TODO 权限管理 MenusPermissionMvcController
+        // TODO 1 权限管理 MenusPermissionMvcController
         // 获取全部主菜单，二级菜单，adminMenusRights
         List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
         try {
@@ -53,11 +53,11 @@ public class IndexMvcController {
             i++;
         }
         // 获取全部系统操作权限名称链接，adminPermission
-        // TODO 角色管理 RolePermissionMvcController
+        // TODO 2 角色管理 RolePermissionMvcController
         // 获取全部权限，adminRole
         // 获取全部用户角色绑定的权限，adminRolePermission
 
-        // TODO 用户管理 UserRoleMvcController
+        // TODO 3 用户管理 UserRoleMvcController
         // 获取全部绑定权限的用户，adminUserRole
         // 获取平台全部用户，admin
 

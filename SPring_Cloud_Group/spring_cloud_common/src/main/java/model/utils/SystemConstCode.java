@@ -12,11 +12,12 @@ public enum SystemConstCode {
     USER_IS_EXIST(2004, "用户已经存在。"),
     // 系统菜单配置错误
     MENU_NAME_ERROR(3001, "菜单名称错误。"),
-    MANEU_INSERT_FAILD_ERROR(3002, "菜单创建失败。"),
-    MANEU_UPDATE_FAILD_ERROR(3002, "菜单修改失败。"),
-    MANEU_DELETE_FAILD_ERROR(3002, "菜单删除失败。"),
-    MANEU_NOT_FOUND(3003, "菜单查询失败。"),
-    MANEU_IS_EXIST(3004, "菜单已经存在。"),
+    MENU_INSERT_FAILD_ERROR(3002, "菜单创建失败。"),
+    MENU_UPDATE_FAILD_ERROR(3002, "菜单修改失败。"),
+    MENU_DELETE_FAILD_ERROR(3002, "菜单删除失败。"),
+    MENU_NOT_FOUND(3003, "菜单查询失败。"),
+    MENU_IS_EXIST(3004, "菜单已经存在。"),
+    MENU_SUBMENUS_EXIST_ERROR(3005, "子菜单已经存在，无法处理数据请求。"),
     // 系统权限配置错误
     USERRIGNT_NAME_ERROR(4001, "系统访问权限名称错误。"),
     USERRIGNT_INSERT_FAILD_ERROR(4002, "系统访问权限创建失败。"),

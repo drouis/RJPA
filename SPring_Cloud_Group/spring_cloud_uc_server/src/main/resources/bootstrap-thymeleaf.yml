@@ -7,7 +7,6 @@ spring:
       content-type: text/html
     prefix: classpath:/templates
     suffix: .html
-    content-type: text/html
   resources:
     chain:
       strategy:

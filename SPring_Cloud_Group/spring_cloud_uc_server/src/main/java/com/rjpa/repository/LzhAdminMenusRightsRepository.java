@@ -17,7 +17,7 @@ public interface LzhAdminMenusRightsRepository extends JpaRepository<LzhAdminMen
     List<LzhAdminMenusRightsEntity> findByPermission(String permission);
 
 
-    List<LzhAdminMenusRightsEntity> findByParentidAndNameAndPermissionOrderByClassesClassesAsc(@Param(value = "parentid") int parentid,
+    List<LzhAdminMenusRightsEntity> findByParentidAndNameAndPermissionOrderByClassesAsc(@Param(value = "parentid") int parentid,
                                                                        @Param(value = "name") String name,
                                                                        @Param(value = "permission") String permission);
 

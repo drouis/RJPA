@@ -47,7 +47,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
 
     @Override
     public boolean checkMenuExist(String name, String permission) {
-        List checkList = (List) adminMenusRightsRepository.findByParentidAndNameAndPermissionOrderByClassesClassesAsc(-1, name, permission);
+        List checkList = (List) adminMenusRightsRepository.findByParentidAndNameAndPermissionOrderByClassesAsc(-1, name, permission);
         if (null != checkList && 0 < checkList.size()) {
             return true;
         }
@@ -56,7 +56,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
 
     @Override
     public boolean checkMenuExist(String name, String permission, int parentid) {
-        List checkList = (List) adminMenusRightsRepository.findByParentidAndNameAndPermissionOrderByClassesClassesAsc(parentid, name, permission);
+        List checkList = (List) adminMenusRightsRepository.findByParentidAndNameAndPermissionOrderByClassesAsc(parentid, name, permission);
         if (null != checkList && 0 < checkList.size()) {
             return true;
         }

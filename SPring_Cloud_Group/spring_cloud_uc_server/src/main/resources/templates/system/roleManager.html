@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/assets/font-awesome/4.5.0/css/font-awesome.min.css}"/>
     <!-- page specific plugin styles -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap-duallistbox.min.css}"/>
     <!-- text fonts -->
     <link rel="stylesheet" th:href="@{/assets/css/fonts.googleapis.com.css}"/>
     <!-- ace styles -->
@@ -224,7 +225,8 @@
                                         <!--<img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar"/>-->
                                         <span class="msg-body">
                                             <span class="msg-title"><span class="blue">Bob:</span>Nullam quis risus eget urna mollis ornare ...</span>
-                                            <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>3:15 pm</span></span>
+                                            <span class="msg-time"><i
+                                                    class="ace-icon fa fa-clock-o"></i><span>3:15 pm</span></span>
                                         </span>
                                     </a>
                                 </li>
@@ -233,7 +235,8 @@
                                         <!--<img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar"/>-->
                                         <span class="msg-body">
                                             <span class="msg-title"><span class="blue">Kate:</span>Ciao sociis natoque eget urna mollis ornare ...</span>
-                                            <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>1:33 pm</span></span>
+                                            <span class="msg-time"><i
+                                                    class="ace-icon fa fa-clock-o"></i><span>1:33 pm</span></span>
                                         </span>
                                     </a>
                                 </li>
@@ -242,13 +245,15 @@
                                         <!--<img src="assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar"/>-->
                                         <span class="msg-body">
                                             <span class="msg-title"><span class="blue">Fred:</span>Vestibulum id penatibus et auctor  ...</span>
-                                            <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>10:09 am</span></span>
+                                            <span class="msg-time"><i
+                                                    class="ace-icon fa fa-clock-o"></i><span>10:09 am</span></span>
                                         </span>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="dropdown-footer"><a href="inbox.html">See all messages<i class="ace-icon fa fa-arrow-right"></i></a></li>
+                        <li class="dropdown-footer"><a href="inbox.html">See all messages<i
+                                class="ace-icon fa fa-arrow-right"></i></a></li>
                     </ul>
                 </li>
                 <!-- 头像区域 -->
@@ -408,7 +413,9 @@
                 </div><!-- /.ace-settings-container -->
                 <!-- 页面内容 -->
                 <div class="page-header">
-                    <h1>主页面<small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统角色管理</small></h1>
+                    <h1>主页面
+                        <small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统角色管理</small>
+                    </h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
@@ -439,20 +446,23 @@
                                     </div>
                                     <div class="widget-body">
                                         <div class="widget-main">
-                                            <form id="userForm" class="form-horizontal" role="form" th:action="@{/sys/addSysRole}" target="_self" method="post">
+                                            <form id="userForm" class="form-horizontal" role="form"
+                                                  th:action="@{/sys/addSysRole}" target="_self" method="post">
                                                 <input type="hidden" name="id" th:value="${adminRolev.id}"/>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right"
                                                            for="form-field-1"> 系统角色名称 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" id="form-field-1" class="col-xs-10 col-sm-5" name="name" th:value="${adminRolev.name}"/>
+                                                        <input type="text" id="form-field-1" class="col-xs-10 col-sm-5"
+                                                               name="name" th:value="${adminRolev.name}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right"
                                                            for="form-field-2"> 系统角色标识 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" id="form-field-2" class="col-xs-10 col-sm-5" name="role" th:value="${adminRolev.role}"/>
+                                                        <input type="text" id="form-field-2" class="col-xs-10 col-sm-5"
+                                                               name="role" th:value="${adminRolev.role}"/>
                                                     </div>
                                                 </div>
                                                 <div class="space-4"></div>
@@ -460,17 +470,17 @@
                                                     <label class="col-sm-3 control-label no-padding-right"
                                                            for="form-field-3"> 系统角色说明描述 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" id="form-field-3" class="col-xs-10 col-sm-5" name="description" th:value="${adminRolev.description}"/>
+                                                        <input type="text" id="form-field-3" class="col-xs-10 col-sm-5"
+                                                               name="description" th:value="${adminRolev.description}"/>
                                                     </div>
                                                 </div>
                                                 <div class="clearfix form-actions">
                                                     <div class="col-md-offset-3 col-md-9">
-                                                        <button class="btn btn-info" type="submit">
-                                                            <i class="ace-icon fa fa-check bigger-110"></i>Submit
+                                                        <button class="btn btn-info" style="margin: 15px" type="submit">
+                                                            <i class="ace-icon fa fa-check bigger-110"></i>保存数据
                                                         </button>
-                                                        &nbsp; &nbsp; &nbsp;
-                                                        <button class="btn" type="reset" onclick="formReset()">
-                                                            <i class="ace-icon fa fa-undo bigger-110"></i>Reset
+                                                        <button class="btn" type="reset" onclick="formReset()"><i
+                                                                class="ace-icon fa fa-undo bigger-110"></i>数据重置
                                                         </button>
                                                     </div>
                                                 </div>
@@ -507,26 +517,38 @@
                                         </td>
                                         <td th:text="${role.role}"></td>
                                         <td th:text="${role.description}"></td>
-                                        <td >
-                                            <span class="label label-sm label-success" th:if="${role.flg} eq 0">启用</span>
-                                            <span class="label label-sm label-warning" th:if="${role.flg} eq 1">停用</span>
+                                        <td>
+                                            <span class="label label-sm label-success"
+                                                  th:if="${role.flg} eq 0">启用</span>
+                                            <span class="label label-sm label-warning"
+                                                  th:if="${role.flg} eq 1">停用</span>
                                         </td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a th:href="'javascript:editUserJsonP(2,'+${role.id}+')'">
-                                                    <button class="btn btn-xs btn-success" th:if="${role.flg} eq '1'"> <i class="ace-icon fa fa-check bigger-120"></i> 启用 </button>
+                                                    <button class="btn btn-xs btn-success" th:if="${role.flg} eq '1'"><i
+                                                            class="ace-icon fa fa-check bigger-120"></i> 启用
+                                                    </button>
                                                 </a>
                                                 <a th:href="'javascript:editUserJsonP(1,'+${role.id}+')'">
-                                                    <button class="btn btn-xs btn-warning" th:if="${role.flg} eq '0'"> <i class="ace-icon fa fa-flag bigger-120"></i> 停用 </button>
+                                                    <button class="btn btn-xs btn-warning" th:if="${role.flg} eq '0'"><i
+                                                            class="ace-icon fa fa-flag bigger-120"></i> 停用
+                                                    </button>
                                                 </a>
                                                 <a th:href="@{/sys/initSysRole?id=}+${role.id}">
-                                                    <button class="btn btn-xs btn-info"> <i class="ace-icon fa fa-pencil bigger-120"></i> 编辑 </button>
+                                                    <button class="btn btn-xs btn-info"><i
+                                                            class="ace-icon fa fa-pencil bigger-120"></i> 编辑
+                                                    </button>
                                                 </a>
                                                 <a th:href="'javascript:editUserJsonP(3,'+${role.id}+')'">
-                                                    <button class="btn btn-xs btn-danger"> <i class="ace-icon fa fa-trash-o bigger-120"></i> 删除 </button>
+                                                    <button class="btn btn-xs btn-danger"><i
+                                                            class="ace-icon fa fa-trash-o bigger-120"></i> 删除
+                                                    </button>
                                                 </a>
                                                 <a th:href="@{/sys/getBundRoleUser?id=}+${role.id}">
-                                                    <button class="btn btn-xs "> <i class="ace-icon fa fa-exchange bigger-120"></i> 绑定用户 </button>
+                                                    <button class="btn btn-xs "><i
+                                                            class="ace-icon fa fa-exchange bigger-120"></i> 绑定用户
+                                                    </button>
                                                 </a>
                                             </div>
                                         </td>
@@ -538,22 +560,81 @@
                         <!-- 数据分栏行 -->
                         <div class="hr hr32 hr-dotted"></div>
                         <div class="row">
-
-                            <div class="col-sm-7">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-top" for="duallist"> 绑定系统用户列表 </label>
-                                    <div class="col-sm-8">
-                                        <select multiple="multiple" size="10" name="duallistbox_demo1[]" id="duallist">
-                                            <option th:each="selectObj:${bundRoleUsers}" th:value="${selectObj.selectValue}" th:text="${selectObj.selectText}" th:selected="${selectObj.selected}"></option>
-                                        </select>
+                            <div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-userRole">
+                                <div class="widget-box" id="widget-box-userRole">
+                                    <div class="widget-header">
+                                        <h5 class="widget-title">系统用户列表</h5>
+                                        <div class="widget-toolbar">
+                                            <a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>
+                                            <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <form id="bundRoleUserForm" class="form-horizontal" role="form" th:action="@{/sys/bundRoleUser}" method="post" target="_self">
+                                                <input type="hidden" name="id" th:value="${adminRolev.id}"/>
+                                                <input type="hidden" name="bundUserIds" id="bundUserIds"/>
+                                                <div class="form-group">
+                                                    <div class="col-xs-12">
+                                                        <select multiple="multiple" name="sysUsers" id="sysUsers" size="10">
+                                                            <option th:each="selectObj:${bundRoleUsers}"
+                                                                    th:value="${selectObj.selectValue}"
+                                                                    th:text="${selectObj.selectText}"
+                                                                    th:selected="${selectObj.selected}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="space-4"></div>
+                                                <div class="clearfix form-actions">
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                        <button class="btn btn-info" type="button" id="bundRoleUserbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定用户角色</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-5"></div>
+                            <div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-rolePermission">
+                                <div class="widget-box" id="widget-box-rolePermission">
+                                    <div class="widget-header">
+                                        <h5 class="widget-title">系统权限列表</h5>
+                                        <div class="widget-toolbar">
+                                            <a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>
+                                            <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <form id="bundRolePermissionForm" class="form-horizontal" role="form" th:action="@{/sys/bundRolePermission}" method="post" target="_self">
+                                                <input type="hidden" name="id" th:value="${adminRolev.id}"/>
+                                                <input type="hidden" name="bundRolePermissionIds" id="bundRolePermissionIds"/>
+                                                <div class="form-group">
+                                                    <div class="col-xs-12">
+                                                        <select multiple="multiple" name="rolePermissions" id="rolePermissions" size="10">
+                                                            <option th:each="selectObj:${bundRolePermissions}"
+                                                                    th:value="${selectObj.selectValue}"
+                                                                    th:text="${selectObj.selectText}"
+                                                                    th:selected="${selectObj.selected}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="space-4"></div>
+                                                <div class="clearfix form-actions">
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                        <button class="btn btn-info" type="button" id="bundRolePermissionbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定角色访问权限</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div><!-- /.row -->
-                        <!-- 页面内容终止位 -->
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
+                    <div class="hr hr32 hr-dotted"></div>
+                    <!-- 页面内容终止位 -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
         </div>
@@ -582,7 +663,7 @@
 <script th:src="@{/assets/js/jquery-1.11.3.min.js}"></script>
 <![endif]-->
 <script type="text/javascript">
-    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    if ('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 <!-- page specific plugin scripts -->
@@ -596,33 +677,54 @@
 <script th:src="@{/assets/js/ace.min.js}"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
-    jQuery(function($) {
-        var demo1 = $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox({infoTextFiltered: '<span class="label label-purple label-lg">Filtered</span>'});
-        var container1 = demo1.bootstrapDualListbox('getContainer');
-        container1.find('.btn').addClass('btn-white btn-info btn-bold');
+    jQuery(function ($) {
+        $('select[name="sysUsers"]').bootstrapDualListbox({
+            nonSelectedListLabel: "系统用户列表",
+            selectedListLabel: "已绑定用户列表",
+            preserveSelectionOnMove: "moved",
+            showFilterInputs: false,
+        });
+        $('select[name="rolePermissions"]').bootstrapDualListbox({
+            nonSelectedListLabel: "系统权限列表",
+            selectedListLabel: "已绑定权限列表",
+            preserveSelectionOnMove: "moved",
+            showFilterInputs: false,
+        });
+
         //in ajax mode, remove remaining elements before leaving page
-        $(document).one('ajaxloadstart.page', function(e) {
+        $(document).one('ajaxloadstart.page', function (e) {
             $('[class*=select2]').remove();
-            $('select[name="duallistbox_demo1[]"]').bootstrapDualListbox('destroy');
             $('.rating').raty('destroy');
             $('.multiselect').multiselect('destroy');
         });
+        $("#bundRoleUserbtn").click(function () {
+            var bundUserIdVal = $('[name="sysUsers"]').val();
+            $("#bundUserIds").val(bundUserIdVal);
+            $("#bundRoleUserForm").submit();
+        });
+        $("#bundRolePermissionbtn").click(function () {
+            var bundPermissionIdVal = $('[name="rolePermissions"]').val();
+            $("#bundRolePermissionIds").val(bundPermissionIdVal);
+            $("#bundRolePermissionForm").submit();
+        });
+
+        bundRolePermissionForm
     });
     function editUserJsonP(state, uid) {
         var jumpUrl = '';
         if (state == 1) {
             jumpUrl = "/micoUSC/sys/stopSysRole"
-        } else if (state == 2){
+        } else if (state == 2) {
             jumpUrl = "/micoUSC/sys/actiSysRole"
-        } else if(state == 3){
+        } else if (state == 3) {
             jumpUrl = "/micoUSC/sys/delSysRole"
         }
         var data = new Object();
-        data.id= uid;
+        data.id = uid;
         $.ajax({
             url: jumpUrl,
             type: "POST",
-            data:data,
+            data: data,
             dataType: "jsonp",  //指定服务器返回的数据类型
             jsonp: "callback",   //指定参数名称
             jsonpCallback: "reloadPage",  //指定回调函数名称
@@ -631,9 +733,11 @@
             }
         });
     }
+
     function reloadPage(obj) {
         window.document.location.reload();
     }
+
     function formReset() {
         document.getElementById("userForm").reset()
     }

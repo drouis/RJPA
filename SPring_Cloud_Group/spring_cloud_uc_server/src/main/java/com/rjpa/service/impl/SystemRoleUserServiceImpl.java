@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,17 +32,6 @@ public class SystemRoleUserServiceImpl implements ISystemRoleUserService {
             BeanUtils.copyProperties(adminDB, po);
         }
         return po;
-    }
-
-    @Override
-    public Result addAdmin(AdminUserV adminUserV) {
-        LzhAdminEntity admin = new LzhAdminEntity();
-        BeanUtils.copyProperties(adminUserV, admin);
-        admin.setState(1);
-        admin.setAddDate(new Date(System.currentTimeMillis()));
-        adminRepository.save(admin);
-        Result r = Result.ok(admin);
-        return r;
     }
 
     @Override
@@ -70,6 +60,17 @@ public class SystemRoleUserServiceImpl implements ISystemRoleUserService {
             BeanUtils.copyProperties(adminDB, po);
         }
         return po;
+    }
+
+    @Override
+    public Result addAdmin(AdminUserV adminUserV) {
+        LzhAdminEntity admin = new LzhAdminEntity();
+        BeanUtils.copyProperties(adminUserV, admin);
+        admin.setState(1);
+        admin.setAddDate(new Date(System.currentTimeMillis()));
+        adminRepository.save(admin);
+        Result r = Result.ok(admin);
+        return r;
     }
 
     @Override
@@ -122,6 +123,22 @@ public class SystemRoleUserServiceImpl implements ISystemRoleUserService {
             r.add(v);
         }
         return r;
+    }
+
+    @Override
+    @Transactional
+    public void bundRoleUsers(String[] bundUserIds, int rid) {
+        adminUserRoleRepository.deleteByRoleId(new Long(String.valueOf(rid)));
+        adminUserRoleRepository.flush();
+        List<LzhAdminUserRoleEntity> dbList = new ArrayList<>();
+        for (String bundUserId : bundUserIds) {
+            LzhAdminUserRoleEntity userRole = new LzhAdminUserRoleEntity();
+            LzhAdminEntity admin = adminRepository.findById(Integer.parseInt(bundUserId));
+            userRole.setRoleId(rid);
+            userRole.setUserId(admin.getId());
+            dbList.add(userRole);
+        }
+        adminUserRoleRepository.saveAll(dbList);
     }
 
     @Autowired

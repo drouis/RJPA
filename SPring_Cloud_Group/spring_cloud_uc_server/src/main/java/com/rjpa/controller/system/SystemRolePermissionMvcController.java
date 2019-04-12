@@ -5,15 +5,17 @@ import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
 import com.rjpa.controller.IndexMvcController;
 import com.rjpa.repository.Entity.LzhAdminEntity;
+import com.rjpa.repository.Entity.LzhAdminPermissionEntity;
 import com.rjpa.repository.RedisDao;
+import com.rjpa.service.ISystemPermissionService;
 import com.rjpa.service.ISystemRoleService;
 import com.rjpa.service.ISystemRoleUserService;
+import com.rjpa.vo.AdminPermissionV;
 import com.rjpa.vo.AdminRoleV;
 import com.rjpa.vo.AdminUserV;
 import com.rjpa.vo.IndexPageMenuV;
 import model.Result;
 import model.SelectObject;
-import model.utils.StringUtil;
 import model.utils.SystemConstCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,7 @@ public class SystemRolePermissionMvcController {
     public static final String PAGE_ROLE_LIST_PO_NAME = "adminRoles";
     public static final String PAGE_ROLE_PO_NAME = "adminRolev";
     public static final String PAGE_BUND_ROLE_USERS_NAME = "bundRoleUsers";
+    public static final String PAGE_BUND_ROLE_PERMISSIONS_NAME = "bundRolePermissions";
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final ModelAndView roleView = new ModelAndView("/system/roleManager");
     Result errMsg = new Result();
@@ -80,6 +83,7 @@ public class SystemRolePermissionMvcController {
         r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, new ArrayList<SelectObject>());
+        roleView.addObject(PAGE_BUND_ROLE_PERMISSIONS_NAME, new ArrayList<SelectObject>());
         return roleView;
     }
 
@@ -237,31 +241,61 @@ public class SystemRolePermissionMvcController {
     @RequestMapping(value = "/getBundRoleUser", method = RequestMethod.GET)
     public ModelAndView getBundRoleUser_(AdminRoleV adminRoleV) {
         Result errMsg = new Result();
-        // TODO 1 取得角色下的用户列表，全部系统用户列表
-        Result ur = iSystemRoleUserService.getAdmins();
-        List<LzhAdminEntity> allUsers = (List)ur.getData();
-        // TODO 2 循环系统用户列表，角色下用户map进行对比，设定选定值
-        List<AdminUserV> bundUsers = iSystemRoleUserService.getBundRoleUsers(adminRoleV.getId());
-        Iterator itu = bundUsers.iterator();
-        Map bundUserMap = new HashMap();
-        while (itu.hasNext()){
-            AdminUserV iu = (AdminUserV)itu.next();
-            bundUserMap.put(iu.getId(),iu.getUserName());
-        }
-        // TODO 3 返回比对数据结果
-        List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
-        for(int i=0;i<allUsers.size();i++){
-            SelectObject selectObject = new SelectObject();
-            selectObject.setSelectText(allUsers.get(i).getRealName());
-            selectObject.setSelectValue(String.valueOf(allUsers.get(i).getId()));
-            String checkStr = (String)bundUserMap.get(allUsers.get(i).getId());
-            if(!StringUtils.isEmpty(checkStr)){
-                selectObject.setSelected("selected");
+        // TODO 1. 取得角色下的用户列表，对比系统绑定的数据，返回页面数据
+        {
+            // TODO 1.1 取得角色下的用户列表，全部系统用户列表
+            Result r = iSystemRoleUserService.getAdmins();
+            List<LzhAdminEntity> allUsers = (List) r.getData();
+            // TODO 1.2 循环系统用户列表，角色下用户map进行对比，设定选定值
+            List<AdminUserV> bundUsers = iSystemRoleUserService.getBundRoleUsers(adminRoleV.getId());
+            Iterator itu = bundUsers.iterator();
+            Map bundUserMap = new HashMap();
+            while (itu.hasNext()) {
+                AdminUserV iu = (AdminUserV) itu.next();
+                bundUserMap.put(iu.getId(), iu.getUserName());
             }
-            pageSelectV.add(selectObject);
+            // TODO 1.3 返回比对数据结果
+            List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
+            for (int i = 0; i < allUsers.size(); i++) {
+                SelectObject selectObject = new SelectObject();
+                selectObject.setSelectText(allUsers.get(i).getRealName());
+                selectObject.setSelectValue(String.valueOf(allUsers.get(i).getId()));
+                String checkStr = (String) bundUserMap.get(allUsers.get(i).getId());
+                if (!StringUtils.isEmpty(checkStr)) {
+                    selectObject.setSelected("selected");
+                }
+                pageSelectV.add(selectObject);
+            }
+            roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, pageSelectV);
         }
-        roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, pageSelectV);
-        // TODO 4 共通数据设定
+        // TODO 2. 取得角色下的权限列表，对比系统绑定的数据，返回页面数据
+        {
+            // TODO 2.1 取得角色下的权限列表，全部系统权限列表
+            Result r = iSystemPermissionService.getPermissions();
+            List<LzhAdminPermissionEntity> allPermissions = (List) r.getData();
+            // TODO 2.2 循环系统权限列表，角色下权限map进行对比，设定选定值
+            List<AdminPermissionV> bundPermissions = iSystemPermissionService.getBundRolePermissions(adminRoleV.getId());
+            Iterator itu = bundPermissions.iterator();
+            Map bundPermissionMap = new HashMap();
+            while (itu.hasNext()) {
+                AdminPermissionV iu = (AdminPermissionV) itu.next();
+                bundPermissionMap.put(iu.getId(), iu.getName());
+            }
+            // TODO 2.3 返回比对数据结果
+            List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
+            for (int i = 0; i < allPermissions.size(); i++) {
+                SelectObject selectObject = new SelectObject();
+                selectObject.setSelectText(allPermissions.get(i).getName());
+                selectObject.setSelectValue(String.valueOf(allPermissions.get(i).getId()));
+                String checkStr = (String) bundPermissionMap.get(allPermissions.get(i).getId());
+                if (!StringUtils.isEmpty(checkStr)) {
+                    selectObject.setSelected("selected");
+                }
+                pageSelectV.add(selectObject);
+            }
+            roleView.addObject(PAGE_BUND_ROLE_PERMISSIONS_NAME, pageSelectV);
+        }
+        // TODO 6 共通数据设定
         Result r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
@@ -275,6 +309,33 @@ public class SystemRolePermissionMvcController {
         roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
         return roleView;
     }
+
+    /**
+     * 绑定角色下的选定用户
+     */
+    @RequestMapping(value = "/bundRoleUser", method = RequestMethod.POST)
+    public ModelAndView bundRoleUser_(AdminRoleV adminRoleV,
+                                      @RequestParam(value = "bundUserIds", defaultValue = "") String bundUserIds,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        String bundUserId[] = bundUserIds.split(",");
+        iSystemRoleUserService.bundRoleUsers(bundUserId, adminRoleV.getId());
+        return new ModelAndView("redirect:/sys/getBundRoleUser?id=" + adminRoleV.getId());
+    }
+
+    /**
+     * 绑定角色下的选定权限
+     */
+    @RequestMapping(value = "/bundRolePermission", method = RequestMethod.POST)
+    public ModelAndView bundRolePermission_(AdminRoleV adminRoleV,
+                                            @RequestParam(value = "bundRolePermissionIds", defaultValue = "") String bundRolePermissionIds,
+                                            HttpServletRequest request, HttpServletResponse response) {
+        String bundPermissionId[] = bundRolePermissionIds.split(",");
+        iSystemPermissionService.bundRolePermissions(bundPermissionId, adminRoleV.getId());
+        return new ModelAndView("redirect:/sys/getBundRoleUser?id=" + adminRoleV.getId());
+    }
+
+    @Autowired
+    private ISystemPermissionService iSystemPermissionService;
     @Autowired
     private ISystemRoleUserService iSystemRoleUserService;
     @Autowired

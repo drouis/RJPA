@@ -60,4 +60,6 @@ public interface ISystemRoleUserService {
     public Result delAdmin(int adminId);
 
     public List<AdminUserV> getBundRoleUsers(int rid);
+
+    public void bundRoleUsers(String[] bundUserIds, int rid);
 }

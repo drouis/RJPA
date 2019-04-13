@@ -1,5 +1,6 @@
 package com.rjpa.controller;
 
+import anno.Permission;
 import com.google.gson.Gson;
 import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 import com.rjpa.repository.RedisDao;
@@ -22,6 +23,7 @@ public class IndexMvcController {
     private static final ModelAndView indexView = new ModelAndView("index");
     Gson gson = new Gson();
 
+    @Permission(name = "系统平台首页",permissionName = "local.micoUSC.welcome")
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public ModelAndView welcome() {
 

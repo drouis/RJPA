@@ -1,5 +1,6 @@
 package com.rjpa.controller.system;
 
+import anno.Permission;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
@@ -57,6 +58,7 @@ public class SystemMenusMvcController {
      * @author: drouis
      * @date: 2019/4/12 23:59
      */
+    @Permission(name = "系统菜单列表",permissionName = "local.micoUSC.sys.sysMenu")
     @RequestMapping(value = "/sysMenu_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
     public ModelAndView sysUser_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的菜单
@@ -95,6 +97,7 @@ public class SystemMenusMvcController {
         return menuView;
     }
 
+    @Permission(name = "系统菜单初始化",permissionName = "local.micoUSC.sys.initSysMenu")
     @RequestMapping(value = "/initSysMenu", method = RequestMethod.GET)
     public ModelAndView initSysRole_(@RequestParam(value = "id") int mid) {
         // TODO 1 读取当前系统中所有的绑定菜单
@@ -123,6 +126,7 @@ public class SystemMenusMvcController {
     /**
      * 添加系统菜单
      */
+    @Permission(name = "添加系统菜单",permissionName = "local.micoUSC.sys.addSysMenu")
     @RequestMapping(value = "/addSysMenu", method = RequestMethod.POST)
     public ModelAndView addSysRole_(AdminMenuV adminMenuV) {
         // TODO 1 菜单信息验证
@@ -167,6 +171,7 @@ public class SystemMenusMvcController {
     /**
      * 修改系统菜单
      */
+    @Permission(name = "修改系统菜单",permissionName = "local.micoUSC.sys.editSysMenu")
     @RequestMapping(value = "/editSysMenu", method = RequestMethod.POST)
     public ModelAndView editSysRole_(AdminMenuV adminMenuV) {
         Result errMsg = new Result();
@@ -198,6 +203,7 @@ public class SystemMenusMvcController {
     /**
      * 删除系统菜单
      */
+    @Permission(name = "删除系统菜单",permissionName = "local.micoUSC.sys.delSysMenu")
     @RequestMapping(value = "/delSysMenu", method = RequestMethod.POST)
     public void delSysRole_(AdminMenuV adminMenuV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -232,6 +238,7 @@ public class SystemMenusMvcController {
     /**
      * 添加系统子菜单
      */
+    @Permission(name = "添加系统子菜单",permissionName = "local.micoUSC.sys.getBundSubMenu")
     @RequestMapping(value = "/getBundSubMenu", method = RequestMethod.GET)
     public ModelAndView getBundSubMenu_(AdminMenuV adminMenuV) {
         // TODO 1 菜单信息验证

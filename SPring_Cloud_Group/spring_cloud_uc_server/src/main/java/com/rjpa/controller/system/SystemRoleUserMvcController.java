@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +71,7 @@ public class SystemRoleUserMvcController {
             menuVS.add(menu);
         }
         indexView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+        indexView.addObject("errMsg", errMsg);
         return indexView;
     }
 
@@ -77,11 +79,13 @@ public class SystemRoleUserMvcController {
     @RequestMapping(value = "/initSysUser", method = RequestMethod.GET)
     public ModelAndView initSysUser_(@RequestParam(value = "id") int id) {
         Result r = new Result();
+        errMsg = new Result();
         // TODO 1 读取当前系统中所有的绑定用户
         AdminUserV adminv = iSystemUserService.getUserByUId(id);
         indexView.addObject(PAGE_USER_PO_NAME, adminv);
         r = iSystemUserService.getAdmins();
         indexView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
+        indexView.addObject("errMsg", errMsg);
         return indexView;
     }
 
@@ -91,6 +95,7 @@ public class SystemRoleUserMvcController {
     @Permission(name = "添加系统用户", permissionName = "local.micoUSC.sys.addSysUser")
     @RequestMapping(value = "/addSysUser", method = RequestMethod.POST)
     public ModelAndView addSysUser_(AdminUserV adminUserV) {
+        errMsg = new Result();
         // TODO 1 用户信息验证
         // TODO 1.1 登陆名重复验证,绑定手机验证
         boolean checkFlg = iSystemUserService.checkUserExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
@@ -99,7 +104,7 @@ public class SystemRoleUserMvcController {
             if (!checkFlg) {
                 iSystemUserService.addAdmin(adminUserV);
             } else {
-                errMsg = Result.error(SystemConstCode.USER_IS_EXIST.getCode(), SystemConstCode.USER_IS_EXIST.getMessage());
+                errMsg = iSystemUserService.checkUserParamExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
             }
         } catch (Exception e) {
             errMsg = Result.error(SystemConstCode.ERROR.getMessage());
@@ -117,21 +122,23 @@ public class SystemRoleUserMvcController {
     @Permission(name = "修改系统用户", permissionName = "local.micoUSC.sys.editSysUser")
     @RequestMapping(value = "/editSysUser", method = RequestMethod.POST)
     public ModelAndView editSysUser_(AdminUserV adminUserV) {
-        Result errMsg = new Result();
+        errMsg = new Result();
         // TODO 1 用户信息验证
         // TODO 1.1 系统用户存在验证
         AdminUserV checkData = iSystemUserService.checkUserExistByUId(adminUserV.getId());
         if (null == checkData || checkData.getId() == 0) {
             errMsg = Result.error(SystemConstCode.USER_NOT_FOUND.getCode(), SystemConstCode.USER_NOT_FOUND.getMessage());
         } else {
-            // TODO 1.2 登陆名重复验证,绑定手机验证
-            boolean checkFlg = iSystemUserService.checkUserExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
             try {
-                // TODO 2 添加系统用户
-                if (!checkFlg) {
-                    iSystemUserService.addAdmin(adminUserV);
+                // TODO 2 修改系统用户信息
+                // TODO 2.2 比对页面用户信息是否修改的原用户信息
+                AdminUserV userDB = iSystemUserService.getSysUserInfoByUserNameOrPhoneNumber(adminUserV.getUserName(), adminUserV.getPhoneNumber());
+                if (userDB.getId() == checkData.getId()) {
+                    adminUserV.setAddDate(userDB.getAddDate());
+                    adminUserV.setState(userDB.getState());
+                    iSystemUserService.editAdmin(adminUserV);
                 } else {
-                    errMsg = Result.error(SystemConstCode.USER_IS_EXIST.getCode(), SystemConstCode.USER_IS_EXIST.getMessage());
+                    errMsg = iSystemUserService.checkUserParamExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
                 }
             } catch (Exception e) {
                 errMsg = Result.error(SystemConstCode.ERROR.getMessage());
@@ -152,8 +159,7 @@ public class SystemRoleUserMvcController {
     public void actiSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-
-        Result errMsg = new Result();
+        errMsg = new Result();
         // TODO 1 用户信息验证
         // TODO 1.1 系统用户存在验证
         AdminUserV checkData = iSystemUserService.checkUserExistByUId(adminUserV.getId());
@@ -187,7 +193,7 @@ public class SystemRoleUserMvcController {
     public void stopSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        Result errMsg = new Result();
+        errMsg = new Result();
         // TODO 1 用户信息验证
         // TODO 1.1 系统用户存在验证
         AdminUserV checkData = iSystemUserService.checkUserExistByUId(adminUserV.getId());
@@ -221,7 +227,7 @@ public class SystemRoleUserMvcController {
     public void delSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        Result errMsg = new Result();
+        errMsg = new Result();
         // TODO 1 用户信息验证
         // TODO 1.1 系统用户存在验证
         AdminUserV checkData = iSystemUserService.checkUserExistByUId(adminUserV.getId());

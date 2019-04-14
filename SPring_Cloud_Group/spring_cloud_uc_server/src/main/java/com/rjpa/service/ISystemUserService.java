@@ -26,7 +26,7 @@ public interface ISystemUserService {
     public Result getAdmins();
 
     /**
-     * @return  com.rjpa.vo.AdminUserV
+     * @return com.rjpa.vo.AdminUserV
      * @ClassName: com.rjpa.service.ISystemUserService
      * @Description: 通过数据主键获取系统用户数据
      * @parm uid 系统用户数据主键ID
@@ -43,7 +43,18 @@ public interface ISystemUserService {
      * @author: drouis
      * @date: 2019/4/13 01:00
      */
+    public Result checkUserParamExist(String userName, String phoneNumber);
     public boolean checkUserExist(String userName, String phoneNumber);
+
+    /**
+     * @return AdminUserV 系统用户信息
+     * @ClassName: com.rjpa.service.ISystemUserService
+     * @Description: 通过手机号或者用户名取得用户数据信息
+     * @parm userName 用户登陆名 phoneNumber 用户手机号
+     * @author: drouis
+     * @date: 2019/4/14 22:55
+     */
+    public AdminUserV getSysUserInfoByUserNameOrPhoneNumber(String userName, String phoneNumber);
 
     /**
      * @return com.rjpa.vo.AdminUserV

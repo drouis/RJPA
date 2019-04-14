@@ -333,6 +333,19 @@
                     <li class="active">系统用户管理</li>
                 </ul><!-- /.breadcrumb -->
             </div>
+            <input type="hidden" id="errCodeVal" th:value="${errMsg.code}" />
+            <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times red"></i>
+                </button>
+                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <strong class="green" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
+            </div>
+            <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert">
+                    <i class="ace-icon fa fa-times red"></i>
+                </button>
+                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <strong class="warning" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
+            </div>
             <div class="page-content">
                 <!-- 悬浮工具栏 -->
                 <div class="ace-settings-container" id="ace-settings-container">
@@ -401,7 +414,7 @@
                 </div><!-- /.ace-settings-container -->
                 <!-- 页面内容 -->
                 <div class="page-header">
-                    <h1>主页面<small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统用户管理</small></h1>
+                    <h1>主页面<small>&nbsp;<a th:href="@{/sys/sysUser_0_0_0}" target="_self"><i class="ace-icon fa fa-angle-double-right" th:text="@{系统用户管理}"></i></a></small></h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
@@ -442,7 +455,7 @@
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <form id="userForm" class="form-horizontal" role="form" th:action="@{/sys/addSysUser}" target="_self" method="post">
-                                                <input type="hidden" name="id" th:value="${adminv.id}"/>
+                                                <input type="hidden" name="id" id="adminvID" th:value="${adminv.id}"/>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right"
                                                            for="form-field-1"> 用户名 </label>
@@ -483,7 +496,7 @@
                                                 </div>
                                                 <div class="clearfix form-actions">
                                                     <div class="col-md-offset-3 col-md-9">
-                                                        <button class="btn btn-info" type="submit">
+                                                        <button class="btn btn-info" type="button" id="userSubmitButton">
                                                             <i class="ace-icon fa fa-check bigger-110"></i>Submit
                                                         </button>
                                                         &nbsp; &nbsp; &nbsp;
@@ -528,9 +541,9 @@
                                             <a href="#" th:text="${admin.userName}"></a>
                                         </td>
                                         <td th:text="${admin.realName}"></td>
-                                        <td>管理员</td>
+                                        <td th:text="${admin.roleNameStr}"></td>
                                         <td class="hidden-480" th:text="${admin.addDate}"></td>
-                                        <td>2017-06-15</td>
+                                        <td th:text="${admin.updateDate}"></td>
                                         <td class="hidden-480">
                                             <span class="label label-sm label-success" th:if="${admin.state} eq '1'">启用</span>
                                             <span class="label label-sm label-warning" th:if="${admin.state} eq '2'">停用</span>
@@ -618,6 +631,25 @@
 <script th:src="@{/assets/js/ace.min.js}"></script>
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
+    jQuery(function ($) {
+        var errCodeVal = $("#errCodeVal").val();
+        if (errCodeVal != 0) {
+            if (errCodeVal == 200) {
+                $("#succMsgDiv").slideToggle("slow");
+            } else {
+                $("#errMsgDiv").slideToggle("slow");
+            }
+        }
+        $("#userSubmitButton").click(function () {
+            var adminvID = $("#adminvID").val();
+            if(adminvID ==0){
+                $("#userForm").attr("action","/micoUSC/sys/addSysUser");
+            }else {
+                $("#userForm").attr("action","/micoUSC/sys/editSysUser");
+            }
+            $("#userForm").submit();
+        });
+    });
     function editUserJsonP(state, uid) {
         var jumpUrl = '';
         if (state == 1) {

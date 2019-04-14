@@ -1,11 +1,12 @@
 package com.rjpa.repository.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name = "lzh_admin", schema = "driverschool", catalog = "")
-public class LzhAdminEntity {
+public class LzhAdminEntity implements Serializable {
     private int id;
     private String userName;
     private String password;

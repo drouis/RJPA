@@ -269,6 +269,7 @@ public class SystemRolePermissionMvcController {
         // TODO 1. 取得角色下的角色列表，对比系统绑定的数据，返回页面数据
         {
             // TODO 1.1 取得角色下的角色列表，全部系统角色列表
+            adminRoleV = iSystemRoleService.getRoleByRId(adminRoleV.getId());
             Result r = iSystemUserService.getAdmins();
             List<LzhAdminEntity> allUsers = (List) r.getData();
             // TODO 1.2 循环系统角色列表，角色下角色map进行对比，设定选定值
@@ -310,7 +311,7 @@ public class SystemRolePermissionMvcController {
             List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
             for (int i = 0; i < allPermissions.size(); i++) {
                 SelectObject selectObject = new SelectObject();
-                selectObject.setSelectText(allPermissions.get(i).getName());
+                selectObject.setSelectText(allPermissions.get(i).getName()+" : ["+allPermissions.get(i).getDescription()+"]");
                 selectObject.setSelectValue(String.valueOf(allPermissions.get(i).getId()));
                 String checkStr = (String) bundPermissionMap.get(allPermissions.get(i).getId());
                 if (!StringUtils.isEmpty(checkStr)) {

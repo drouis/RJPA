@@ -61,10 +61,10 @@ management:
 ---
 # 匹配正则表达式
 security:
-  ignoring: "\\/actuator\\/(\\w+), static/.*, druid/.*, /login.html,\\/login/.*, /webjars/.*, /images/.*, /swagger2/.*"
-  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl"
+  ignoring: "\\/actuator\\/(\\w+), /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
+  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
   successUrl: "/welcome"
-  logoutSuccessUrl: "/login.html"
+  logoutSuccessUrl: "/login"
 # 通用数据库源配置
 ---
 spring:

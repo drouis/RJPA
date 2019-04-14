@@ -1,6 +1,7 @@
 package com.rjpa.AuthConfig.handler;
 
 import model.Result;
+import model.utils.AccessAddressUtil;
 import model.utils.SystemConstCode;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.WebAttributes;
@@ -16,8 +17,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * 登陆成功处理
+ * https://blog.csdn.net/zzxzzxhao/article/details/83412648
+ * @ClassName:
+ * @Description:登陆成功处理,用户登录成功时返回给前端的数据
+ * @parm
+ * @return
+ * @author: drouis
+ * @date: 2019/4/15 01:57
  */
 public class CustomLoginAuthSuccessHandler implements AuthenticationSuccessHandler {
     private RequestCache requestCache = new HttpSessionRequestCache();
@@ -25,6 +33,15 @@ public class CustomLoginAuthSuccessHandler implements AuthenticationSuccessHandl
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        //获取请求的ip地址
+        String ip = AccessAddressUtil.getIpAddress(request);
+        Map<String, Object> map = new HashMap<>();
+        map.put("ip", ip);
+        SelfUserDetails userDetails = (SelfUserDetails) authentication.getPrincipal();
+
+
+
         Map<String, String> data = new HashMap<>();
         data.put("index", request.getContextPath() + authSuccessUrl);
         Result baseMessage = (Result) Result.ok(SystemConstCode.SUCCESS.getCode(), "验证成功", data);

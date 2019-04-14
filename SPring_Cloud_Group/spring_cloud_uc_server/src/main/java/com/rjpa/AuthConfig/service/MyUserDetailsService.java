@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +30,13 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         LzhAdminEntity admin = (LzhAdminEntity) loginService.getUserByUserName(s).getData();
+        if (admin == null) {
+            throw new UsernameNotFoundException("用户名不存在");
+        }
+        // 自定义错误的文章说明的地址：http://blog.csdn.net/z69183787/article/details/21190639?locationNum=1&fps=1
+        if (admin.getState() == 2 || admin.getState() == 3) {
+            throw new LockedException("用户账号被冻结，无法登陆请联系管理员！");
+        }
         logger.info("用户的用户名: {}", admin.getRealName()); // TODO 根据用户名，查找到对应的密码，与权限
         String password = passwordEncoder().encode(admin.getPassword());
         logger.info("password: {}", password);

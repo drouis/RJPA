@@ -2,8 +2,8 @@ package com.rjpa.controller;
 
 import anno.Permission;
 import com.google.gson.Gson;
-import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 import com.rjpa.redis.RedisDao;
+import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 import com.rjpa.service.IndexMvcService;
 import com.rjpa.vo.IndexPageMenuV;
 import model.Result;
@@ -23,10 +23,9 @@ public class IndexMvcController {
     private static final ModelAndView indexView = new ModelAndView("index");
     Gson gson = new Gson();
 
-    @Permission(name = "系统平台首页",permissionName = "local.micoUSC.welcome")
+    @Permission(name = "系统平台首页", permissionName = "local.micoUSC.welcome")
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public ModelAndView welcome() {
-
         Result r = new Result();
         // TODO 1 权限管理 MenusPermissionMvcController
         // 获取全部主菜单，二级菜单，adminMenusRights

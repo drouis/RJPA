@@ -6,9 +6,11 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,9 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
     private String usernameParameter = SPRING_SECURITY_RESTFUL_USERNAME_KEY;
     private String passwordParameter = SPRING_SECURITY_RESTFUL_PASSWORD_KEY;
     private boolean postOnly = true;
+
+    @Resource
+    private SessionRegistry sessionRegistry;
 
     public CustomLoginFilter() {
         super(new AntPathRequestMatcher(SPRING_SECURITY_RESTFUL_LOGIN_URL, "POST"));
@@ -49,11 +54,16 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
                 username, password);
         // Allow subclasses to set the "details" property
         setDetails(httpServletRequest, authRequest);
+        Authentication authentication = this.getAuthenticationManager().authenticate(authRequest);
+        if (authentication != null) {
+            sessionRegistry.registerNewSession(httpServletRequest.getSession().getId(), authRequest.getPrincipal());
+        }
         return this.getAuthenticationManager().authenticate(authRequest);
     }
 
     @Autowired
     RedisDao redisDao;
+
     private void setDetails(HttpServletRequest request,
                             UsernamePasswordAuthenticationToken authRequest) {
         authRequest.setDetails(authenticationDetailsSource.buildDetails(request));

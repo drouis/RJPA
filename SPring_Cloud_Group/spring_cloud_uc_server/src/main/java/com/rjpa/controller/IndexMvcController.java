@@ -3,7 +3,7 @@ package com.rjpa.controller;
 import anno.Permission;
 import com.google.gson.Gson;
 import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
-import com.rjpa.repository.RedisDao;
+import com.rjpa.redis.RedisDao;
 import com.rjpa.service.IndexMvcService;
 import com.rjpa.vo.IndexPageMenuV;
 import model.Result;

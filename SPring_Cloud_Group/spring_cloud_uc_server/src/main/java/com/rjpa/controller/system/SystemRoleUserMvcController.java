@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
 import com.rjpa.controller.IndexMvcController;
-import com.rjpa.repository.RedisDao;
+import com.rjpa.redis.RedisDao;
 import com.rjpa.service.ISystemUserService;
 import com.rjpa.vo.AdminUserV;
 import com.rjpa.vo.IndexPageMenuV;

@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.rjpa.controller.IndexMvcController;
 import com.rjpa.repository.Entity.LzhAdminEntity;
 import com.rjpa.repository.Entity.LzhAdminPermissionEntity;
-import com.rjpa.repository.RedisDao;
+import com.rjpa.redis.RedisDao;
 import com.rjpa.service.ISystemPermissionService;
 import com.rjpa.service.ISystemRoleService;
 import com.rjpa.service.ISystemUserService;

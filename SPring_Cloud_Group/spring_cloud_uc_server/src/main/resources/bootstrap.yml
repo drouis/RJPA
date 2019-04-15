@@ -23,6 +23,8 @@ spring:
     port: 6379
     password: 1q2w3e4R
     timeout: 36000
+  main:
+    allow-bean-definition-overriding: true
 # tag::configuration-eureka[]
 eureka:
   instance:

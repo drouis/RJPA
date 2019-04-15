@@ -26,10 +26,12 @@ public class IndexMvcController {
     @Permission(name = "系统平台首页", permissionName = "local.micoUSC.welcome", permissionUrl = "/welcome")
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public ModelAndView welcome() {
+        // tokenstr
+        // redis -> tokenstr
         Result r = new Result();
         // TODO 1 权限管理 MenusPermissionMvcController
         // 获取全部主菜单，二级菜单，adminMenusRights
-        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
+        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();// TODO REDIS 中取得菜单数据
         try {
             r = indexMvcService.getAdminMenusRights(-1);
         } catch (Exception e) {

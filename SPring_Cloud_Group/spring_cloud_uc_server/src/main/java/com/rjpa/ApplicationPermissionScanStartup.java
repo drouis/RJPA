@@ -53,7 +53,7 @@ public class ApplicationPermissionScanStartup implements ApplicationListener<Con
             Method[] methods = aClass.getMethods();
             boolean permissionChk = false;
             for (Method method : methods) {
-                //有无权限注解
+                //TODO 有无权限注解
                 Annotation a = AnnotationUtils.findAnnotation(method, Permission.class);
                 if (a != null && a instanceof Permission) {
                     Map annoMap = AnnotationUtils.getAnnotationAttributes(a);

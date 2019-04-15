@@ -1,10 +1,5 @@
 package com.rjpa;
 
-import com.rjpa.service.ISystemMenuService;
-import com.rjpa.service.ISystemPermissionService;
-import com.rjpa.service.impl.SystemMenuServiceImpl;
-import com.rjpa.vo.AdminMenuV;
-import com.rjpa.vo.AdminPermissionV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +15,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-
-import java.util.List;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 
 @EnableEurekaClient
@@ -29,7 +23,7 @@ import java.util.List;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableHystrix
-//@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableFeignClients("com.rjpa.feign")
 public class SpringCloudUcServerApplication extends SpringBootServletInitializer implements CommandLineRunner {
     protected final static Logger logger = LoggerFactory.getLogger(SpringCloudUcServerApplication.class);
@@ -53,36 +47,10 @@ public class SpringCloudUcServerApplication extends SpringBootServletInitializer
 
     @Override
     public void run(String... strings) throws Exception {
-        // TODO 根据权限列表更新系统权限数据库表
-        List<AdminPermissionV> permissionVList = new ApplicationPermissionScanStartup().getPermissionsList();
-        for (AdminPermissionV permissionV : permissionVList) {
-            // TODO 验证权限列表中的数据是否在DB中存在，并添加不存在的权限。
-            boolean check = iSystemPermissionService.checkPermissionExist(permissionV.getName(), permissionV.getPermission());
-            if (!check) {
-                iSystemPermissionService.addPermission(permissionV);
-            } else {
-                AdminPermissionV dbData = iSystemPermissionService.getPermissionByPermission(permissionV.getPermission());
-                permissionV.setId(dbData.getId());
-                iSystemPermissionService.editPermission(permissionV);
-            }
-        }
-        List<AdminMenuV> menuVList = (List) iSystemMenuService.getMenus().getData();
-        for (AdminMenuV menuV : menuVList) {
-            // TODO 验证权限列表中的数据是否在DB中存在，并添加不存在的权限。
-            boolean check = iSystemPermissionService.checkPermissionExist(menuV.getName(), menuV.getPermission());
-            AdminPermissionV permissionV = new AdminPermissionV();
-            permissionV.setPermissionUrl(menuV.getUrl());
-            permissionV.setName(menuV.getName());
-            permissionV.setPermission(menuV.getPermission());
-            permissionV.setDescription(SystemMenuServiceImpl.MENU_PERMISSION_DESCRIPTION_STR);
-            if (!check) {
-                iSystemPermissionService.addPermission(permissionV);
-            }
-        }
+        initControllerPermission.initControllerPermission();
     }
 
     @Autowired
-    ISystemPermissionService iSystemPermissionService;
-    @Autowired
-    ISystemMenuService iSystemMenuService;
+    InitPermissionConfiguration initControllerPermission;
+
 }

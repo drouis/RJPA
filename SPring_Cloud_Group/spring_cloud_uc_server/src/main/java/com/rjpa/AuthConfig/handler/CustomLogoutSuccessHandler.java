@@ -11,7 +11,6 @@ import java.io.IOException;
 /**
  * 登出成功处理
  */
-
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     private String loginUrl = "/login";
 

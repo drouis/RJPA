@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)  //  启用方法级别的权限认证
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)  //  启用方法级别的权限认证
 @Component
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -115,8 +115,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 登陆
      * @return
+     * @ClassName:
+     * @Description: TODO 登陆拦截器 登陆成功后跳转登陆成功CustomLoginAuthSuccessHandler，否则跳转登陆失败CustomLoginAuthFailureHandler
+     * @parm
+     * @author: drouis
+     * @date: 2019/4/16 01:32
      */
     @Bean
     public CustomLoginFilter getCustomLoginFilter() {

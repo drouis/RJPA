@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +63,9 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
                 // TODO 用户数据加入REDIS缓存
 //                String token = JwtTokenUtil.generateToken(username, 3600);
                 String tokenStr = UUID.randomUUID().toString().replaceAll("-", "");
-                ((User) authentication.getPrincipal()).setTokenStr(tokenStr);
+                ((User) authentication.getPrincipal()).setTokenStr(tokenStr); //TODO MyUserDetailsService.loadUserByUsername 用户信息
                 redisDao.setCacheObject(tokenStr, JwtTokenUtil.TOKEN_HEADER + username);
+//                sessionRegistry.registerNewSession(httpServletRequest.getSession().getId(), authRequest.getPrincipal());
             }
         } catch (LockedException e1) {
             throw e1;
@@ -109,6 +112,9 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Autowired
     RedisDao redisDao;
+//    @Resource
+//    SessionRegistry sessionRegistry;
+
 
     private void setDetails(HttpServletRequest request,
                             UsernamePasswordAuthenticationToken authRequest) {

@@ -106,7 +106,19 @@ public class LoginServiceImpl implements ILoginService {
     public Result getAdminPermissionUrls() {
         List<AdminPermissionV> vList = new ArrayList<AdminPermissionV>();
         List<LzhAdminPermissionEntity> permissionDBList = adminPermissionRepository.findAll();
-        for(LzhAdminPermissionEntity permissionDB : permissionDBList){
+        for (LzhAdminPermissionEntity permissionDB : permissionDBList) {
+            AdminPermissionV v = new AdminPermissionV();
+            BeanUtils.copyProperties(permissionDB, v);
+            vList.add(v);
+        }
+        return Result.ok(vList);
+    }
+
+    @Override
+    public Result getAdminPermissionByUrl(String url) {
+        List<AdminPermissionV> vList = new ArrayList<AdminPermissionV>();
+        List<LzhAdminPermissionEntity> permissionDBList = adminPermissionRepository.findByPermissionUrlLike("%"+url+"%");
+        for (LzhAdminPermissionEntity permissionDB : permissionDBList) {
             AdminPermissionV v = new AdminPermissionV();
             BeanUtils.copyProperties(permissionDB, v);
             vList.add(v);
@@ -116,7 +128,6 @@ public class LoginServiceImpl implements ILoginService {
 
     @Autowired
     LzhAdminRepository adminRepository;
-
     @Autowired
     LzhAdminPermissionRepository adminPermissionRepository;
     @Autowired

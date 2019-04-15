@@ -13,4 +13,6 @@ public interface LzhAdminPermissionRepository extends JpaRepository<LzhAdminPerm
     List<LzhAdminPermissionEntity> findByName(String name);
 
     List<LzhAdminPermissionEntity> findByDescription(String description);
+
+    List<LzhAdminPermissionEntity> findByPermissionUrlLike(String permissionUrl);
 }

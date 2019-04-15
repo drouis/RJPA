@@ -42,4 +42,6 @@ public interface ILoginService {
      * @return
      */
     Result getAdminPermissionUrls();
+
+    Result getAdminPermissionByUrl(String url);
 }

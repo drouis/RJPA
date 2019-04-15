@@ -63,13 +63,14 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
                 result.add(attribute);
                 return result;
             }
-            // TODO 访问的URl判定需要的用户角色
-            List<AdminPermissionV> pls = new ArrayList<AdminPermissionV>();
-            List<AdminPermissionV> res = (List)loginService.getAdminPermissionUrls().getData();
+            if(url.indexOf("_")>0){
+                url = url.substring(0,url.indexOf("_")+1);
+            }
+            // TODO 通过URl判定用户角色及访问权限
+            List<AdminPermissionV> res = (List)loginService.getAdminPermissionByUrl(url).getData();
             // 查询到数据库中的所有权限列表
             if (null != res && 0 < res.size()) {
                 for (AdminPermissionV menuPermis : res) {
-
                     ConfigAttribute conf = new SecurityConfig(menuPermis.getPermission());
                     result.add(conf);
                 }
@@ -77,7 +78,7 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return result; // CustomAccessDecisionManager
     }
 
     @Override

@@ -27,5 +27,11 @@ public @interface Permission {
      */
     String name();
 
+    /**
+     * 权限访问地址
+     * @return
+     */
+    String permissionUrl();
+
 
 }

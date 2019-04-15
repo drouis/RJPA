@@ -1,7 +1,6 @@
 package com.rjpa.mic.controller;
 
 import model.Result;
-import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -25,23 +24,8 @@ public class MicoUserMainController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/find/{id}")
     public Result findByUserId(@PathVariable Integer id) {
-        User u = new User();
-        u.setId(1);
-        u.setPassword("MicoUSerService1");
-        u.setUserName("MicoUSerService1");
-        Result r = Result.ok(null);
-        r.setData(u);
-        return r;
-    }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/user")
-    public Result postUser(@RequestBody User user) {
-        User u = new User();
-        u.setId(1);
-        u.setPassword("Add MicoUSerService");
-        u.setUserName("Add MicoUSerService");
         Result r = Result.ok(null);
-        r.setData(u);
         return r;
     }
 

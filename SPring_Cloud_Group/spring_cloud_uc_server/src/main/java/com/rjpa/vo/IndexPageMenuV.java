@@ -7,6 +7,7 @@ import java.util.List;
 
 public class IndexPageMenuV extends LzhAdminMenusRightsEntity implements Serializable {
     String selected = "";
+
     List<LzhAdminMenusRightsEntity> subMenus;
 
     public String getSelected() {

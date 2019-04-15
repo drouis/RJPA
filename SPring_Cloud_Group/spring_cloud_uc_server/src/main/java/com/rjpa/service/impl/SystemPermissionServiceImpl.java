@@ -24,8 +24,8 @@ public class SystemPermissionServiceImpl implements ISystemPermissionService {
     }
 
     @Override
-    public AdminPermissionV getPermissionByRId(int id) {
-        LzhAdminPermissionEntity permissionDB = (LzhAdminPermissionEntity) adminPermissionRepository.getOne(id);
+    public AdminPermissionV getPermissionByPId(int pid) {
+        LzhAdminPermissionEntity permissionDB = (LzhAdminPermissionEntity) adminPermissionRepository.getOne(pid);
         AdminPermissionV po = BeanUtils.instantiateClass(AdminPermissionV.class);
         if (null != permissionDB) {
             BeanUtils.copyProperties(permissionDB, po);
@@ -51,8 +51,8 @@ public class SystemPermissionServiceImpl implements ISystemPermissionService {
     }
 
     @Override
-    public AdminPermissionV checkPermissionExistByUId(int id) {
-        LzhAdminPermissionEntity adminDB = (LzhAdminPermissionEntity) adminPermissionRepository.getOne(id);
+    public AdminPermissionV checkPermissionExistByPId(int pid) {
+        LzhAdminPermissionEntity adminDB = (LzhAdminPermissionEntity) adminPermissionRepository.getOne(pid);
         AdminPermissionV po = BeanUtils.instantiateClass(AdminPermissionV.class);
         if (null != adminDB) {
             BeanUtils.copyProperties(adminDB, po);

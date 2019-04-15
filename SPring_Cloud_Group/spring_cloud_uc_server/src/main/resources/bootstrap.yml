@@ -17,6 +17,12 @@ spring:
     # 修改默认的静态寻址资源目录 多个使用逗号分隔
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
+  redis:
+    database: 0
+    host: 39.108.124.176
+    port: 6379
+    password: 1q2w3e4R
+    timeout: 36000
 # tag::configuration-eureka[]
 eureka:
   instance:
@@ -54,10 +60,10 @@ management:
 ---
 # 匹配正则表达式
 security:
-  ignoring: "\\/actuator\\/(\\w+), static/.*, druid/.*, /login.html,\\/login/.*, /webjars/.*, /images/.*, /swagger2/.*"
-  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl"
+  ignoring: "\\/actuator\\/(\\w+), /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
+  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
   successUrl: "/welcome"
-  logoutSuccessUrl: "/login.html"
+  logoutSuccessUrl: "/login"
 # 通用数据库源配置
 ---
 spring:

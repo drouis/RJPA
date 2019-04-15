@@ -1,3 +1,5 @@
+#thymeleaf
+---
 spring:
   thymeleaf:
     mode: HTML5

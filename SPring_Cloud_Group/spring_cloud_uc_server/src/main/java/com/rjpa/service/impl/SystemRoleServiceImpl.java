@@ -48,7 +48,7 @@ public class SystemRoleServiceImpl implements ISystemRoleService {
     }
 
     @Override
-    public AdminRoleV checkRoleExistByUId(int id) {
+    public AdminRoleV checkRoleExistByRId(int id) {
         LzhAdminRoleEntity roleDB = (LzhAdminRoleEntity) adminRoleRepository.getOne(id);
         AdminRoleV po = BeanUtils.instantiateClass(AdminRoleV.class);
         if (null != roleDB) {

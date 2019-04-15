@@ -1,8 +1,2 @@
 #redis:
-spring:
-  redis:
-    database: 0
-    host: 39.108.124.176
-    port: 6379
-    password: 1q2w3e4R
-    timeout: 36000
+---

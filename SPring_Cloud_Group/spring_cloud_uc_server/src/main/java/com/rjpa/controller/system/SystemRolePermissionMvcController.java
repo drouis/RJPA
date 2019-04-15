@@ -1,15 +1,16 @@
 package com.rjpa.controller.system;
 
+import anno.Permission;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
 import com.rjpa.controller.IndexMvcController;
 import com.rjpa.repository.Entity.LzhAdminEntity;
 import com.rjpa.repository.Entity.LzhAdminPermissionEntity;
-import com.rjpa.repository.RedisDao;
+import com.rjpa.redis.RedisDao;
 import com.rjpa.service.ISystemPermissionService;
 import com.rjpa.service.ISystemRoleService;
-import com.rjpa.service.ISystemRoleUserService;
+import com.rjpa.service.ISystemUserService;
 import com.rjpa.vo.AdminPermissionV;
 import com.rjpa.vo.AdminRoleV;
 import com.rjpa.vo.AdminUserV;
@@ -33,16 +34,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
- * 角色管理
+ * @ClassName: SystemRolePermissionMvcController
+ * @Description: 角色管理
+ * @parm
+ * @return
+ * @author: drouis
+ * @date: 2019/4/12 23:56
  */
 @Controller
 @RequestMapping(value = "/sys")
 public class SystemRolePermissionMvcController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public static final String PAGE_ROLE_LIST_PO_NAME = "adminRoles";
     public static final String PAGE_ROLE_PO_NAME = "adminRolev";
     public static final String PAGE_BUND_ROLE_USERS_NAME = "bundRoleUsers";
     public static final String PAGE_BUND_ROLE_PERMISSIONS_NAME = "bundRolePermissions";
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private static final ModelAndView roleView = new ModelAndView("/system/roleManager");
     Result errMsg = new Result();
     Gson gson = new Gson();
@@ -55,6 +63,7 @@ public class SystemRolePermissionMvcController {
      * @param pageCount
      * @return
      */
+    @Permission(name = "系统角色列表",permissionName = "local.micoUSC.sys.sysRole")
     @RequestMapping(value = "/sysRole_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
     public ModelAndView sysRole_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的角色
@@ -62,6 +71,8 @@ public class SystemRolePermissionMvcController {
         AdminRoleV adminRoleV = new AdminRoleV();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
+        roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, new ArrayList<SelectObject>());
+        // TODO 2 共通数据设定
         String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
         JSONArray ts = JSON.parseArray(str);
         List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
@@ -70,14 +81,14 @@ public class SystemRolePermissionMvcController {
             menuVS.add(menu);
         }
         roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
-        roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, new ArrayList<SelectObject>());
         return roleView;
     }
 
+    @Permission(name = "系统角色数据初始化",permissionName = "local.micoUSC.sys.initSysRole")
     @RequestMapping(value = "/initSysRole", method = RequestMethod.GET)
     public ModelAndView initSysRole_(@RequestParam(value = "id") int id) {
         Result r = new Result();
-        // TODO 1 读取当前系统中所有的绑定用户
+        // TODO 1 读取当前系统中所有的绑定角色
         AdminRoleV adminRoleV = iSystemRoleService.getRoleByRId(id);
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
         r = iSystemRoleService.getRoles();
@@ -88,19 +99,20 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 添加系统用户
+     * 添加系统角色
      */
+    @Permission(name = "添加系统角色",permissionName = "local.micoUSC.sys.addSysRole")
     @RequestMapping(value = "/addSysRole", method = RequestMethod.POST)
     public ModelAndView addSysRole_(AdminRoleV adminRoleV) {
-        // 1 用户信息验证
-        // 1.1 登陆名重复验证,绑定手机验证
+        // TODO 1 角色信息验证
+        // TODO 1.1 登陆名重复验证,绑定手机验证
         boolean checkFlg = iSystemRoleService.checkRoleExist(adminRoleV.getName(), adminRoleV.getRole());
-        // 2 添加系统用户
+        // TODO 2 添加系统角色
         if (!checkFlg) {
             iSystemRoleService.addRole(adminRoleV);
         }
         try {
-            // 2 读取当前系统中所有的绑定用户
+            // TODO 2 读取当前系统中所有的绑定角色
             Result r = iSystemRoleService.getRoles();
             roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         } catch (Exception e) {
@@ -111,28 +123,33 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 修改系统用户
+     * 修改系统权限
      */
+    @Permission(name = "修改系统权限",permissionName = "local.micoUSC.sys.editSysRole")
     @RequestMapping(value = "/editSysRole", method = RequestMethod.POST)
     public ModelAndView editSysRole_(AdminRoleV adminRoleV) {
         Result errMsg = new Result();
-        // 1 用户信息验证
-        // 1.1 系统用户存在验证
-        AdminRoleV checkData = iSystemRoleService.checkRoleExistByUId(new Long(adminRoleV.getId()).intValue());
-        if (checkData.getId() == 0) {
-
-        }
-        // 1.2 登陆名重复验证,绑定手机验证
-        boolean checkFlg = iSystemRoleService.checkRoleExist(adminRoleV.getName(), adminRoleV.getRole());
-        try {
-            // 2 添加系统用户
-            if (!checkFlg) {
-                iSystemRoleService.addRole(adminRoleV);
+        // TODO 1 角色信息验证
+        // TODO 1.1 系统角色存在验证
+        AdminRoleV checkData = iSystemRoleService.checkRoleExistByRId(new Long(adminRoleV.getId()).intValue());
+        if (null == checkData || checkData.getId() == 0) {
+            errMsg = Result.error(SystemConstCode.USERRIGNT_NOT_FOUND.getCode(), SystemConstCode.USERRIGNT_NOT_FOUND.getMessage());
+        } else {
+            // TODO 1.2 角色名称重复验证,角色标示验证
+            boolean checkFlg = iSystemRoleService.checkRoleExist(adminRoleV.getName(), adminRoleV.getRole());
+            try {
+                // TODO 2 添加系统角色
+                if (!checkFlg) {
+                    iSystemRoleService.addRole(adminRoleV);
+                } else {
+                    errMsg = Result.error(SystemConstCode.USERRIGNT_IS_EXIST.getCode(), SystemConstCode.USERRIGNT_IS_EXIST.getMessage());
+                }
+            } catch (Exception e) {
+                errMsg = Result.error(SystemConstCode.ERROR.getMessage());
             }
-        } catch (Exception e) {
-            errMsg = Result.error(SystemConstCode.ERROR.getMessage());
         }
-        // 2 读取当前系统中所有的绑定用户
+
+        // TODO 2 读取当前系统中所有的绑定角色
         Result r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject("errMsg", errMsg);
@@ -140,25 +157,28 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 启用系统用户
+     * 启用系统角色
      */
+    @Permission(name = "启用系统角色",permissionName = "local.micoUSC.sys.actiSysRole")
     @RequestMapping(value = "/actiSysRole", method = RequestMethod.POST)
     public void actiSysRole_(AdminRoleV AdminRoleV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         Result errMsg = new Result();
-        // TODO 1 用户信息验证
-        // TODO 1.1 系统用户存在验证
-        AdminRoleV checkData = iSystemRoleService.checkRoleExistByUId(new Long(AdminRoleV.getId()).intValue());
-        if (checkData.getId() == 0) {
+        // TODO 1 角色信息验证
+        // TODO 1.1 系统角色存在验证
+        AdminRoleV checkData = iSystemRoleService.checkRoleExistByRId(new Long(AdminRoleV.getId()).intValue());
+        if (null == checkData || checkData.getId() == 0) {
+            errMsg = Result.error(SystemConstCode.USERRIGNT_NOT_FOUND.getCode(), SystemConstCode.USERRIGNT_NOT_FOUND.getMessage());
+        } else {
+            try {
+                // TODO 2 启用系统角色
+                iSystemRoleService.actiRole(checkData);
+            } catch (Exception e) {
+                errMsg = Result.error(SystemConstCode.ERROR.getMessage());
+            }
+        }
 
-        }
-        try {
-            // TODO 2 启用系统用户
-            iSystemRoleService.actiRole(checkData);
-        } catch (Exception e) {
-            errMsg = Result.error(SystemConstCode.ERROR.getMessage());
-        }
         // TODO 3 返回更新数据结果
         try {
             //前端传过来的回调函数名称
@@ -172,24 +192,26 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 停用系统用户
+     * 停用系统角色
      */
+    @Permission(name = "停用系统角色",permissionName = "local.micoUSC.sys.stopSysRole")
     @RequestMapping(value = "/stopSysRole", method = RequestMethod.POST)
     public void stopSysRole_(AdminRoleV adminRoleV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         Result errMsg = new Result();
-        // TODO 1 用户信息验证
-        // TODO 1.1 系统用户存在验证
-        AdminRoleV checkData = iSystemRoleService.checkRoleExistByUId(new Long(adminRoleV.getId()).intValue());
-        if (checkData.getId() == 0) {
-
-        }
-        try {
-            // TODO 2 停用系统用户
-            iSystemRoleService.forbRole(checkData);
-        } catch (Exception e) {
-            errMsg = Result.error(SystemConstCode.ERROR.getMessage());
+        // TODO 1 角色信息验证
+        // TODO 1.1 系统角色存在验证
+        AdminRoleV checkData = iSystemRoleService.checkRoleExistByRId(new Long(adminRoleV.getId()).intValue());
+        if (null == checkData || checkData.getId() == 0) {
+            errMsg = Result.error(SystemConstCode.USERRIGNT_NOT_FOUND.getCode(), SystemConstCode.USERRIGNT_NOT_FOUND.getMessage());
+        } else {
+            try {
+                // TODO 2 停用系统角色
+                iSystemRoleService.forbRole(checkData);
+            } catch (Exception e) {
+                errMsg = Result.error(SystemConstCode.ERROR.getMessage());
+            }
         }
         // TODO 3 返回更新数据结果
         try {
@@ -204,24 +226,26 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 删除系统用户
+     * 删除系统角色
      */
+    @Permission(name = "删除系统角色",permissionName = "local.micoUSC.sys.delSysRole")
     @RequestMapping(value = "/delSysRole", method = RequestMethod.POST)
     public void delSysRole_(AdminRoleV adminRoleV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         Result errMsg = new Result();
-        // TODO 1 用户信息验证
-        // TODO 1.1 系统用户存在验证
-        AdminRoleV checkData = iSystemRoleService.checkRoleExistByUId(new Long(adminRoleV.getId()).intValue());
-        if (checkData.getId() == 0) {
-
-        }
-        try {
-            // TODO 2 停用系统用户
-            iSystemRoleService.delRole(new Long(checkData.getId()).intValue());
-        } catch (Exception e) {
-            errMsg = Result.error(SystemConstCode.ERROR.getMessage());
+        // TODO 1 角色信息验证
+        // TODO 1.1 系统角色存在验证
+        AdminRoleV checkData = iSystemRoleService.checkRoleExistByRId(new Long(adminRoleV.getId()).intValue());
+        if (null == checkData || checkData.getId() == 0) {
+            errMsg = Result.error(SystemConstCode.USERRIGNT_NOT_FOUND.getCode(), SystemConstCode.USERRIGNT_NOT_FOUND.getMessage());
+        } else {
+            try {
+                // TODO 2 停用系统角色
+                iSystemRoleService.delRole(new Long(checkData.getId()).intValue());
+            } catch (Exception e) {
+                errMsg = Result.error(SystemConstCode.ERROR.getMessage());
+            }
         }
         // TODO 3 返回更新数据结果
         try {
@@ -236,18 +260,20 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 获取角色下的全部用户
+     * 获取角色下的全部角色
      */
+    @Permission(name = "获取角色下的全部角色",permissionName = "local.micoUSC.sys.getBundRoleUser")
     @RequestMapping(value = "/getBundRoleUser", method = RequestMethod.GET)
     public ModelAndView getBundRoleUser_(AdminRoleV adminRoleV) {
         Result errMsg = new Result();
-        // TODO 1. 取得角色下的用户列表，对比系统绑定的数据，返回页面数据
+        // TODO 1. 取得角色下的角色列表，对比系统绑定的数据，返回页面数据
         {
-            // TODO 1.1 取得角色下的用户列表，全部系统用户列表
-            Result r = iSystemRoleUserService.getAdmins();
+            // TODO 1.1 取得角色下的角色列表，全部系统角色列表
+            adminRoleV = iSystemRoleService.getRoleByRId(adminRoleV.getId());
+            Result r = iSystemUserService.getAdmins();
             List<LzhAdminEntity> allUsers = (List) r.getData();
-            // TODO 1.2 循环系统用户列表，角色下用户map进行对比，设定选定值
-            List<AdminUserV> bundUsers = iSystemRoleUserService.getBundRoleUsers(adminRoleV.getId());
+            // TODO 1.2 循环系统角色列表，角色下角色map进行对比，设定选定值
+            List<AdminUserV> bundUsers = iSystemUserService.getBundRoleUsers(adminRoleV.getId());
             Iterator itu = bundUsers.iterator();
             Map bundUserMap = new HashMap();
             while (itu.hasNext()) {
@@ -285,7 +311,7 @@ public class SystemRolePermissionMvcController {
             List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
             for (int i = 0; i < allPermissions.size(); i++) {
                 SelectObject selectObject = new SelectObject();
-                selectObject.setSelectText(allPermissions.get(i).getName());
+                selectObject.setSelectText(allPermissions.get(i).getName()+" : ["+allPermissions.get(i).getDescription()+"]");
                 selectObject.setSelectValue(String.valueOf(allPermissions.get(i).getId()));
                 String checkStr = (String) bundPermissionMap.get(allPermissions.get(i).getId());
                 if (!StringUtils.isEmpty(checkStr)) {
@@ -295,10 +321,11 @@ public class SystemRolePermissionMvcController {
             }
             roleView.addObject(PAGE_BUND_ROLE_PERMISSIONS_NAME, pageSelectV);
         }
-        // TODO 6 共通数据设定
+
         Result r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
+        // TODO 6 共通数据设定
         String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
         JSONArray ts = JSON.parseArray(str);
         List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
@@ -311,20 +338,22 @@ public class SystemRolePermissionMvcController {
     }
 
     /**
-     * 绑定角色下的选定用户
+     * 绑定角色下的选定角色
      */
+    @Permission(name = "绑定角色下的选定角色",permissionName = "local.micoUSC.sys.bundRoleUser")
     @RequestMapping(value = "/bundRoleUser", method = RequestMethod.POST)
     public ModelAndView bundRoleUser_(AdminRoleV adminRoleV,
                                       @RequestParam(value = "bundUserIds", defaultValue = "") String bundUserIds,
                                       HttpServletRequest request, HttpServletResponse response) {
         String bundUserId[] = bundUserIds.split(",");
-        iSystemRoleUserService.bundRoleUsers(bundUserId, adminRoleV.getId());
+        iSystemUserService.bundRoleUsers(bundUserId, adminRoleV.getId());
         return new ModelAndView("redirect:/sys/getBundRoleUser?id=" + adminRoleV.getId());
     }
 
     /**
      * 绑定角色下的选定权限
      */
+    @Permission(name = "绑定角色下的选定权限",permissionName = "local.micoUSC.sys.bundRolePermission")
     @RequestMapping(value = "/bundRolePermission", method = RequestMethod.POST)
     public ModelAndView bundRolePermission_(AdminRoleV adminRoleV,
                                             @RequestParam(value = "bundRolePermissionIds", defaultValue = "") String bundRolePermissionIds,
@@ -337,7 +366,7 @@ public class SystemRolePermissionMvcController {
     @Autowired
     private ISystemPermissionService iSystemPermissionService;
     @Autowired
-    private ISystemRoleUserService iSystemRoleUserService;
+    private ISystemUserService iSystemUserService;
     @Autowired
     private ISystemRoleService iSystemRoleService;
     @Autowired

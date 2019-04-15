@@ -1,13 +1,33 @@
 package com.rjpa.AuthConfig.vo;
 
-import model.vo.LzhAdminEntity;
+import com.rjpa.vo.AdminUserV;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
-public class User extends LzhAdminEntity implements UserDetails, Serializable {
+public class User extends AdminUserV implements UserDetails, Serializable {
+    private static final long serialVersionUID = -1587616598610316522L;
+
+    public String tokenStr;
+
+    public void initUser(String userName, String password, List<GrantedAuthority> permissionList) {
+        super.setUserName(userName);
+        super.setPassword(password);
+        super.setAllowPermissionService(permissionList);
+    }
+
+    @Override
+    public List getAllowPermissionService() {
+        return super.getAllowPermissionService();
+    }
+
+    @Override
+    public void setAllowPermissionService(List allowPermissionService) {
+        super.setAllowPermissionService(allowPermissionService);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -21,17 +41,17 @@ public class User extends LzhAdminEntity implements UserDetails, Serializable {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
@@ -41,5 +61,13 @@ public class User extends LzhAdminEntity implements UserDetails, Serializable {
         } else {
             return false;
         }
+    }
+
+    public String getTokenStr() {
+        return tokenStr;
+    }
+
+    public void setTokenStr(String tokenStr) {
+        this.tokenStr = tokenStr;
     }
 }

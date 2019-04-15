@@ -36,6 +36,16 @@ public interface ISystemPermissionService {
     public AdminPermissionV getPermissionByPId(int pid);
 
     /**
+     * @return com.rjpa.vo.AdminPermissionV
+     * @ClassName: com.rjpa.service.ISystemPermissionService
+     * @Description: 通过权限名称获取单一权限信息
+     * @parm id 主键ID
+     * @author: drouis
+     * @date: 2019/4/13 00:19
+     */
+    public AdminPermissionV getPermissionByPermission(String permission);
+
+    /**
      * @return boolean
      * @ClassName: com.rjpa.service.ISystemPermissionService
      * @Description: 验证权限是否在DB中存在

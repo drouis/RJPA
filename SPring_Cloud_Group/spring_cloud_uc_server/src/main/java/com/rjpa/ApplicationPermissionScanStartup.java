@@ -61,6 +61,7 @@ public class ApplicationPermissionScanStartup implements ApplicationListener<Con
                     BeanUtils.instantiate(AdminPermissionV.class);
                     r.setName((String) annoMap.get("name"));
                     r.setPermission((String) annoMap.get("permissionName"));
+                    r.setPermissionUrl((String) annoMap.get("permissionUrl"));
                     permissionsList.add(r);
                     permissionChk = true;
                 }

@@ -116,7 +116,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 登陆
-     *
      * @return
      */
     @Bean

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LzhAdminPermissionRepository extends JpaRepository<LzhAdminPermissionEntity, Integer> {
-    LzhAdminPermissionEntity findById(long id);
+    LzhAdminPermissionEntity findById(int id);
 
     List<LzhAdminPermissionEntity> findByPermission(String permission);
 

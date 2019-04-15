@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
 import com.rjpa.controller.IndexMvcController;
+import com.rjpa.redis.RedisDao;
 import com.rjpa.repository.Entity.LzhAdminEntity;
 import com.rjpa.repository.Entity.LzhAdminPermissionEntity;
-import com.rjpa.redis.RedisDao;
 import com.rjpa.service.ISystemPermissionService;
 import com.rjpa.service.ISystemRoleService;
 import com.rjpa.service.ISystemUserService;
@@ -63,7 +63,7 @@ public class SystemRolePermissionMvcController {
      * @param pageCount
      * @return
      */
-    @Permission(name = "系统角色列表",permissionName = "local.micoUSC.sys.sysRole")
+    @Permission(name = "系统角色列表", permissionName = "local.micoUSC.sys.sysRole", permissionUrl = "/sys/sysRole_")
     @RequestMapping(value = "/sysRole_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
     public ModelAndView sysRole_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的角色
@@ -84,7 +84,7 @@ public class SystemRolePermissionMvcController {
         return roleView;
     }
 
-    @Permission(name = "系统角色数据初始化",permissionName = "local.micoUSC.sys.initSysRole")
+    @Permission(name = "系统角色数据初始化", permissionName = "local.micoUSC.sys.initSysRole", permissionUrl = "/sys/initSysRole")
     @RequestMapping(value = "/initSysRole", method = RequestMethod.GET)
     public ModelAndView initSysRole_(@RequestParam(value = "id") int id) {
         Result r = new Result();
@@ -101,7 +101,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 添加系统角色
      */
-    @Permission(name = "添加系统角色",permissionName = "local.micoUSC.sys.addSysRole")
+    @Permission(name = "添加系统角色", permissionName = "local.micoUSC.sys.addSysRole", permissionUrl = "/sys/addSysRole")
     @RequestMapping(value = "/addSysRole", method = RequestMethod.POST)
     public ModelAndView addSysRole_(AdminRoleV adminRoleV) {
         // TODO 1 角色信息验证
@@ -125,7 +125,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 修改系统权限
      */
-    @Permission(name = "修改系统权限",permissionName = "local.micoUSC.sys.editSysRole")
+    @Permission(name = "修改系统权限", permissionName = "local.micoUSC.sys.editSysRole", permissionUrl = "/sys/editSysRole")
     @RequestMapping(value = "/editSysRole", method = RequestMethod.POST)
     public ModelAndView editSysRole_(AdminRoleV adminRoleV) {
         Result errMsg = new Result();
@@ -159,7 +159,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 启用系统角色
      */
-    @Permission(name = "启用系统角色",permissionName = "local.micoUSC.sys.actiSysRole")
+    @Permission(name = "启用系统角色", permissionName = "local.micoUSC.sys.actiSysRole", permissionUrl = "/sys/actiSysRole")
     @RequestMapping(value = "/actiSysRole", method = RequestMethod.POST)
     public void actiSysRole_(AdminRoleV AdminRoleV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -194,7 +194,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 停用系统角色
      */
-    @Permission(name = "停用系统角色",permissionName = "local.micoUSC.sys.stopSysRole")
+    @Permission(name = "停用系统角色", permissionName = "local.micoUSC.sys.stopSysRole", permissionUrl = "/sys/stopSysRole")
     @RequestMapping(value = "/stopSysRole", method = RequestMethod.POST)
     public void stopSysRole_(AdminRoleV adminRoleV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -228,7 +228,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 删除系统角色
      */
-    @Permission(name = "删除系统角色",permissionName = "local.micoUSC.sys.delSysRole")
+    @Permission(name = "删除系统角色", permissionName = "local.micoUSC.sys.delSysRole", permissionUrl = "/sys/delSysRole")
     @RequestMapping(value = "/delSysRole", method = RequestMethod.POST)
     public void delSysRole_(AdminRoleV adminRoleV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -262,7 +262,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 获取角色下的全部角色
      */
-    @Permission(name = "获取角色下的全部角色",permissionName = "local.micoUSC.sys.getBundRoleUser")
+    @Permission(name = "获取角色下的全部角色", permissionName = "local.micoUSC.sys.getBundRoleUser", permissionUrl = "/sys/getBundRoleUser")
     @RequestMapping(value = "/getBundRoleUser", method = RequestMethod.GET)
     public ModelAndView getBundRoleUser_(AdminRoleV adminRoleV) {
         Result errMsg = new Result();
@@ -311,7 +311,7 @@ public class SystemRolePermissionMvcController {
             List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
             for (int i = 0; i < allPermissions.size(); i++) {
                 SelectObject selectObject = new SelectObject();
-                selectObject.setSelectText(allPermissions.get(i).getName()+" : ["+allPermissions.get(i).getDescription()+"]");
+                selectObject.setSelectText(allPermissions.get(i).getName() + " : [" + allPermissions.get(i).getDescription() + "]");
                 selectObject.setSelectValue(String.valueOf(allPermissions.get(i).getId()));
                 String checkStr = (String) bundPermissionMap.get(allPermissions.get(i).getId());
                 if (!StringUtils.isEmpty(checkStr)) {
@@ -340,7 +340,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 绑定角色下的选定角色
      */
-    @Permission(name = "绑定角色下的选定角色",permissionName = "local.micoUSC.sys.bundRoleUser")
+    @Permission(name = "绑定角色下的选定角色", permissionName = "local.micoUSC.sys.bundRoleUser", permissionUrl = "/sys/bundRoleUser")
     @RequestMapping(value = "/bundRoleUser", method = RequestMethod.POST)
     public ModelAndView bundRoleUser_(AdminRoleV adminRoleV,
                                       @RequestParam(value = "bundUserIds", defaultValue = "") String bundUserIds,
@@ -353,7 +353,7 @@ public class SystemRolePermissionMvcController {
     /**
      * 绑定角色下的选定权限
      */
-    @Permission(name = "绑定角色下的选定权限",permissionName = "local.micoUSC.sys.bundRolePermission")
+    @Permission(name = "绑定角色下的选定权限", permissionName = "local.micoUSC.sys.bundRolePermission", permissionUrl = "/sys/bundRolePermission")
     @RequestMapping(value = "/bundRolePermission", method = RequestMethod.POST)
     public ModelAndView bundRolePermission_(AdminRoleV adminRoleV,
                                             @RequestParam(value = "bundRolePermissionIds", defaultValue = "") String bundRolePermissionIds,

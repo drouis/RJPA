@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class SystemMenuServiceImpl implements ISystemMenuService {
 
-    private static final String MENU_PERMISSION_DESCRIPTION_STR = "menu.permission";
+    public static final String MENU_PERMISSION_DESCRIPTION_STR = "menu.permission";
 
     @Override
     public Result getMenus() {
@@ -108,6 +108,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
                 newPermissionDBData.setDescription(MENU_PERMISSION_DESCRIPTION_STR);
                 newPermissionDBData.setName(adminMenuV.getName());
                 newPermissionDBData.setPermission(adminMenuV.getPermission());
+                newPermissionDBData.setPermissionUrl(adminMenuV.getUrl());
                 adminPermissionRepository.save(newPermissionDBData);
 
             } catch (Exception e) {
@@ -160,7 +161,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
             AdminMenuV v = new AdminMenuV();
             BeanUtils.copyProperties(db, v);
             if (db.getParentid() != -1) {
-                LzhAdminMenusRightsEntity pdb = adminMenusRightsRepository.getOne(db.getParentid());
+                LzhAdminMenusRightsEntity pdb = adminMenusRightsRepository.findById(db.getParentid());
                 v.setParentMenuName(pdb.getName());
             } else {
                 v.setParentMenuName("");

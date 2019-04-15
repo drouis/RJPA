@@ -7,10 +7,14 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 安全拦截器
+ * 安全拦截器，访问用户URL进行拦截，如果没有权限返回到登陆界面
  */
 public class CustomSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
@@ -22,7 +26,6 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         FilterInvocation fi = new FilterInvocation(request, response, chain);
-        // TODO 验证当前用户是否有登陆信息，否则跳转到登陆界面
         invoke(fi);
     }
 
@@ -40,6 +43,12 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
         return this.securityMetadataSource;
     }
 
+    /**
+     * 验证当前用户是否有登陆信息，否则跳转到登陆界面
+     *
+     * @param fi
+     * @throws IOException
+     */
     public void invoke(FilterInvocation fi) throws IOException {
         InterceptorStatusToken token = super.beforeInvocation(fi);
         try {
@@ -56,5 +65,4 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
     public void setSecurityMetadataSource(FilterInvocationSecurityMetadataSource securityMetadataSource) {
         this.securityMetadataSource = securityMetadataSource;
     }
-
 }

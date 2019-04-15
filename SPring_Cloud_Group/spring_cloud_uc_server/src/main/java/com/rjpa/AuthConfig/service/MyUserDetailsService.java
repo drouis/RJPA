@@ -1,16 +1,17 @@
 package com.rjpa.AuthConfig.service;
 
+import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.repository.Entity.LzhAdminEntity;
 import com.rjpa.service.ILoginService;
 import com.rjpa.vo.AdminPermissionV;
 import com.rjpa.vo.AdminRoleV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -67,9 +68,10 @@ public class MyUserDetailsService implements UserDetailsService {
             i++;
         }
         // TODO 封装用户信息，并返回。参数分别是：用户名，密码，用户权限
-        User user = new User(admin.getUserName(), password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()));
+        User user = new User();
+        BeanUtils.copyProperties(admin, user);
+        user.initUser(admin.getUserName(), password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()));
         return user;
-
     }
 
     @Bean

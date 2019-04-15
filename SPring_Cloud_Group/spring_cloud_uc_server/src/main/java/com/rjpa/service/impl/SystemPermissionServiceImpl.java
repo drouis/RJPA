@@ -34,6 +34,16 @@ public class SystemPermissionServiceImpl implements ISystemPermissionService {
     }
 
     @Override
+    public AdminPermissionV getPermissionByPermission(String permission) {
+        AdminPermissionV admin = BeanUtils.instantiateClass(AdminPermissionV.class);
+        List<LzhAdminPermissionEntity> permissionList = adminPermissionRepository.findByPermission(permission);
+        if (null != permissionList && 0 < permissionList.size()) {
+            BeanUtils.copyProperties(permissionList.get(0), admin);
+        }
+        return admin;
+    }
+
+    @Override
     public boolean checkPermissionExist(String name, String permission) {
         if (!StringUtils.isEmpty(name)) {
             List checkList = (List) adminPermissionRepository.findByName(name);
@@ -113,7 +123,7 @@ public class SystemPermissionServiceImpl implements ISystemPermissionService {
             LzhAdminRolePermissionEntity rolePermission = new LzhAdminRolePermissionEntity();
             LzhAdminPermissionEntity permission = adminPermissionRepository.findById(Integer.parseInt(bundPermissionId));
             rolePermission.setRoleId(new Long(rid));
-            rolePermission.setPermissionId(permission.getId());
+            rolePermission.setPermissionId(new Long(permission.getId()));
             dbList.add(rolePermission);
         }
         adminRolePermissionRepository.saveAll(dbList);

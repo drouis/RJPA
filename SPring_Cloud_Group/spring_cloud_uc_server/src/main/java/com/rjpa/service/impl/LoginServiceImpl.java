@@ -61,7 +61,7 @@ public class LoginServiceImpl implements ILoginService {
             List<LzhAdminRolePermissionEntity> permissionLinks = adminRolePermissionRepository.findByRoleId(roleDB.getId());
             for (LzhAdminRolePermissionEntity permissionLink : permissionLinks) {
                 // TODO 1.5 查询权限实体数据
-                LzhAdminPermissionEntity permissionDB = adminPermissionRepository.findById(permissionLink.getId());
+                LzhAdminPermissionEntity permissionDB = adminPermissionRepository.findById(new Long(permissionLink.getId()).intValue());
                 AdminPermissionV v = new AdminPermissionV();
                 BeanUtils.copyProperties(permissionDB, v);
                 vList.add(v);

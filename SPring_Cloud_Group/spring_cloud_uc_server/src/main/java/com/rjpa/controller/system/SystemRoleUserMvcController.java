@@ -23,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +53,7 @@ public class SystemRoleUserMvcController {
      * @param pageCount
      * @return
      */
-    @Permission(name = "系统用户列表", permissionName = "local.micoUSC.sys.sysUser")
+    @Permission(name = "系统用户列表", permissionName = "local.micoUSC.sys.sysUser", permissionUrl = "/sys/sysUser_")
     @RequestMapping(value = "/sysUser_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
     public ModelAndView sysUser_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的绑定用户
@@ -75,7 +74,7 @@ public class SystemRoleUserMvcController {
         return indexView;
     }
 
-    @Permission(name = "系统用户管理初始化", permissionName = "local.micoUSC.sys.initSysUser")
+    @Permission(name = "系统用户管理初始化", permissionName = "local.micoUSC.sys.initSysUser", permissionUrl = "/sys/initSysUser")
     @RequestMapping(value = "/initSysUser", method = RequestMethod.GET)
     public ModelAndView initSysUser_(@RequestParam(value = "id") int id) {
         Result r = new Result();
@@ -92,7 +91,7 @@ public class SystemRoleUserMvcController {
     /**
      * 添加系统用户
      */
-    @Permission(name = "添加系统用户", permissionName = "local.micoUSC.sys.addSysUser")
+    @Permission(name = "添加系统用户", permissionName = "local.micoUSC.sys.addSysUser", permissionUrl = "/sys/addSysUser")
     @RequestMapping(value = "/addSysUser", method = RequestMethod.POST)
     public ModelAndView addSysUser_(AdminUserV adminUserV) {
         errMsg = new Result();
@@ -119,7 +118,7 @@ public class SystemRoleUserMvcController {
     /**
      * 修改系统用户
      */
-    @Permission(name = "修改系统用户", permissionName = "local.micoUSC.sys.editSysUser")
+    @Permission(name = "修改系统用户", permissionName = "local.micoUSC.sys.editSysUser", permissionUrl = "/sys/editSysUser")
     @RequestMapping(value = "/editSysUser", method = RequestMethod.POST)
     public ModelAndView editSysUser_(AdminUserV adminUserV) {
         errMsg = new Result();
@@ -154,7 +153,7 @@ public class SystemRoleUserMvcController {
     /**
      * 启用系统用户
      */
-    @Permission(name = "启用系统用户", permissionName = "local.micoUSC.sys.actiSysUser")
+    @Permission(name = "启用系统用户", permissionName = "local.micoUSC.sys.actiSysUser", permissionUrl = "/sys/actiSysUser")
     @RequestMapping(value = "/actiSysUser", method = RequestMethod.POST)
     public void actiSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -188,7 +187,7 @@ public class SystemRoleUserMvcController {
     /**
      * 停用系统用户
      */
-    @Permission(name = "停用系统用户", permissionName = "local.micoUSC.sys.stopSysUser")
+    @Permission(name = "停用系统用户", permissionName = "local.micoUSC.sys.stopSysUser", permissionUrl = "/sys/stopSysUser")
     @RequestMapping(value = "/stopSysUser", method = RequestMethod.POST)
     public void stopSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
@@ -222,7 +221,7 @@ public class SystemRoleUserMvcController {
     /**
      * 删除系统用户
      */
-    @Permission(name = "删除系统用户", permissionName = "local.micoUSC.sys.delSysUser")
+    @Permission(name = "删除系统用户", permissionName = "local.micoUSC.sys.delSysUser", permissionUrl = "/sys/delSysUser")
     @RequestMapping(value = "/delSysUser", method = RequestMethod.POST)
     public void delSysUser_(AdminUserV adminUserV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");

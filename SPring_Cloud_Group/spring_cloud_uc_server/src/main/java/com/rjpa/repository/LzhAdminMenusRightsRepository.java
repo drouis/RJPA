@@ -2,6 +2,7 @@ package com.rjpa.repository;
 
 import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 import feign.Param;
+import org.hibernate.annotations.Proxy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -23,7 +23,7 @@ public class IndexMvcController {
     private static final ModelAndView indexView = new ModelAndView("index");
     Gson gson = new Gson();
 
-    @Permission(name = "系统平台首页", permissionName = "local.micoUSC.welcome")
+    @Permission(name = "系统平台首页", permissionName = "local.micoUSC.welcome", permissionUrl = "/welcome")
     @RequestMapping(value = {"/welcome", "/"}, method = RequestMethod.GET)
     public ModelAndView welcome() {
         Result r = new Result();

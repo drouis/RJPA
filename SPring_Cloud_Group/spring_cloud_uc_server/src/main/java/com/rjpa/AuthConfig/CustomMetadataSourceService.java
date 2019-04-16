@@ -6,11 +6,13 @@ import com.rjpa.vo.AdminPermissionV;
 import model.Result;
 import model.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -21,7 +23,7 @@ import java.util.List;
 /**
  * 获取请求url需要的权限
  */
-//@Component
+@Component
 public class CustomMetadataSourceService implements FilterInvocationSecurityMetadataSource {
 
 

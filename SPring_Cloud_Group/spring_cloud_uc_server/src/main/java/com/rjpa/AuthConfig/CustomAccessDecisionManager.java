@@ -6,13 +6,14 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 /**
  * 验证url需要权限
  */
-//@Component
+@Component
 public class CustomAccessDecisionManager implements AccessDecisionManager {
 
     @Override

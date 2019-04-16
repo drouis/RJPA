@@ -26,7 +26,6 @@ import java.util.List;
 @Component
 public class CustomMetadataSourceService implements FilterInvocationSecurityMetadataSource {
 
-
     @Value("${security.ignoring}")
     String ignoringUrls;
     @Value("${security.intercept}")

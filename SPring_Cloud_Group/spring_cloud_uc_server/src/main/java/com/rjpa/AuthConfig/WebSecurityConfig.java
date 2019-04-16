@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)  //  启用方法级别的权限认证
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)  //  启用方法级别的权限认证
 @Component
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());

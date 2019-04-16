@@ -30,7 +30,6 @@ public class SpringCloudUcServerApplication extends SpringBootServletInitializer
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(SpringCloudUcServerApplication.class);
         springApplication.addListeners(new ApplicationPermissionScanStartup());
-        springApplication.addInitializers();
         springApplication.run(args);
     }
 

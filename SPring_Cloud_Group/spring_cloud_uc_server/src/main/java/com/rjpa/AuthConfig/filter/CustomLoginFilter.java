@@ -2,6 +2,7 @@ package com.rjpa.AuthConfig.filter;
 
 import com.rjpa.AuthConfig.sessionManager.CustomSessionRegistryImpl;
 import com.rjpa.AuthConfig.vo.User;
+import com.rjpa.redis.RedisDao;
 import model.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;

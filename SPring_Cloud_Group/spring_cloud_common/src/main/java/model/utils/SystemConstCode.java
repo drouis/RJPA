@@ -12,6 +12,7 @@ public enum SystemConstCode {
     USER_IS_EXIST(2004, "用户已经存在。"),
     USER_USERNAME_IS_EXIST(2004, "登陆名已经存在。"),
     USER_PHONENUMBER_IS_EXIST(2004, "登陆手机号已经绑定。"),
+    USER_LOGIN_TIMEOUT(2099, "长时间未操作，登陆超时。"),
     // 系统菜单配置错误
     MENU_NAME_ERROR(3001, "菜单名称错误。"),
     MENU_INSERT_FAILD_ERROR(3002, "菜单创建失败。"),

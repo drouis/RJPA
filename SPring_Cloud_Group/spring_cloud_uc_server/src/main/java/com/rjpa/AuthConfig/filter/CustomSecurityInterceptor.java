@@ -53,7 +53,6 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
         InterceptorStatusToken token = super.beforeInvocation(fi);
         try {
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
-            fi.getHttpRequest().setAttribute("menus","");
         } catch (ServletException e) {
             super.afterInvocation(token, null);
         }

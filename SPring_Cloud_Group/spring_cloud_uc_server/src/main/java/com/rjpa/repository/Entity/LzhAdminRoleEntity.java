@@ -5,6 +5,7 @@ import org.hibernate.annotations.Proxy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+
 @Proxy(lazy = false)
 @Entity
 @Table(name = "lzh_admin_role", schema = "driverschool", catalog = "")

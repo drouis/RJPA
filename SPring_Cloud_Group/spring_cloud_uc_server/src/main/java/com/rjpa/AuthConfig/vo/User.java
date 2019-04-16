@@ -1,6 +1,7 @@
 package com.rjpa.AuthConfig.vo;
 
 import com.rjpa.vo.AdminUserV;
+import com.rjpa.vo.IndexPageMenuV;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,10 +14,11 @@ public class User extends AdminUserV implements UserDetails, Serializable {
 
     public String tokenStr;
 
-    public void initUser(String userName, String password, List<GrantedAuthority> permissionList) {
+    public void initUser(String userName, String password, List<GrantedAuthority> permissionList, List<IndexPageMenuV> menuVS) {
         super.setUserName(userName);
         super.setPassword(password);
         super.setAllowPermissionService(permissionList);
+        super.setMenuVS(menuVS);
     }
 
     @Override

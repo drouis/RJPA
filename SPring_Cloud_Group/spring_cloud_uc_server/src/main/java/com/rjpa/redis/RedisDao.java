@@ -1,7 +1,9 @@
 package com.rjpa.redis;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -12,8 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Repository
 public class RedisDao {
+    Gson gson = new Gson();
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
     public void setKey(String key, String value) {
         ValueOperations ops = redisTemplate.opsForValue();
@@ -151,5 +154,46 @@ public class RedisDao {
     public <T> Map<Object, Object> getCacheIntegerMap(String key) {
         Map<Object, Object> map = redisTemplate.opsForHash().entries(key);
         return map;
+    }
+
+    public void addSessionInfo(String sessionIdKey, final String sessionId, final SessionInformation sessionInformation) {
+        BoundHashOperations<String, String, SessionInformation> hashOperations = redisTemplate.boundHashOps(sessionIdKey);
+        hashOperations.put(sessionId, sessionInformation);
+    }
+
+    public SessionInformation getSessionInfo(String sessionIdKey, final String sessionId) {
+        BoundHashOperations<String, String, SessionInformation> hashOperations = redisTemplate.boundHashOps(sessionIdKey);
+        return hashOperations.get(sessionId);
+    }
+
+    public void removeSessionInfo(String sessionIdKey, final String sessionId) {
+        BoundHashOperations<String, String, SessionInformation> hashOperations = redisTemplate.boundHashOps(sessionIdKey);
+        hashOperations.delete(sessionId);
+    }
+
+    public Set<String> putIfAbsentPrincipals(String principalKey, final String key, final Set<String> set) {
+        BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(principalKey);
+        hashOperations.putIfAbsent(key, set);
+        return hashOperations.get(key);
+    }
+
+    public void putPrincipals(String principalKey, final String key, final Set<String> set) {
+        BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(principalKey);
+        hashOperations.put(key, set);
+    }
+
+    public Set<String> getPrincipals(String principalKey, final String key) {
+        BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(principalKey);
+        return hashOperations.get(key);
+    }
+
+    public Set<String> getPrincipalsKeySet(String principalKey) {
+        BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(principalKey);
+        return hashOperations.keys();
+    }
+
+    public void removePrincipal(String principalKey, final String key) {
+        BoundHashOperations<String, String, Set<String>> hashOperations = redisTemplate.boundHashOps(principalKey);
+        hashOperations.delete(key);
     }
 }

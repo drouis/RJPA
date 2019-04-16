@@ -7,6 +7,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "lzh_admin", schema = "driverschool", catalog = "")
 public class LzhAdminEntity implements Serializable {
+    private static final long serialVersionUID = 1085560041346798756L;
     private int id;
     private String userName;
     private String password;

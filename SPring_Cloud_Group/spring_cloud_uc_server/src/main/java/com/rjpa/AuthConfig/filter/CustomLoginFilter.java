@@ -1,7 +1,7 @@
 package com.rjpa.AuthConfig.filter;
 
+import com.rjpa.AuthConfig.sessionManager.CustomSessionRegistryImpl;
 import com.rjpa.AuthConfig.vo.User;
-import com.rjpa.redis.RedisDao;
 import model.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
@@ -54,15 +54,16 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
                 username, password);
         // Allow subclasses to set the "details" property
         setDetails(httpServletRequest, authRequest);
-        // TODO 进入WebSecurityConfig 中配置的authenticationProvider，MyUserDetailsService
         try {
+            // TODO 进入WebSecurityConfig 中配置的authenticationProvider，MyUserDetailsService
             authentication = this.getAuthenticationManager().authenticate(authRequest);
             if (authentication != null) {
                 // TODO 用户数据加入REDIS缓存
 //                String token = JwtTokenUtil.generateToken(username, 3600);
                 String tokenStr = UUID.randomUUID().toString().replaceAll("-", "");
                 ((User) authentication.getPrincipal()).setTokenStr(tokenStr);
-                redisDao.setCacheObject(tokenStr, JwtTokenUtil.TOKEN_HEADER + username);
+//                redisDao.setCacheObject(tokenStr, JwtTokenUtil.TOKEN_HEADER + username);
+                sessionRegistry.registerNewSession(httpServletRequest.getSession().getId(), authRequest.getPrincipal());
             }
         } catch (LockedException e1) {
             throw e1;
@@ -108,7 +109,7 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Autowired
-    RedisDao redisDao;
+    CustomSessionRegistryImpl sessionRegistry;
 
     private void setDetails(HttpServletRequest request,
                             UsernamePasswordAuthenticationToken authRequest) {

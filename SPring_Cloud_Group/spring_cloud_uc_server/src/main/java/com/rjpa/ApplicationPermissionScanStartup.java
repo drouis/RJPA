@@ -1,12 +1,10 @@
 package com.rjpa;
 
 import anno.Permission;
-import com.rjpa.service.ISystemPermissionService;
 import com.rjpa.vo.AdminPermissionV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -16,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * EUREKA启动后扫描所有带权限注解的控制类
@@ -33,12 +34,10 @@ public class ApplicationPermissionScanStartup implements ApplicationListener<Con
         logger.info("系统参数初始化中....");
         try {
             // TODO 循环所有系统注解类
-//            if (null == event.getApplicationContext().getParent()) {
             Map rcBeans = event.getApplicationContext().getBeansWithAnnotation(RestController.class);
             initDefinePermissionsFromBeans(rcBeans);
             Map cBeans = event.getApplicationContext().getBeansWithAnnotation(Controller.class);
             initDefinePermissionsFromBeans(cBeans);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

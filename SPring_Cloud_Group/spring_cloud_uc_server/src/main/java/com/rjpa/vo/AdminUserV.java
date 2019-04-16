@@ -10,6 +10,16 @@ public class AdminUserV extends LzhAdminEntity implements Serializable {
 
     String roleNameStr;
 
+    List<IndexPageMenuV> menuVS;
+
+    public List<IndexPageMenuV> getMenuVS() {
+        return menuVS;
+    }
+
+    public void setMenuVS(List<IndexPageMenuV> menuVS) {
+        this.menuVS = menuVS;
+    }
+
     public String getRoleNameStr() {
         return roleNameStr;
     }

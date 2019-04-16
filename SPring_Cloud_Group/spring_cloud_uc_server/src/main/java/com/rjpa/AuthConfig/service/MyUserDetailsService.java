@@ -2,9 +2,13 @@ package com.rjpa.AuthConfig.service;
 
 import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.repository.Entity.LzhAdminEntity;
+import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 import com.rjpa.service.ILoginService;
+import com.rjpa.service.IndexMvcService;
 import com.rjpa.vo.AdminPermissionV;
 import com.rjpa.vo.AdminRoleV;
+import com.rjpa.vo.IndexPageMenuV;
+import model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -59,6 +63,7 @@ public class MyUserDetailsService implements UserDetailsService {
             // TODO 绑定系统用户角色的系统权限
             permissions = (List<AdminPermissionV>) loginService.getUserMenuRightsByUserId(admin.getId()).getData();
         }
+        List<IndexPageMenuV> menuVS = initUserPermissionMenus(admin.getId(), adminFlg);
         for (int i = 0; i < permissions.size(); ) {
             if (i < permissions.size() - 1) {
                 sb.append(permissions.get(i).getPermission() + ",");
@@ -70,8 +75,42 @@ public class MyUserDetailsService implements UserDetailsService {
         // TODO 封装用户信息，并返回。参数分别是：用户名，密码，用户权限
         User user = new User();
         BeanUtils.copyProperties(admin, user);
-        user.initUser(admin.getUserName(), password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()));
+        user.initUser(admin.getUserName(), password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()), menuVS);
         return user;
+    }
+
+    private List<IndexPageMenuV> initUserPermissionMenus(int uid, boolean adminFlg) {
+        Result r = new Result();
+        //TODO 获取全部主菜单，二级菜单，adminMenusRights
+        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
+        try {
+            if (adminFlg) {
+                r = indexMvcService.getAdminMenusRights(-1);
+            } else {
+                r = indexMvcService.getUserMenusRights(-1, uid);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<LzhAdminMenusRightsEntity> mainMenus = (List) r.getData();
+        int i = 0;
+        for (LzhAdminMenusRightsEntity pMenuMap : mainMenus) {
+            IndexPageMenuV pageMenus = new IndexPageMenuV();
+            BeanUtils.copyProperties(pMenuMap, pageMenus);
+            if (i == 0) {
+                pageMenus.setSelected("selected");
+            }
+            r = indexMvcService.getAdminMenusRights(pMenuMap.getId());
+            List<LzhAdminMenusRightsEntity> subMenus = (List) r.getData();
+            List<LzhAdminMenusRightsEntity> subList = new ArrayList<LzhAdminMenusRightsEntity>();
+            for (LzhAdminMenusRightsEntity sMenuMap : subMenus) {
+                subList.add(sMenuMap);
+            }
+            pageMenus.setSubMenus(subList);
+            menuVS.add(pageMenus);
+            i++;
+        }
+        return menuVS;
     }
 
     @Bean
@@ -81,4 +120,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     ILoginService loginService;
+    @Autowired
+    IndexMvcService indexMvcService;
 }

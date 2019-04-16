@@ -1,11 +1,15 @@
 package com.rjpa.repository.Entity;
 
-import javax.persistence.*;
-import java.util.Objects;
+import org.hibernate.annotations.Proxy;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
+@Proxy(lazy = false)
 @Entity
 @Table(name = "lzh_admin_user_role", schema = "driverschool", catalog = "")
-public class LzhAdminUserRoleEntity {
+public class LzhAdminUserRoleEntity implements Serializable {
+    private static final long serialVersionUID = -9120609032109835739L;
     private int id;
     private long userId;
     private long roleId;

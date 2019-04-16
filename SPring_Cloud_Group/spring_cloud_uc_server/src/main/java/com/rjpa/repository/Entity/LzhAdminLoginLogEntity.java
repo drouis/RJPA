@@ -1,12 +1,14 @@
 package com.rjpa.repository.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "lzh_admin_login_log", schema = "driverschool", catalog = "")
-public class LzhAdminLoginLogEntity {
+public class LzhAdminLoginLogEntity implements Serializable {
+    private static final long serialVersionUID = -7434411915359225734L;
     private int id;
     private int logincount;
     private String loginname;

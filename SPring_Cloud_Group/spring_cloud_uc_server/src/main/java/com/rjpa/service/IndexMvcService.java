@@ -12,6 +12,7 @@ public interface IndexMvcService {
      * @return
      */
     public Result getAdminMenusRights(int parentid);
+    public Result getUserMenusRights(int parentid,int uid);
     public Result getAllAdminMenusRights();
     /**
      * 获取全部系统操作权限名称链接，adminPermission

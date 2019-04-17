@@ -42,6 +42,11 @@
             <artifactId>spring-security-oauth2</artifactId>
             <version>${spring-security-oauth.version}</version>
         </dependency>
+        <!-- AOP 切片依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <!-- 暴露指标 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

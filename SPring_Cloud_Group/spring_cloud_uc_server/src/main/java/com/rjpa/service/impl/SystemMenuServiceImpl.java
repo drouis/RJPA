@@ -161,8 +161,10 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
             AdminMenuV v = new AdminMenuV();
             BeanUtils.copyProperties(db, v);
             if (db.getParentid() != -1) {
-                LzhAdminMenusRightsEntity pdb = adminMenusRightsRepository.findById(db.getParentid());
-                v.setParentMenuName(pdb.getName());
+                List<LzhAdminMenusRightsEntity> pdbList = adminMenusRightsRepository.findById(db.getParentid());
+                if(null != pdbList){
+                    v.setParentMenuName(pdbList.get(0).getName());
+                }
             } else {
                 v.setParentMenuName("");
             }

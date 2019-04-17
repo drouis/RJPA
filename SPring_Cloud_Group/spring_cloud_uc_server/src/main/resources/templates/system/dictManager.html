@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/assets/font-awesome/4.5.0/css/font-awesome.min.css}"/>
     <!-- page specific plugin styles -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap-duallistbox.min.css}"/>
     <!-- text fonts -->
     <link rel="stylesheet" th:href="@{/assets/css/fonts.googleapis.com.css}"/>
     <!-- ace styles -->
@@ -191,59 +192,70 @@
                     </ul>
                 </li>
                 <!-- 邮件消息提醒展示标签 -->
-                <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-                    <li class="dropdown-header"><i class="ace-icon fa fa-envelope-o"></i>5 Messages</li>
-                    <li class="dropdown-content">
-                        <ul class="dropdown-menu dropdown-navbar">
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <!--<img src="assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>-->
-                                    <span class="msg-body">
-                                        <span class="msg-title"><span class="blue">Alex:</span>Ciao sociis natoque penatibus et auctor ...</span>
-                                        <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>a moment ago</span></span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <!--<img src="assets/images/avatars/avatar3.png" class="msg-photo"alt="Susan's Avatar"/>-->
-                                    <span class="msg-body">
-                                        <span class="msg-title"><span class="blue">Susan:</span>Vestibulum id ligula porta felis euismod ...</span>
-                                        <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>20 minutes ago</span></span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <!--<img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar"/>-->
-                                    <span class="msg-body">
-                                        <span class="msg-title"><span class="blue">Bob:</span>Nullam quis risus eget urna mollis ornare ...</span>
-                                        <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>3:15 pm</span></span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <!--<img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar"/>-->
-                                    <span class="msg-body">
-                                        <span class="msg-title"><span class="blue">Kate:</span>Ciao sociis natoque eget urna mollis ornare ...</span>
-                                        <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>1:33 pm</span></span>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="clearfix">
-                                    <!--<img src="assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar"/>-->
-                                    <span class="msg-body">
-                                        <span class="msg-title"><span class="blue">Fred:</span>Vestibulum id penatibus et auctor  ...</span>
-                                        <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>10:09 am</span></span>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown-footer"><a href="inbox.html">See all messages<i class="ace-icon fa fa-arrow-right"></i></a></li>
-                </ul>
+                <li class="green dropdown-modal">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <i class="ace-icon fa fa-envelope icon-animated-vertical"></i>
+                        <span class="badge badge-success">5</span>
+                    </a>
+                    <!-- 邮件消息提醒内容标签 -->
+                    <ul class="dropdown-menu-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+                        <li class="dropdown-header"><i class="ace-icon fa fa-envelope-o"></i>5 Messages</li>
+                        <li class="dropdown-content">
+                            <ul class="dropdown-menu dropdown-navbar">
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <!--<img src="assets/images/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar"/>-->
+                                        <span class="msg-body">
+                                            <span class="msg-title"><span class="blue">Alex:</span>Ciao sociis natoque penatibus et auctor ...</span>
+                                            <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>a moment ago</span></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <!--<img src="assets/images/avatars/avatar3.png" class="msg-photo"alt="Susan's Avatar"/>-->
+                                        <span class="msg-body">
+                                            <span class="msg-title"><span class="blue">Susan:</span>Vestibulum id ligula porta felis euismod ...</span>
+                                            <span class="msg-time"><i class="ace-icon fa fa-clock-o"></i><span>20 minutes ago</span></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <!--<img src="assets/images/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar"/>-->
+                                        <span class="msg-body">
+                                            <span class="msg-title"><span class="blue">Bob:</span>Nullam quis risus eget urna mollis ornare ...</span>
+                                            <span class="msg-time"><i
+                                                    class="ace-icon fa fa-clock-o"></i><span>3:15 pm</span></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <!--<img src="assets/images/avatars/avatar2.png" class="msg-photo" alt="Kate's Avatar"/>-->
+                                        <span class="msg-body">
+                                            <span class="msg-title"><span class="blue">Kate:</span>Ciao sociis natoque eget urna mollis ornare ...</span>
+                                            <span class="msg-time"><i
+                                                    class="ace-icon fa fa-clock-o"></i><span>1:33 pm</span></span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="clearfix">
+                                        <!--<img src="assets/images/avatars/avatar5.png" class="msg-photo" alt="Fred's Avatar"/>-->
+                                        <span class="msg-body">
+                                            <span class="msg-title"><span class="blue">Fred:</span>Vestibulum id penatibus et auctor  ...</span>
+                                            <span class="msg-time"><i
+                                                    class="ace-icon fa fa-clock-o"></i><span>10:09 am</span></span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-footer"><a href="inbox.html">See all messages<i
+                                class="ace-icon fa fa-arrow-right"></i></a></li>
+                    </ul>
+                </li>
                 <!-- 头像区域 -->
                 <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
@@ -299,7 +311,7 @@
                 <span class="btn btn-danger"></span>
             </div>
         </div><!-- /.sidebar-shortcuts -->
-        <!-- 菜单列表 -->
+        <!-- 字典列表 -->
         <ul class="nav nav-list">
             <li th:each="menu:${menuVS}">
                 <a th:href="${menu.url}" th:class="@{dropdown-toggle}">
@@ -330,21 +342,8 @@
                         <i class="ace-icon fa fa-home home-icon"></i>
                         <a href="#">主界面</a>
                     </li>
-                    <li class="active">系统用户管理</li>
+                    <li class="active">系统字典管理</li>
                 </ul><!-- /.breadcrumb -->
-            </div>
-            <input type="hidden" id="errCodeVal" th:value="${errMsg.code}" />
-            <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
-                <button class="close" type="button" data-dismiss="alert">
-                    <i class="ace-icon fa fa-times red"></i>
-                </button>
-                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <strong class="green" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
-            </div>
-            <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
-                <button class="close" type="button" data-dismiss="alert">
-                    <i class="ace-icon fa fa-times red"></i>
-                </button>
-                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <strong class="warning" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
             </div>
             <div class="page-content">
                 <!-- 悬浮工具栏 -->
@@ -397,7 +396,7 @@
                             <div class="ace-settings-item">
                                 <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover"
                                        autocomplete="off"/>
-                                <label class="lbl" for="ace-settings-hover"> 悬停显示子菜单</label>
+                                <label class="lbl" for="ace-settings-hover"> 悬停显示子字典</label>
                             </div>
                             <div class="ace-settings-item">
                                 <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact"
@@ -414,94 +413,81 @@
                 </div><!-- /.ace-settings-container -->
                 <!-- 页面内容 -->
                 <div class="page-header">
-                    <h1>主页面<small>&nbsp;<a th:href="@{/sys/sysUser_0_0_0}" target="_self"><i class="ace-icon fa fa-angle-double-right" th:text="@{系统用户管理}"></i></a></small></h1>
+                    <h1>主页面
+                        <a th:href="@{/sys/sysDict_0_0_0}" target="_self"><small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统字典管理</small></a>
+                    </h1>
                 </div><!-- /.page-header -->
 
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- PAGE CONTENT BEGINS -->
-                        <!-- 系统用户列表 -->
+                        <!-- 系统字典列表 -->
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 widget-container-col" id="widget-container-col-1">
                                 <div class="widget-box" id="widget-box-1">
                                     <div class="widget-header">
-                                        <h5 class="widget-title">系统用户信息</h5>
+                                        <h5 class="widget-title">系统字典信息</h5>
                                         <div class="widget-toolbar">
                                             <div class="widget-menu">
                                                 <a href="#" data-action="settings" data-toggle="dropdown">
                                                     <i class="ace-icon fa fa-bars"></i>
                                                 </a>
                                                 <ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-                                                    <li><a th:href="@{/sys/sysUser_0_0_0}">重置数据</a></li>
+                                                    <li><a th:href="@{/sys/sysRole_0_0_0}">重置数据</a></li>
                                                 </ul>
                                             </div>
                                             <a href="#" data-action="fullscreen" class="orange2">
                                                 <i class="ace-icon fa fa-expand"></i>
                                             </a>
-                                            <!--<a href="#" data-action="reload">-->
-                                            <!--<i class="ace-icon fa fa-refresh"></i>-->
-                                            <!--</a>-->
-                                            <!--<a href="#" data-action="reload">-->
-                                            <!--<i class="ace-icon fa fa-check"></i>-->
-                                            <!--</a>-->
                                             <a href="#" data-action="collapse">
                                                 <i class="ace-icon fa fa-chevron-up"></i>
                                             </a>
-                                            <!--<a href="#" data-action="close">-->
-                                            <!--<i class="ace-icon fa fa-times"></i>-->
-                                            <!--</a>-->
                                         </div>
                                     </div>
                                     <div class="widget-body">
                                         <div class="widget-main">
-                                            <form id="userForm" class="form-horizontal" role="form" th:action="@{/sys/addSysUser}" target="_self" method="post">
-                                                <input type="hidden" name="id" id="adminvID" th:value="${adminv.id}"/>
+                                            <form id="userForm" class="form-horizontal" role="form"
+                                                  th:action="@{/sys/addSysMenu}" target="_self" method="post">
+                                                <input type="hidden" name="id" th:value="${adminDictv.id}"/>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right"
-                                                           for="form-field-1"> 用户名 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 字典索引 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" id="form-field-1" class="col-xs-10 col-sm-5" name="userName" th:value="${adminv.userName}"/>
+                                                        <input type="text" id="form-field-1" class="col-xs-10 col-sm-5"
+                                                               name="name" th:value="${adminDictv.dcolumn}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right"
-                                                           for="form-field-2"> 密码 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 字典值 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="password" id="form-field-2" class="col-xs-10 col-sm-5" name="password"/>
+                                                        <input type="text" id="form-field-2" class="col-xs-10 col-sm-5"
+                                                               name="url" th:value="${adminDictv.dvalue}"/>
                                                     </div>
                                                 </div>
-                                                <div class="space-4"></div>
+
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right"
-                                                           for="form-field-3"> 实名 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 字典说明 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" id="form-field-3" class="col-xs-10 col-sm-5" name="realName" th:value="${adminv.realName}"/>
-                                                    </div>
-                                                </div>
-                                                <div class="space-4"></div>
-                                                <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right"
-                                                           for="form-field-4"> 年龄 </label>
-                                                    <div class="col-sm-9">
-                                                        <input type="text" id="form-field-4" class="col-xs-10 col-sm-5" name="age" th:value="${adminv.age}"/>
+                                                        <input type="text" id="form-field-3" class="col-xs-10 col-sm-5"
+                                                               name="classes" th:value="${adminDictv.dmemo}"/>
                                                     </div>
                                                 </div>
                                                 <div class="space-4"></div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right"
-                                                           for="form-field-5"> 手机号码 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-6"> 父字典 </label>
                                                     <div class="col-sm-9">
-                                                        <input type="text" id="form-field-5" class="col-xs-10 col-sm-5" name="phoneNumber" th:value="${adminv.phoneNumber}"/>
+                                                        <select name="bundMenuSelect" id="form-field-6" class="col-sm-5">
+                                                            <option value="-1">主字典</option>
+                                                            <option th:each="select:${bundSysdictSelect}" th:value="${select.selectValue}" th:text="${select.selectText}" th:selected="${select.selected}"></option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="clearfix form-actions">
                                                     <div class="col-md-offset-3 col-md-9">
-                                                        <button class="btn btn-info" type="button" id="userSubmitButton">
-                                                            <i class="ace-icon fa fa-check bigger-110"></i>Submit
+                                                        <button class="btn btn-info" style="margin: 15px" type="submit">
+                                                            <i class="ace-icon fa fa-check bigger-110"></i>保存数据
                                                         </button>
-                                                        &nbsp; &nbsp; &nbsp;
-                                                        <button class="btn" type="reset" onclick="formReset()">
-                                                            <i class="ace-icon fa fa-undo bigger-110"></i>Reset
+                                                        <button class="btn" type="reset" onclick="formReset()"><i
+                                                                class="ace-icon fa fa-undo bigger-110"></i>数据重置
                                                         </button>
                                                     </div>
                                                 </div>
@@ -511,9 +497,11 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- 数据分栏行 -->
+                        <div class="hr hr32 hr-dotted"></div>
                         <div class="row">
                             <div class="col-xs-12">
-                                <table id="simple-table" class="table  table-bordered table-hover">
+                                <table id="simple-table" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th class="center">
@@ -522,57 +510,42 @@
                                                 <span class="lbl"></span>
                                             </label>
                                         </th>
-                                        <th>用户名</th>
-                                        <th>用户实名</th>
-                                        <th>用户权限</th>
-                                        <th class="hidden-480">注册日期</th>
-                                        <th><i class="ace-icon fa fa-clock-o bigger-110 hidden-480"></i>Update</th>
-                                        <th class="hidden-480">状态</th>
+                                        <th>字典说明</th>
+                                        <th>字典索引</th>
+                                        <th>字典值</th>
+                                        <th>父字典</th>
                                         <th></th>
                                     </tr>
                                     </thead>
-                                    <tbody style="height: 300px;overflow-scrolling: auto">
-                                    <tr th:each="admin,adminStat:${admins}">
+                                    <tbody>
+                                    <tr th:each="dict,dictStat:${adminDicts}">
                                         <td class="center">
                                             <label class="pos-rel"><input type="checkbox" class="ace"/>
                                                 <span class="lbl"></span></label>
                                         </td>
                                         <td>
-                                            <a href="#" th:text="${admin.userName}"></a>
+                                            <a href="#" th:text="${dict.dmemo}"></a>
                                         </td>
-                                        <td th:text="${admin.realName}"></td>
-                                        <td th:text="${admin.roleNameStr}"></td>
-                                        <td class="hidden-480" th:text="${admin.addDate}"></td>
-                                        <td th:text="${admin.updateDate}"></td>
-                                        <td class="hidden-480">
-                                            <span class="label label-sm label-success" th:if="${admin.state} eq '1'">启用</span>
-                                            <span class="label label-sm label-warning" th:if="${admin.state} eq '2'">停用</span>
-                                            <span class="label label-sm label-warning" th:if="${admin.state} eq '3'">删除</span>
-                                        </td>
-
+                                        <td th:text="${menu.dcolumn}"></td>
+                                        <td th:text="${menu.classes}"></td>
+                                        <td th:text="${menu.dvalue}"></td>
+                                        <td th:text="${menu.dpresent}"></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a th:href="'javascript:editUserJsonP(2,'+${admin.id}+')'">
-                                                    <button class="btn btn-xs btn-success"
-                                                            th:if="${admin.state} ge '2'">
-                                                        <i class="ace-icon fa fa-check bigger-120"></i> 启用
+                                                <a th:href="@{/sys/initSysMenu?id=}+${menu.id}">
+                                                    <button class="btn btn-xs btn-info"><i
+                                                            class="ace-icon fa fa-pencil bigger-120"></i> 编辑
                                                     </button>
                                                 </a>
-                                                <a th:href="'javascript:editUserJsonP(1,'+${admin.id}+')'">
-                                                    <button class="btn btn-xs btn-warning"
-                                                            th:if="${admin.state} eq '1'">
-                                                        <i class="ace-icon fa fa-flag bigger-120"></i> 停用
+                                                <a th:href="'javascript:editUserJsonP(3,'+${menu.id}+')'">
+                                                    <button class="btn btn-xs btn-danger"><i
+                                                            class="ace-icon fa fa-trash-o bigger-120"></i> 删除
                                                     </button>
                                                 </a>
-                                                <a th:href="@{/sys/initSysUser?id=}+${admin.id}">
-                                                    <button class="btn btn-xs btn-info">
-                                                        <i class="ace-icon fa fa-pencil bigger-120"></i> 编辑
+                                                <a th:href="@{/sys/getBundSubMenu?id=}+${menu.id}">
+                                                    <button class="btn btn-xs "><i
+                                                            class="ace-icon fa fa-exchange bigger-120"></i> 编辑子字典
                                                     </button>
-                                                </a>
-                                                <a th:href="'javascript:editUserJsonP(3,'+${admin.id}+')'">
-                                                <button class="btn btn-xs btn-danger">
-                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i> 删除
-                                                </button>
                                                 </a>
                                             </div>
                                         </td>
@@ -580,16 +553,85 @@
                                     </tbody>
                                 </table>
                             </div><!-- /.span -->
-                        </div><!-- /.row -->
+                        </div>
                         <!-- 数据分栏行 -->
                         <div class="hr hr32 hr-dotted"></div>
-                        <div class="row">
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-7"></div>
-                        </div><!-- /.row -->
-                        <!-- 页面内容终止位 -->
+                        <!--<div class="row">-->
+                            <!--<div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-userRole">-->
+                                <!--<div class="widget-box" id="widget-box-userRole">-->
+                                    <!--<div class="widget-header">-->
+                                        <!--<h5 class="widget-title">系统字典列表</h5>-->
+                                        <!--<div class="widget-toolbar">-->
+                                            <!--<a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>-->
+                                            <!--<a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="widget-body">-->
+                                        <!--<div class="widget-main">-->
+                                            <!--<form id="bundRoleUserForm" class="form-horizontal" role="form" th:action="@{/sys/bundRoleUser}" method="post" target="_self">-->
+                                                <!--<input type="hidden" name="id" th:value="${adminRolev.id}"/>-->
+                                                <!--<input type="hidden" name="bundUserIds" id="bundUserIds"/>-->
+                                                <!--<div class="form-group">-->
+                                                    <!--<div class="col-xs-12">-->
+                                                        <!--<select multiple="multiple" name="sysUsers" id="sysUsers" size="10">-->
+                                                            <!--<option th:each="selectObj:${bundRoleUsers}"-->
+                                                                    <!--th:value="${selectObj.selectValue}"-->
+                                                                    <!--th:text="${selectObj.selectText}"-->
+                                                                    <!--th:selected="${selectObj.selected}"></option>-->
+                                                        <!--</select>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="space-4"></div>-->
+                                                <!--<div class="clearfix form-actions">-->
+                                                    <!--<div class="col-md-offset-3 col-md-9">-->
+                                                        <!--<button class="btn btn-info" type="button" id="bundRoleUserbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定字典字典</button>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</form>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-rolePermission">-->
+                                <!--<div class="widget-box" id="widget-box-rolePermission">-->
+                                    <!--<div class="widget-header">-->
+                                        <!--<h5 class="widget-title">系统权限列表</h5>-->
+                                        <!--<div class="widget-toolbar">-->
+                                            <!--<a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>-->
+                                            <!--<a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="widget-body">-->
+                                        <!--<div class="widget-main">-->
+                                            <!--<form id="bundRolePermissionForm" class="form-horizontal" role="form" th:action="@{/sys/bundRolePermission}" method="post" target="_self">-->
+                                                <!--<input type="hidden" name="id" th:value="${adminRolev.id}"/>-->
+                                                <!--<input type="hidden" name="bundRolePermissionIds" id="bundRolePermissionIds"/>-->
+                                                <!--<div class="form-group">-->
+                                                    <!--<div class="col-xs-12">-->
+                                                        <!--<select multiple="multiple" name="rolePermissions" id="rolePermissions" size="10">-->
+                                                            <!--<option th:each="selectObj:${bundRolePermissions}"-->
+                                                                    <!--th:value="${selectObj.selectValue}"-->
+                                                                    <!--th:text="${selectObj.selectText}"-->
+                                                                    <!--th:selected="${selectObj.selected}"></option>-->
+                                                        <!--</select>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="space-4"></div>-->
+                                                <!--<div class="clearfix form-actions">-->
+                                                    <!--<div class="col-md-offset-3 col-md-9">-->
+                                                        <!--<button class="btn btn-info" type="button" id="bundRolePermissionbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定字典访问权限</button>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                            <!--</form>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
+                    <div class="hr hr32 hr-dotted"></div>
+                    <!-- 页面内容终止位 -->
                 </div><!-- /.row -->
             </div><!-- /.page-content -->
         </div>
@@ -618,10 +660,11 @@
 <script th:src="@{/assets/js/jquery-1.11.3.min.js}"></script>
 <![endif]-->
 <script type="text/javascript">
-    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    if ('ontouchstart' in document.documentElement) document.write("<script src='/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
 </script>
 <script th:src="@{/assets/js/bootstrap.min.js}"></script>
 <!-- page specific plugin scripts -->
+<script th:src="@{/assets/js/jquery.bootstrap-duallistbox.min.js}"></script>
 <script th:src="@{/assets/js/jquery.dataTables.min.js}"></script>
 <script th:src="@{/assets/js/jquery.dataTables.bootstrap.min.js}"></script>
 <script th:src="@{/assets/js/dataTables.buttons.min.js}"></script>
@@ -632,39 +675,51 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function ($) {
-        var errCodeVal = $("#errCodeVal").val();
-        if (errCodeVal != 0) {
-            if (errCodeVal == 200) {
-                $("#succMsgDiv").slideToggle("slow");
-            } else {
-                $("#errMsgDiv").slideToggle("slow");
-            }
-        }
-        $("#userSubmitButton").click(function () {
-            var adminvID = $("#adminvID").val();
-            if(adminvID ==0){
-                $("#userForm").attr("action","/micoUSC/sys/addSysUser");
-            }else {
-                $("#userForm").attr("action","/micoUSC/sys/editSysUser");
-            }
-            $("#userForm").submit();
+        $('select[name="sysUsers"]').bootstrapDualListbox({
+            nonSelectedListLabel: "系统字典列表",
+            selectedListLabel: "已绑定字典列表",
+            preserveSelectionOnMove: "moved",
+            showFilterInputs: false,
+        });
+        $('select[name="rolePermissions"]').bootstrapDualListbox({
+            nonSelectedListLabel: "系统权限列表",
+            selectedListLabel: "已绑定权限列表",
+            preserveSelectionOnMove: "moved",
+            showFilterInputs: false,
+        });
+
+        //in ajax mode, remove remaining elements before leaving page
+        $(document).one('ajaxloadstart.page', function (e) {
+            $('[class*=select2]').remove();
+            $('.rating').raty('destroy');
+            $('.multiselect').multiselect('destroy');
+        });
+        $("#bundRoleUserbtn").click(function () {
+            var bundUserIdVal = $('[name="sysUsers"]').val();
+            $("#bundUserIds").val(bundUserIdVal);
+            $("#bundRoleUserForm").submit();
+        });
+        $("#bundRolePermissionbtn").click(function () {
+            var bundPermissionIdVal = $('[name="rolePermissions"]').val();
+            $("#bundRolePermissionIds").val(bundPermissionIdVal);
+            $("#bundRolePermissionForm").submit();
         });
     });
     function editUserJsonP(state, uid) {
         var jumpUrl = '';
         if (state == 1) {
-            jumpUrl = "/micoUSC/sys/stopSysUser"
-        } else if (state == 2){
-            jumpUrl = "/micoUSC/sys/actiSysUser"
-        } else if(state == 3){
-            jumpUrl = "/micoUSC/sys/delSysUser"
+            jumpUrl = "/micoUSC/sys/stopSysRole"
+        } else if (state == 2) {
+            jumpUrl = "/micoUSC/sys/actiSysRole"
+        } else if (state == 3) {
+            jumpUrl = "/micoUSC/sys/delSysRole"
         }
         var data = new Object();
-        data.id= uid;
+        data.id = uid;
         $.ajax({
             url: jumpUrl,
             type: "POST",
-            data:data,
+            data: data,
             dataType: "jsonp",  //指定服务器返回的数据类型
             jsonp: "callback",   //指定参数名称
             jsonpCallback: "reloadPage",  //指定回调函数名称
@@ -673,9 +728,11 @@
             }
         });
     }
+
     function reloadPage(obj) {
         window.document.location.reload();
     }
+
     function formReset() {
         document.getElementById("userForm").reset()
     }

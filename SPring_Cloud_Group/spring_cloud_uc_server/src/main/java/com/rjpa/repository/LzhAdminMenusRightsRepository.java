@@ -14,7 +14,7 @@ public interface LzhAdminMenusRightsRepository extends JpaRepository<LzhAdminMen
     List<LzhAdminMenusRightsEntity> getLzhAdminMenusRightsEntitiesByParentidOrderByClassesAsc(int parentid);
 
     @Cacheable
-    LzhAdminMenusRightsEntity findById(int mid);
+    List<LzhAdminMenusRightsEntity> findById(int mid);
 
     @Cacheable
     List<LzhAdminMenusRightsEntity> findByName(String name);

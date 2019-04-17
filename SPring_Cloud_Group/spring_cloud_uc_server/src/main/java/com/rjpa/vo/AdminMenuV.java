@@ -2,9 +2,11 @@ package com.rjpa.vo;
 
 import com.rjpa.repository.Entity.LzhAdminMenusRightsEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AdminMenuV extends LzhAdminMenusRightsEntity {
+public class AdminMenuV extends LzhAdminMenusRightsEntity implements Serializable {
+    private static final long serialVersionUID = 2330782517677665907L;
     String parentMenuName;
 
     List<LzhAdminMenusRightsEntity> subMenus;

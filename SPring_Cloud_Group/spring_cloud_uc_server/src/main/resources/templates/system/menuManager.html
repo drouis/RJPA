@@ -267,7 +267,7 @@
                         <li><a href="#"><i class="ace-icon fa fa-cog"></i>Settings</a></li>
                         <li><a href="profile.html"><i class="ace-icon fa fa-user"></i>Profile</a></li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="ace-icon fa fa-power-off"></i>Logout</a></li>
+                        <li><a th:href="@{/logout}"><i class="ace-icon fa fa-power-off"></i>Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -573,79 +573,6 @@
                         </div>
                         <!-- 数据分栏行 -->
                         <div class="hr hr32 hr-dotted"></div>
-                        <!--<div class="row">-->
-                            <!--<div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-userRole">-->
-                                <!--<div class="widget-box" id="widget-box-userRole">-->
-                                    <!--<div class="widget-header">-->
-                                        <!--<h5 class="widget-title">系统菜单列表</h5>-->
-                                        <!--<div class="widget-toolbar">-->
-                                            <!--<a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>-->
-                                            <!--<a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="widget-body">-->
-                                        <!--<div class="widget-main">-->
-                                            <!--<form id="bundRoleUserForm" class="form-horizontal" role="form" th:action="@{/sys/bundRoleUser}" method="post" target="_self">-->
-                                                <!--<input type="hidden" name="id" th:value="${adminRolev.id}"/>-->
-                                                <!--<input type="hidden" name="bundUserIds" id="bundUserIds"/>-->
-                                                <!--<div class="form-group">-->
-                                                    <!--<div class="col-xs-12">-->
-                                                        <!--<select multiple="multiple" name="sysUsers" id="sysUsers" size="10">-->
-                                                            <!--<option th:each="selectObj:${bundRoleUsers}"-->
-                                                                    <!--th:value="${selectObj.selectValue}"-->
-                                                                    <!--th:text="${selectObj.selectText}"-->
-                                                                    <!--th:selected="${selectObj.selected}"></option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="space-4"></div>-->
-                                                <!--<div class="clearfix form-actions">-->
-                                                    <!--<div class="col-md-offset-3 col-md-9">-->
-                                                        <!--<button class="btn btn-info" type="button" id="bundRoleUserbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定菜单菜单</button>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</form>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-rolePermission">-->
-                                <!--<div class="widget-box" id="widget-box-rolePermission">-->
-                                    <!--<div class="widget-header">-->
-                                        <!--<h5 class="widget-title">系统权限列表</h5>-->
-                                        <!--<div class="widget-toolbar">-->
-                                            <!--<a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>-->
-                                            <!--<a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="widget-body">-->
-                                        <!--<div class="widget-main">-->
-                                            <!--<form id="bundRolePermissionForm" class="form-horizontal" role="form" th:action="@{/sys/bundRolePermission}" method="post" target="_self">-->
-                                                <!--<input type="hidden" name="id" th:value="${adminRolev.id}"/>-->
-                                                <!--<input type="hidden" name="bundRolePermissionIds" id="bundRolePermissionIds"/>-->
-                                                <!--<div class="form-group">-->
-                                                    <!--<div class="col-xs-12">-->
-                                                        <!--<select multiple="multiple" name="rolePermissions" id="rolePermissions" size="10">-->
-                                                            <!--<option th:each="selectObj:${bundRolePermissions}"-->
-                                                                    <!--th:value="${selectObj.selectValue}"-->
-                                                                    <!--th:text="${selectObj.selectText}"-->
-                                                                    <!--th:selected="${selectObj.selected}"></option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="space-4"></div>-->
-                                                <!--<div class="clearfix form-actions">-->
-                                                    <!--<div class="col-md-offset-3 col-md-9">-->
-                                                        <!--<button class="btn btn-info" type="button" id="bundRolePermissionbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定菜单访问权限</button>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</form>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
-                        <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                     <div class="hr hr32 hr-dotted"></div>
                     <!-- 页面内容终止位 -->

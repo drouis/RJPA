@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class IndexPageMenuV extends LzhAdminMenusRightsEntity implements Serializable {
+    private static final long serialVersionUID = -608257631930777377L;
     String selected = "";
 
     List<LzhAdminMenusRightsEntity> subMenus;

@@ -80,20 +80,13 @@ public class SystemMenusMvcController {
         menuView.addObject("bundMenuSelect", pageSelectV);
         menuView.addObject("errMsg", errMsg);
         // TODO 4 共通处理
-        {
-            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
-                    .getAttribute("SPRING_SECURITY_CONTEXT");
-            User u = (User) securityContextImpl.getAuthentication().getPrincipal();
-            List<IndexPageMenuV> menuVS = u.getMenuVS();
-            menuView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
-            menuView.addObject("admin", u);
-        }
+        initCommonDatas(request);
         return menuView;
     }
 
     @Permission(name = "系统菜单初始化", permissionName = "local.micoUSC.sys.initSysMenu", permissionUrl = "/sys/initSysMenu")
     @RequestMapping(value = "/initSysMenu", method = RequestMethod.GET)
-    public ModelAndView initSysRole_(@RequestParam(value = "id") int mid) {
+    public ModelAndView initSysRole_(HttpServletRequest request, @RequestParam(value = "id") int mid) {
         // TODO 1 读取当前系统中所有的绑定菜单
         AdminMenuV adminMenuV = iSystemMenuService.getMenuByMId(mid);
         if (adminMenuV.getParentid() > 0) {
@@ -118,6 +111,8 @@ public class SystemMenusMvcController {
 
         menuView.addObject("errMsg", errMsg);
         menuView.addObject("bundMenuSelect", pageSelectV);
+        // TODO 4 共通处理
+        initCommonDatas(request);
         return menuView;
     }
 
@@ -126,7 +121,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "添加系统菜单", permissionName = "local.micoUSC.sys.addSysMenu", permissionUrl = "/sys/addSysMenu")
     @RequestMapping(value = "/addSysMenu", method = RequestMethod.POST)
-    public ModelAndView addSysRole_(AdminMenuV adminMenuV) {
+    public ModelAndView addSysRole_(HttpServletRequest request, AdminMenuV adminMenuV) {
         // TODO 1 菜单信息验证
         if (adminMenuV.getId() == 0 && adminMenuV.getBundMenuSelect() == -1) {
             // TODO 1.1 登陆名重复验证,绑定手机验证
@@ -163,6 +158,8 @@ public class SystemMenusMvcController {
             menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
         }
         menuView.addObject("errMsg", errMsg);
+        // TODO 4 共通处理
+        initCommonDatas(request);
         return menuView;
     }
 
@@ -171,7 +168,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "修改系统菜单", permissionName = "local.micoUSC.sys.editSysMenu", permissionUrl = "/sys/editSysMenu")
     @RequestMapping(value = "/editSysMenu", method = RequestMethod.POST)
-    public ModelAndView editSysRole_(AdminMenuV adminMenuV) {
+    public ModelAndView editSysRole_(HttpServletRequest request, AdminMenuV adminMenuV) {
         Result errMsg = new Result();
         // TODO 1 菜单信息验证
         // TODO 1.1 系统菜单存在验证
@@ -195,6 +192,8 @@ public class SystemMenusMvcController {
         Result r = iSystemMenuService.getMenus();
         menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
         menuView.addObject("errMsg", errMsg);
+        // TODO 4 共通处理
+        initCommonDatas(request);
         return menuView;
     }
 
@@ -238,11 +237,11 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "添加系统子菜单", permissionName = "local.micoUSC.sys.getBundSubMenu", permissionUrl = "/sys/getBundSubMenu")
     @RequestMapping(value = "/getBundSubMenu", method = RequestMethod.GET)
-    public ModelAndView getBundSubMenu_(AdminMenuV adminMenuV) {
+    public ModelAndView getBundSubMenu_(HttpServletRequest request, AdminMenuV adminMenuV) {
         // TODO 1 菜单信息验证
         // TODO 1.1 取得父菜单数据
         AdminMenuV parentMenuObj = iSystemMenuService.checkMenuExistByMId(adminMenuV.getId());
-        menuView.addObject(PAGE_MENU_PO_NAME, new AdminMenuV());
+        menuView.addObject(PAGE_MENU_PO_NAME, parentMenuObj);
         // TODO 2 读取当前菜单中绑定的子菜单
         Result r = iSystemMenuService.getSubMenusByMId(parentMenuObj.getId());
         menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
@@ -259,9 +258,19 @@ public class SystemMenusMvcController {
             pageSelectV.add(selectObject);
         }
         menuView.addObject("bundMenuSelect", pageSelectV);
-
         menuView.addObject("errMsg", errMsg);
+        // TODO 4 共通处理
+        initCommonDatas(request);
         return menuView;
+    }
+
+    private void initCommonDatas(HttpServletRequest request) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+                .getAttribute("SPRING_SECURITY_CONTEXT");
+        User u = (User) securityContextImpl.getAuthentication().getPrincipal();
+        List<IndexPageMenuV> menuVS = u.getMenuVS();
+        menuView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+        menuView.addObject("admin", u);
     }
 
     @Autowired

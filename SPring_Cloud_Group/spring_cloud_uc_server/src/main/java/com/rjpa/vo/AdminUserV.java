@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class AdminUserV extends LzhAdminEntity implements Serializable {
+    private static final long serialVersionUID = -641916441499345625L;
     List allowPermissionService;
 
     String roleNameStr;

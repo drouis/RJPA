@@ -15,6 +15,13 @@ import java.util.Collection;
 //@Component
 public class CustomAccessDecisionManager implements AccessDecisionManager {
 
+    /**
+     * 通过传递的参数来决定用户是否有访问对应受保护对象的权限
+     *
+     * @param authentication 当前正在请求受包含对象的Authentication
+     * @param o 受保护对象，其可以是一个MethodInvocation、JoinPoint或FilterInvocation。
+     * @param collection 与正在请求的受保护对象相关联的配置属性
+     **/
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
         // TODO 1.1 没有对应的访问权限限制，正常返回
@@ -36,11 +43,13 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
         throw new AccessDeniedException("无权限！");
     }
 
+    //表示当前AccessDecisionManager是否支持对应的ConfigAttribute
     @Override
     public boolean supports(ConfigAttribute configAttribute) {
         return true;
     }
 
+    //表示当前AccessDecisionManager是否支持对应的受保护对象类型
     @Override
     public boolean supports(Class<?> aClass) {
         return true;

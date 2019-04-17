@@ -37,6 +37,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * spring-security配置
+ * spring security四种实现方式
+ * 参考文件：https://blog.csdn.net/bao19901210/article/details/52574340
+ * 参考文件：https://blog.csdn.net/sinat_29899265/article/details/80771330
  */
 @Configuration
 @EnableWebSecurity
@@ -75,19 +78,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             http.authorizeRequests().regexMatchers(au).permitAll();// 采用正则表达式匹配白名单的url地址
         }
         //设置过滤器
-        // http.authorizeRequests().regexMatchers("/assets/*").permitAll().anyRequest().authenticated().and()
+        // TODO 解决不允许显示在iframe的问题
+        http.headers().frameOptions().disable();
+        // TODO 阻止CSRF 的攻击
+        http.csrf().disable();
+        // TODO 访问用户权限验证方式拦截器
         http.httpBasic().authenticationEntryPoint(getCustomLoginAuthEntryPoint())
-                .and()
-                .addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class)// 访问用户权限验证方式拦截器
-                .addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class)// 验证访问URL权限拦截器
-                .addFilterAt(new ConcurrentSessionFilter(sessionRegistry, sessionInformationExpiredStrategy()), ConcurrentSessionFilter.class)// session并发控制过滤器
-                .logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())
-                .and().csrf().disable()// 阻止CSRF 的攻击
-                .authorizeRequests().anyRequest().authenticated()
+                .and().addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+        // TODO 自定义验证访问URL权限拦截器
+        http.addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class);
+        // TODO session管理
+        // TODO session并发控制过滤器
+        http.addFilterAt(new ConcurrentSessionFilter(sessionRegistry, sessionInformationExpiredStrategy()), ConcurrentSessionFilter.class);
+        Result r = Result.error(SystemConstCode.USER_LOGIN_TIMEOUT.getCode(), SystemConstCode.USER_LOGIN_TIMEOUT.getMessage());
+        //TODO session失效后跳转
+        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?errMsg=" + gson.toJson(r)).sessionRegistry(sessionRegistry);
+        http.authorizeRequests().anyRequest().authenticated();
+        http.logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())
                 .and().formLogin().loginProcessingUrl("/Authlogin").loginPage("/login").permitAll()// 设置登陆信息和登陆权限
                 .and().logout().logoutUrl("/logout").permitAll(); // 配置登出信息和登出权限
-        Result r = Result.error(SystemConstCode.USER_LOGIN_TIMEOUT.getCode(), SystemConstCode.USER_LOGIN_TIMEOUT.getMessage());
-        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?errMsg=" + gson.toJson(r)).sessionRegistry(sessionRegistry);
+
+
         logger.debug("配置忽略验证url");
     }
 

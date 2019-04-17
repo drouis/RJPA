@@ -248,8 +248,8 @@
                 <li class="light-blue dropdown-modal">
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo" th:src="@{/assets/images/avatars/user.jpg}" alt="Jason's Photo"/>
-                        <span class="user-info"><small>欢迎,</small>管理员</span>
-                        <i class="ace-icon fa fa-caret-down"></i>
+                        <span class="user-info"><small>欢迎,</small><i th:text="${admin.userName}"></i>
+                            <i class="ace-icon fa fa-caret-down"></i></span>
                     </a>
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li><a href="#"><i class="ace-icon fa fa-cog"></i>Settings</a></li>
@@ -307,7 +307,7 @@
                 </a>
                 <ul class="submenu">
                     <li class="" th:each="subMenu:${menu.subMenus}">
-                        <a th:href="'/micoUSC'+ ${subMenu.url}" class="dropdown-toggle" target="_self">
+                        <a th:href="'/micoUSC'+ ${subMenu.url}" target="_self">
                             <i th:class="' menu-icon ' + ${subMenu.icon}"></i><span th:text="${subMenu.name}"/><b class="arrow"></b>
                         </a>
                     </li>

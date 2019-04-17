@@ -1,11 +1,9 @@
 package com.rjpa.controller.system;
 
 import anno.Permission;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
+import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.controller.IndexMvcController;
-import com.rjpa.redis.RedisDao;
 import com.rjpa.service.ISystemUserService;
 import com.rjpa.vo.AdminUserV;
 import com.rjpa.vo.IndexPageMenuV;
@@ -14,6 +12,7 @@ import model.utils.SystemConstCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +39,7 @@ public class SystemRoleUserMvcController {
 
     public static final String PAGE_USER_LIST_PO_NAME = "admins";
     public static final String PAGE_USER_PO_NAME = "adminv";
-    private static final ModelAndView indexView = new ModelAndView("/system/userManager");
+    private static final ModelAndView userView = new ModelAndView("/system/userManager");
     Result errMsg = new Result();
     Gson gson = new Gson();
 
@@ -55,23 +53,23 @@ public class SystemRoleUserMvcController {
      */
     @Permission(name = "系统用户列表", permissionName = "local.micoUSC.sys.sysUser", permissionUrl = "/sys/sysUser_")
     @RequestMapping(value = "/sysUser_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
-    public ModelAndView sysUser_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
+    public ModelAndView sysUser_(HttpServletRequest request, @PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的绑定用户
         Result r = iSystemUserService.getAdmins();
         AdminUserV adminv = new AdminUserV();
-        indexView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
-        indexView.addObject(PAGE_USER_PO_NAME, adminv);
-        // TODO 2 共通数据设定
-        String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
-        JSONArray ts = JSON.parseArray(str);
-        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
-        for (int i = 0; i < ts.size(); i++) {
-            IndexPageMenuV menu = gson.fromJson(ts.get(i).toString(), IndexPageMenuV.class);
-            menuVS.add(menu);
+        userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
+        userView.addObject(PAGE_USER_PO_NAME, adminv);
+        userView.addObject("errMsg", errMsg);
+        // TODO 4 共通处理
+        {
+            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+                    .getAttribute("SPRING_SECURITY_CONTEXT");
+            User u = (User) securityContextImpl.getAuthentication().getPrincipal();
+            List<IndexPageMenuV> menuVS = u.getMenuVS();
+            userView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+            userView.addObject("admin", u);
         }
-        indexView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
-        indexView.addObject("errMsg", errMsg);
-        return indexView;
+        return userView;
     }
 
     @Permission(name = "系统用户管理初始化", permissionName = "local.micoUSC.sys.initSysUser", permissionUrl = "/sys/initSysUser")
@@ -81,11 +79,11 @@ public class SystemRoleUserMvcController {
         errMsg = new Result();
         // TODO 1 读取当前系统中所有的绑定用户
         AdminUserV adminv = iSystemUserService.getUserByUId(id);
-        indexView.addObject(PAGE_USER_PO_NAME, adminv);
+        userView.addObject(PAGE_USER_PO_NAME, adminv);
         r = iSystemUserService.getAdmins();
-        indexView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
-        indexView.addObject("errMsg", errMsg);
-        return indexView;
+        userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
+        userView.addObject("errMsg", errMsg);
+        return userView;
     }
 
     /**
@@ -110,9 +108,9 @@ public class SystemRoleUserMvcController {
         }
         // TODO 2 读取当前系统中所有的绑定用户
         Result r = iSystemUserService.getAdmins();
-        indexView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
-        indexView.addObject("errMsg", errMsg);
-        return indexView;
+        userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
+        userView.addObject("errMsg", errMsg);
+        return userView;
     }
 
     /**
@@ -145,9 +143,9 @@ public class SystemRoleUserMvcController {
         }
         // TODO 2 读取当前系统中所有的绑定用户
         Result r = iSystemUserService.getAdmins();
-        indexView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
-        indexView.addObject("errMsg", errMsg);
-        return indexView;
+        userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
+        userView.addObject("errMsg", errMsg);
+        return userView;
     }
 
     /**
@@ -254,6 +252,4 @@ public class SystemRoleUserMvcController {
 
     @Autowired
     private ISystemUserService iSystemUserService;
-    @Autowired
-    RedisDao redisDao;
 }

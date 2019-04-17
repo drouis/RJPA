@@ -1,11 +1,9 @@
 package com.rjpa.controller.system;
 
 import anno.Permission;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
+import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.controller.IndexMvcController;
-import com.rjpa.redis.RedisDao;
 import com.rjpa.service.ISystemMenuService;
 import com.rjpa.service.IndexMvcService;
 import com.rjpa.vo.AdminMenuV;
@@ -16,6 +14,7 @@ import model.utils.SystemConstCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +58,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "系统菜单列表", permissionName = "local.micoUSC.sys.sysMenu", permissionUrl = "/sys/sysMenu_")
     @RequestMapping(value = "/sysMenu_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
-    public ModelAndView sysUser_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
+    public ModelAndView sysUser_(HttpServletRequest request, @PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的菜单
         Result r = iSystemMenuService.getSubMenusByMId(-1);
         AdminMenuV menuv = new AdminMenuV();
@@ -79,20 +78,16 @@ public class SystemMenusMvcController {
             pageSelectV.add(selectObject);
         }
         menuView.addObject("bundMenuSelect", pageSelectV);
-        // TODO 3 共通数据设定
-        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
-        try {
-            String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
-            JSONArray ts = JSON.parseArray(str);
-            for (int i = 0; i < ts.size(); i++) {
-                IndexPageMenuV menu = gson.fromJson(ts.get(i).toString(), IndexPageMenuV.class);
-                menuVS.add(menu);
-            }
-            menuView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
-        } catch (Exception e) {
-
-        }
         menuView.addObject("errMsg", errMsg);
+        // TODO 4 共通处理
+        {
+            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+                    .getAttribute("SPRING_SECURITY_CONTEXT");
+            User u = (User) securityContextImpl.getAuthentication().getPrincipal();
+            List<IndexPageMenuV> menuVS = u.getMenuVS();
+            menuView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+            menuView.addObject("admin", u);
+        }
         return menuView;
     }
 
@@ -101,9 +96,9 @@ public class SystemMenusMvcController {
     public ModelAndView initSysRole_(@RequestParam(value = "id") int mid) {
         // TODO 1 读取当前系统中所有的绑定菜单
         AdminMenuV adminMenuV = iSystemMenuService.getMenuByMId(mid);
-        if(adminMenuV.getParentid()>0){
+        if (adminMenuV.getParentid() > 0) {
             AdminMenuV pMenu = iSystemMenuService.getMenuByMId(adminMenuV.getParentid());
-            adminMenuV.setPermission(pMenu.getPermission()+".");
+            adminMenuV.setPermission(pMenu.getPermission() + ".");
         }
         menuView.addObject(PAGE_MENU_PO_NAME, adminMenuV);
         Result r = iSystemMenuService.getMenus();
@@ -273,6 +268,4 @@ public class SystemMenusMvcController {
     ISystemMenuService iSystemMenuService;
     @Autowired
     IndexMvcService indexMvcService;
-    @Autowired
-    RedisDao redisDao;
 }

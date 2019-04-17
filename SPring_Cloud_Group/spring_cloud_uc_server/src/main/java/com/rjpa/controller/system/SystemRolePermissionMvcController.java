@@ -1,11 +1,9 @@
 package com.rjpa.controller.system;
 
 import anno.Permission;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.google.gson.Gson;
+import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.controller.IndexMvcController;
-import com.rjpa.redis.RedisDao;
 import com.rjpa.repository.Entity.LzhAdminEntity;
 import com.rjpa.repository.Entity.LzhAdminPermissionEntity;
 import com.rjpa.service.ISystemPermissionService;
@@ -21,6 +19,7 @@ import model.utils.SystemConstCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,22 +64,23 @@ public class SystemRolePermissionMvcController {
      */
     @Permission(name = "系统角色列表", permissionName = "local.micoUSC.sys.sysRole", permissionUrl = "/sys/sysRole_")
     @RequestMapping(value = "/sysRole_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
-    public ModelAndView sysRole_(@PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
+    public ModelAndView sysRole_(HttpServletRequest request, @PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 1 读取当前系统中所有的角色
         Result r = iSystemRoleService.getRoles();
         AdminRoleV adminRoleV = new AdminRoleV();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
         roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, new ArrayList<SelectObject>());
-        // TODO 2 共通数据设定
-        String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
-        JSONArray ts = JSON.parseArray(str);
-        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
-        for (int i = 0; i < ts.size(); i++) {
-            IndexPageMenuV menu = gson.fromJson(ts.get(i).toString(), IndexPageMenuV.class);
-            menuVS.add(menu);
+
+        // TODO 4 共通处理
+        {
+            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+                    .getAttribute("SPRING_SECURITY_CONTEXT");
+            User u = (User) securityContextImpl.getAuthentication().getPrincipal();
+            List<IndexPageMenuV> menuVS = u.getMenuVS();
+            roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+            roleView.addObject("admin", u);
         }
-        roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
         return roleView;
     }
 
@@ -178,7 +178,6 @@ public class SystemRolePermissionMvcController {
                 errMsg = Result.error(SystemConstCode.ERROR.getMessage());
             }
         }
-
         // TODO 3 返回更新数据结果
         try {
             //前端传过来的回调函数名称
@@ -311,7 +310,7 @@ public class SystemRolePermissionMvcController {
             List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
             for (int i = 0; i < allPermissions.size(); i++) {
                 SelectObject selectObject = new SelectObject();
-                selectObject.setSelectText(allPermissions.get(i).getName() + " : [" + allPermissions.get(i).getDescription() + "]");
+                selectObject.setSelectText(allPermissions.get(i).getName() + " : [" + (StringUtils.isEmpty(allPermissions.get(i).getDescription())?"":" 菜单权限 ") + "]");
                 selectObject.setSelectValue(String.valueOf(allPermissions.get(i).getId()));
                 String checkStr = (String) bundPermissionMap.get(allPermissions.get(i).getId());
                 if (!StringUtils.isEmpty(checkStr)) {
@@ -325,15 +324,6 @@ public class SystemRolePermissionMvcController {
         Result r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
-        // TODO 6 共通数据设定
-        String str = redisDao.getCacheObject(IndexMvcController.MENU_REDIS_NAME);
-        JSONArray ts = JSON.parseArray(str);
-        List<IndexPageMenuV> menuVS = new ArrayList<IndexPageMenuV>();
-        for (int i = 0; i < ts.size(); i++) {
-            IndexPageMenuV menu = gson.fromJson(ts.get(i).toString(), IndexPageMenuV.class);
-            menuVS.add(menu);
-        }
-        roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
         return roleView;
     }
 
@@ -369,6 +359,4 @@ public class SystemRolePermissionMvcController {
     private ISystemUserService iSystemUserService;
     @Autowired
     private ISystemRoleService iSystemRoleService;
-    @Autowired
-    RedisDao redisDao;
 }

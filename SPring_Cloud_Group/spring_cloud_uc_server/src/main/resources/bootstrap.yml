@@ -25,6 +25,8 @@ spring:
     timeout: 36000
   main:
     allow-bean-definition-overriding: true
+  aop:
+    auto: true
 # tag::configuration-eureka[]
 eureka:
   instance:
@@ -62,7 +64,7 @@ management:
 ---
 # 匹配正则表达式
 security:
-  ignoring: "\\/actuator\\/(\\w+), /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
+  ignoring: "\\/actuator\\/(\\w+), /include/*.*, /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
   intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
   successUrl: "/welcome"
   logoutSuccessUrl: "/login"

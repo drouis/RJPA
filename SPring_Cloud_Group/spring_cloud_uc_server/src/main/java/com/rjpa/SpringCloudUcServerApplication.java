@@ -14,7 +14,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
 
 @EnableCaching
@@ -23,7 +25,8 @@ import org.springframework.context.annotation.ImportResource;
 @EnableZuulProxy
 @EnableHystrix
 @EnableFeignClients("com.rjpa.feign")
-@SpringBootApplication(scanBasePackages="com.rjpa")
+@SpringBootApplication(scanBasePackages="com.rjpa.**")
+@EnableAspectJAutoProxy
 public class SpringCloudUcServerApplication extends SpringBootServletInitializer implements CommandLineRunner {
     protected final static Logger logger = LoggerFactory.getLogger(SpringCloudUcServerApplication.class);
 

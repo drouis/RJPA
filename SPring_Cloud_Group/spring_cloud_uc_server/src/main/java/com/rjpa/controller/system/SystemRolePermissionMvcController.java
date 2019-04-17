@@ -71,22 +71,14 @@ public class SystemRolePermissionMvcController {
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
         roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, new ArrayList<SelectObject>());
-
-        // TODO 4 共通处理
-        {
-            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
-                    .getAttribute("SPRING_SECURITY_CONTEXT");
-            User u = (User) securityContextImpl.getAuthentication().getPrincipal();
-            List<IndexPageMenuV> menuVS = u.getMenuVS();
-            roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
-            roleView.addObject("admin", u);
-        }
+        // TODO 共通处理
+        initCommonDatas(request);
         return roleView;
     }
 
     @Permission(name = "系统角色数据初始化", permissionName = "local.micoUSC.sys.initSysRole", permissionUrl = "/sys/initSysRole")
     @RequestMapping(value = "/initSysRole", method = RequestMethod.GET)
-    public ModelAndView initSysRole_(@RequestParam(value = "id") int id) {
+    public ModelAndView initSysRole_(HttpServletRequest request, @RequestParam(value = "id") int id) {
         Result r = new Result();
         // TODO 1 读取当前系统中所有的绑定角色
         AdminRoleV adminRoleV = iSystemRoleService.getRoleByRId(id);
@@ -95,6 +87,8 @@ public class SystemRolePermissionMvcController {
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_BUND_ROLE_USERS_NAME, new ArrayList<SelectObject>());
         roleView.addObject(PAGE_BUND_ROLE_PERMISSIONS_NAME, new ArrayList<SelectObject>());
+        // TODO 共通处理
+        initCommonDatas(request);
         return roleView;
     }
 
@@ -103,7 +97,7 @@ public class SystemRolePermissionMvcController {
      */
     @Permission(name = "添加系统角色", permissionName = "local.micoUSC.sys.addSysRole", permissionUrl = "/sys/addSysRole")
     @RequestMapping(value = "/addSysRole", method = RequestMethod.POST)
-    public ModelAndView addSysRole_(AdminRoleV adminRoleV) {
+    public ModelAndView addSysRole_(HttpServletRequest request, AdminRoleV adminRoleV) {
         // TODO 1 角色信息验证
         // TODO 1.1 登陆名重复验证,绑定手机验证
         boolean checkFlg = iSystemRoleService.checkRoleExist(adminRoleV.getName(), adminRoleV.getRole());
@@ -119,6 +113,8 @@ public class SystemRolePermissionMvcController {
             errMsg = Result.error(SystemConstCode.ERROR.getMessage());
         }
         roleView.addObject("errMsg", errMsg);
+        // TODO 共通处理
+        initCommonDatas(request);
         return roleView;
     }
 
@@ -127,7 +123,7 @@ public class SystemRolePermissionMvcController {
      */
     @Permission(name = "修改系统权限", permissionName = "local.micoUSC.sys.editSysRole", permissionUrl = "/sys/editSysRole")
     @RequestMapping(value = "/editSysRole", method = RequestMethod.POST)
-    public ModelAndView editSysRole_(AdminRoleV adminRoleV) {
+    public ModelAndView editSysRole_(HttpServletRequest request, AdminRoleV adminRoleV) {
         Result errMsg = new Result();
         // TODO 1 角色信息验证
         // TODO 1.1 系统角色存在验证
@@ -153,6 +149,8 @@ public class SystemRolePermissionMvcController {
         Result r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject("errMsg", errMsg);
+        // TODO 共通处理
+        initCommonDatas(request);
         return roleView;
     }
 
@@ -263,7 +261,7 @@ public class SystemRolePermissionMvcController {
      */
     @Permission(name = "获取角色下的全部角色", permissionName = "local.micoUSC.sys.getBundRoleUser", permissionUrl = "/sys/getBundRoleUser")
     @RequestMapping(value = "/getBundRoleUser", method = RequestMethod.GET)
-    public ModelAndView getBundRoleUser_(AdminRoleV adminRoleV) {
+    public ModelAndView getBundRoleUser_(HttpServletRequest request, AdminRoleV adminRoleV) {
         Result errMsg = new Result();
         // TODO 1. 取得角色下的角色列表，对比系统绑定的数据，返回页面数据
         {
@@ -310,7 +308,7 @@ public class SystemRolePermissionMvcController {
             List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
             for (int i = 0; i < allPermissions.size(); i++) {
                 SelectObject selectObject = new SelectObject();
-                selectObject.setSelectText(allPermissions.get(i).getName() + " : [" + (StringUtils.isEmpty(allPermissions.get(i).getDescription())?"":" 菜单权限 ") + "]");
+                selectObject.setSelectText(allPermissions.get(i).getName() + " : [" + (StringUtils.isEmpty(allPermissions.get(i).getDescription()) ? "" : " 菜单权限 ") + "]");
                 selectObject.setSelectValue(String.valueOf(allPermissions.get(i).getId()));
                 String checkStr = (String) bundPermissionMap.get(allPermissions.get(i).getId());
                 if (!StringUtils.isEmpty(checkStr)) {
@@ -324,6 +322,8 @@ public class SystemRolePermissionMvcController {
         Result r = iSystemRoleService.getRoles();
         roleView.addObject(PAGE_ROLE_LIST_PO_NAME, r.getData());
         roleView.addObject(PAGE_ROLE_PO_NAME, adminRoleV);
+        // TODO 共通处理
+        initCommonDatas(request);
         return roleView;
     }
 
@@ -337,6 +337,8 @@ public class SystemRolePermissionMvcController {
                                       HttpServletRequest request, HttpServletResponse response) {
         String bundUserId[] = bundUserIds.split(",");
         iSystemUserService.bundRoleUsers(bundUserId, adminRoleV.getId());
+        // TODO 共通处理
+        initCommonDatas(request);
         return new ModelAndView("redirect:/sys/getBundRoleUser?id=" + adminRoleV.getId());
     }
 
@@ -350,7 +352,18 @@ public class SystemRolePermissionMvcController {
                                             HttpServletRequest request, HttpServletResponse response) {
         String bundPermissionId[] = bundRolePermissionIds.split(",");
         iSystemPermissionService.bundRolePermissions(bundPermissionId, adminRoleV.getId());
+        // TODO 共通处理
+        initCommonDatas(request);
         return new ModelAndView("redirect:/sys/getBundRoleUser?id=" + adminRoleV.getId());
+    }
+
+    private void initCommonDatas(HttpServletRequest request) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+                .getAttribute("SPRING_SECURITY_CONTEXT");
+        User u = (User) securityContextImpl.getAuthentication().getPrincipal();
+        List<IndexPageMenuV> menuVS = u.getMenuVS();
+        roleView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+        roleView.addObject("admin", u);
     }
 
     @Autowired

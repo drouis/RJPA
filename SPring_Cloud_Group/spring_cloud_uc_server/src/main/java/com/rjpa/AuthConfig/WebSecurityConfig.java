@@ -48,8 +48,6 @@ import org.springframework.stereotype.Component;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     Gson gson = new Gson();
-
-
     String successLoginIndexUrls = "/welcome";
     @Value("${security.ignoring}")
     String ignoringUrls;

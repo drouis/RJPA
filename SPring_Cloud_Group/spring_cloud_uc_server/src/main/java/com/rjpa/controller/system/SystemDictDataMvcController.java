@@ -6,7 +6,6 @@ import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.controller.IndexMvcController;
 import com.rjpa.repository.Entity.SysDictcodeEntity;
 import com.rjpa.repository.SysDictCodeRepository;
-import com.rjpa.vo.AdminMenuV;
 import com.rjpa.vo.IndexPageMenuV;
 import com.rjpa.vo.SysDictV;
 import model.Result;
@@ -40,7 +39,7 @@ public class SystemDictDataMvcController {
 
     public static final String PAGE_DICT_LIST_PO_NAME = "adminDicts";
     public static final String PAGE_DICT_PO_NAME = "adminDictv";
-    private static final ModelAndView dictView = new ModelAndView("/system/menuManager");
+    private static final ModelAndView dictView = new ModelAndView("/system/dictManager");
 
     Result errMsg = new Result();
     Gson gson = new Gson();
@@ -69,15 +68,17 @@ public class SystemDictDataMvcController {
         dictView.addObject(PAGE_DICT_PO_NAME, new SysDictV());
         dictView.addObject("errMsg", errMsg);
         // TODO 4 共通处理
-        {
-            SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
-                    .getAttribute("SPRING_SECURITY_CONTEXT");
-            User u = (User) securityContextImpl.getAuthentication().getPrincipal();
-            List<IndexPageMenuV> menuVS = u.getMenuVS();
-            dictView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
-            dictView.addObject("admin", u);
-        }
+        initCommonDatas(request);
         return dictView;
+    }
+
+    private void initCommonDatas(HttpServletRequest request) {
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
+                .getAttribute("SPRING_SECURITY_CONTEXT");
+        User u = (User) securityContextImpl.getAuthentication().getPrincipal();
+        List<IndexPageMenuV> menuVS = u.getMenuVS();
+        dictView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
+        dictView.addObject("admin", u);
     }
 
     @Autowired

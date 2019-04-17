@@ -202,7 +202,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "删除系统菜单", permissionName = "local.micoUSC.sys.delSysMenu", permissionUrl = "/sys/delSysMenu")
     @RequestMapping(value = "/delSysMenu", method = RequestMethod.POST)
-    public void delSysRole_(AdminMenuV adminMenuV, HttpServletRequest request, HttpServletResponse response) {
+    public void delSysMenu_(AdminMenuV adminMenuV, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         Result errMsg = new Result();

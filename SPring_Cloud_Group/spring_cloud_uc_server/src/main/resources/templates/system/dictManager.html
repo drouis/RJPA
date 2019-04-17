@@ -446,9 +446,9 @@
                                     </div>
                                     <div class="widget-body">
                                         <div class="widget-main">
-                                            <form id="userForm" class="form-horizontal" role="form"
+                                            <form id="dictCodeForm" class="form-horizontal" role="form"
                                                   th:action="@{/sys/addSysMenu}" target="_self" method="post">
-                                                <input type="hidden" name="id" th:value="${adminDictv.id}"/>
+                                                <input type="hidden" name="id" th:value="${adminDictv.did}"/>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 字典索引 </label>
                                                     <div class="col-sm-9">
@@ -520,29 +520,28 @@
                                     <tbody>
                                     <tr th:each="dict,dictStat:${adminDicts}">
                                         <td class="center">
-                                            <label class="pos-rel"><input type="checkbox" class="ace"/>
+                                            <label class="pos-rel"><input type="checkbox" class="ace" th:value="${dict.did}"/>
                                                 <span class="lbl"></span></label>
                                         </td>
                                         <td>
                                             <a href="#" th:text="${dict.dmemo}"></a>
                                         </td>
-                                        <td th:text="${menu.dcolumn}"></td>
-                                        <td th:text="${menu.classes}"></td>
-                                        <td th:text="${menu.dvalue}"></td>
-                                        <td th:text="${menu.dpresent}"></td>
+                                        <td th:text="${dict.dcolumn}"></td>
+                                        <td th:text="${dict.dvalue}"></td>
+                                        <td th:text="${dict.dpresent}"></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a th:href="@{/sys/initSysMenu?id=}+${menu.id}">
+                                                <a th:href="@{/sys/initSysMenu?id=}+${dict.did}">
                                                     <button class="btn btn-xs btn-info"><i
                                                             class="ace-icon fa fa-pencil bigger-120"></i> 编辑
                                                     </button>
                                                 </a>
-                                                <a th:href="'javascript:editUserJsonP(3,'+${menu.id}+')'">
+                                                <a th:href="'javascript:editSysdictJsonP('+${dict.did}+')'">
                                                     <button class="btn btn-xs btn-danger"><i
                                                             class="ace-icon fa fa-trash-o bigger-120"></i> 删除
                                                     </button>
                                                 </a>
-                                                <a th:href="@{/sys/getBundSubMenu?id=}+${menu.id}">
+                                                <a th:href="@{/sys/getBundSubMenu?id=}+${dict.did}">
                                                     <button class="btn btn-xs "><i
                                                             class="ace-icon fa fa-exchange bigger-120"></i> 编辑子字典
                                                     </button>
@@ -556,78 +555,6 @@
                         </div>
                         <!-- 数据分栏行 -->
                         <div class="hr hr32 hr-dotted"></div>
-                        <!--<div class="row">-->
-                            <!--<div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-userRole">-->
-                                <!--<div class="widget-box" id="widget-box-userRole">-->
-                                    <!--<div class="widget-header">-->
-                                        <!--<h5 class="widget-title">系统字典列表</h5>-->
-                                        <!--<div class="widget-toolbar">-->
-                                            <!--<a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>-->
-                                            <!--<a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="widget-body">-->
-                                        <!--<div class="widget-main">-->
-                                            <!--<form id="bundRoleUserForm" class="form-horizontal" role="form" th:action="@{/sys/bundRoleUser}" method="post" target="_self">-->
-                                                <!--<input type="hidden" name="id" th:value="${adminRolev.id}"/>-->
-                                                <!--<input type="hidden" name="bundUserIds" id="bundUserIds"/>-->
-                                                <!--<div class="form-group">-->
-                                                    <!--<div class="col-xs-12">-->
-                                                        <!--<select multiple="multiple" name="sysUsers" id="sysUsers" size="10">-->
-                                                            <!--<option th:each="selectObj:${bundRoleUsers}"-->
-                                                                    <!--th:value="${selectObj.selectValue}"-->
-                                                                    <!--th:text="${selectObj.selectText}"-->
-                                                                    <!--th:selected="${selectObj.selected}"></option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="space-4"></div>-->
-                                                <!--<div class="clearfix form-actions">-->
-                                                    <!--<div class="col-md-offset-3 col-md-9">-->
-                                                        <!--<button class="btn btn-info" type="button" id="bundRoleUserbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定字典字典</button>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</form>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="col-xs-6 col-sm-6 widget-container-col" id="widget-container-col-rolePermission">-->
-                                <!--<div class="widget-box" id="widget-box-rolePermission">-->
-                                    <!--<div class="widget-header">-->
-                                        <!--<h5 class="widget-title">系统权限列表</h5>-->
-                                        <!--<div class="widget-toolbar">-->
-                                            <!--<a href="#" data-action="fullscreen" class="orange2"><i class="ace-icon fa fa-expand"></i></a>-->
-                                            <!--<a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="widget-body">-->
-                                        <!--<div class="widget-main">-->
-                                            <!--<form id="bundRolePermissionForm" class="form-horizontal" role="form" th:action="@{/sys/bundRolePermission}" method="post" target="_self">-->
-                                                <!--<input type="hidden" name="id" th:value="${adminRolev.id}"/>-->
-                                                <!--<input type="hidden" name="bundRolePermissionIds" id="bundRolePermissionIds"/>-->
-                                                <!--<div class="form-group">-->
-                                                    <!--<div class="col-xs-12">-->
-                                                        <!--<select multiple="multiple" name="rolePermissions" id="rolePermissions" size="10">-->
-                                                            <!--<option th:each="selectObj:${bundRolePermissions}"-->
-                                                                    <!--th:value="${selectObj.selectValue}"-->
-                                                                    <!--th:text="${selectObj.selectText}"-->
-                                                                    <!--th:selected="${selectObj.selected}"></option>-->
-                                                        <!--</select>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                                <!--<div class="space-4"></div>-->
-                                                <!--<div class="clearfix form-actions">-->
-                                                    <!--<div class="col-md-offset-3 col-md-9">-->
-                                                        <!--<button class="btn btn-info" type="button" id="bundRolePermissionbtn"><i class="ace-icon fa fa-check bigger-110"></i>绑定字典访问权限</button>-->
-                                                    <!--</div>-->
-                                                <!--</div>-->
-                                            <!--</form>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>&lt;!&ndash; /.row &ndash;&gt;-->
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->
                     <div class="hr hr32 hr-dotted"></div>
@@ -675,47 +602,12 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function ($) {
-        $('select[name="sysUsers"]').bootstrapDualListbox({
-            nonSelectedListLabel: "系统字典列表",
-            selectedListLabel: "已绑定字典列表",
-            preserveSelectionOnMove: "moved",
-            showFilterInputs: false,
-        });
-        $('select[name="rolePermissions"]').bootstrapDualListbox({
-            nonSelectedListLabel: "系统权限列表",
-            selectedListLabel: "已绑定权限列表",
-            preserveSelectionOnMove: "moved",
-            showFilterInputs: false,
-        });
-
         //in ajax mode, remove remaining elements before leaving page
-        $(document).one('ajaxloadstart.page', function (e) {
-            $('[class*=select2]').remove();
-            $('.rating').raty('destroy');
-            $('.multiselect').multiselect('destroy');
-        });
-        $("#bundRoleUserbtn").click(function () {
-            var bundUserIdVal = $('[name="sysUsers"]').val();
-            $("#bundUserIds").val(bundUserIdVal);
-            $("#bundRoleUserForm").submit();
-        });
-        $("#bundRolePermissionbtn").click(function () {
-            var bundPermissionIdVal = $('[name="rolePermissions"]').val();
-            $("#bundRolePermissionIds").val(bundPermissionIdVal);
-            $("#bundRolePermissionForm").submit();
-        });
     });
-    function editUserJsonP(state, uid) {
-        var jumpUrl = '';
-        if (state == 1) {
-            jumpUrl = "/micoUSC/sys/stopSysRole"
-        } else if (state == 2) {
-            jumpUrl = "/micoUSC/sys/actiSysRole"
-        } else if (state == 3) {
-            jumpUrl = "/micoUSC/sys/delSysRole"
-        }
+    function editSysdictJsonP(did) {
+        var jumpUrl = "/micoUSC/sys/delSysRole";
         var data = new Object();
-        data.id = uid;
+        data.did = did;
         $.ajax({
             url: jumpUrl,
             type: "POST",
@@ -728,13 +620,11 @@
             }
         });
     }
-
     function reloadPage(obj) {
         window.document.location.reload();
     }
-
     function formReset() {
-        document.getElementById("userForm").reset()
+        document.getElementById("dictCodeForm").reset()
     }
 </script>
 </body>

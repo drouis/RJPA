@@ -13,7 +13,7 @@ spring:
     active: native
     # 静态文件请求匹配方式
   mvc:
-    static-path-pattern: /**
+    static-path-pattern: /assets
     # 修改默认的静态寻址资源目录 多个使用逗号分隔
   resources:
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
@@ -25,8 +25,6 @@ spring:
     timeout: 36000
   main:
     allow-bean-definition-overriding: true
-  aop:
-    auto: true
 # tag::configuration-eureka[]
 eureka:
   instance:

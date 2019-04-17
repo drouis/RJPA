@@ -446,7 +446,7 @@
                                     </div>
                                     <div class="widget-body">
                                         <div class="widget-main">
-                                            <form id="userForm" class="form-horizontal" role="form"
+                                            <form id="menuForm" class="form-horizontal" role="form"
                                                   th:action="@{/sys/addSysMenu}" target="_self" method="post">
                                                 <input type="hidden" name="id" th:value="${adminMenuv.id}"/>
                                                 <div class="form-group">
@@ -554,7 +554,7 @@
                                                             class="ace-icon fa fa-pencil bigger-120"></i> 编辑
                                                     </button>
                                                 </a>
-                                                <a th:href="'javascript:editUserJsonP(3,'+${menu.id}+')'">
+                                                <a th:href="'javascript:editMenuJsonP('+${menu.id}+')'">
                                                     <button class="btn btn-xs btn-danger"><i
                                                             class="ace-icon fa fa-trash-o bigger-120"></i> 删除
                                                     </button>
@@ -619,45 +619,10 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function ($) {
-        $('select[name="sysUsers"]').bootstrapDualListbox({
-            nonSelectedListLabel: "系统菜单列表",
-            selectedListLabel: "已绑定菜单列表",
-            preserveSelectionOnMove: "moved",
-            showFilterInputs: false,
-        });
-        $('select[name="rolePermissions"]').bootstrapDualListbox({
-            nonSelectedListLabel: "系统权限列表",
-            selectedListLabel: "已绑定权限列表",
-            preserveSelectionOnMove: "moved",
-            showFilterInputs: false,
-        });
 
-        //in ajax mode, remove remaining elements before leaving page
-        $(document).one('ajaxloadstart.page', function (e) {
-            $('[class*=select2]').remove();
-            $('.rating').raty('destroy');
-            $('.multiselect').multiselect('destroy');
-        });
-        $("#bundRoleUserbtn").click(function () {
-            var bundUserIdVal = $('[name="sysUsers"]').val();
-            $("#bundUserIds").val(bundUserIdVal);
-            $("#bundRoleUserForm").submit();
-        });
-        $("#bundRolePermissionbtn").click(function () {
-            var bundPermissionIdVal = $('[name="rolePermissions"]').val();
-            $("#bundRolePermissionIds").val(bundPermissionIdVal);
-            $("#bundRolePermissionForm").submit();
-        });
     });
-    function editUserJsonP(state, uid) {
-        var jumpUrl = '';
-        if (state == 1) {
-            jumpUrl = "/micoUSC/sys/stopSysRole"
-        } else if (state == 2) {
-            jumpUrl = "/micoUSC/sys/actiSysRole"
-        } else if (state == 3) {
-            jumpUrl = "/micoUSC/sys/delSysRole"
-        }
+    function editMenuJsonP(uid) {
+        var jumpUrl = "/micoUSC/sys/delSysMenu"
         var data = new Object();
         data.id = uid;
         $.ajax({
@@ -672,13 +637,11 @@
             }
         });
     }
-
     function reloadPage(obj) {
         window.document.location.reload();
     }
-
     function formReset() {
-        document.getElementById("userForm").reset()
+        document.getElementById("menuForm").reset()
     }
 </script>
 </body>

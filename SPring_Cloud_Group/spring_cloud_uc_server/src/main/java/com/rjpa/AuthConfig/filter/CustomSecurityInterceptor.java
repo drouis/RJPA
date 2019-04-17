@@ -34,7 +34,6 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
         FilterInvocation fi = new FilterInvocation(request, response, chain);
         try {
             invoke(fi);
-            ((HttpServletRequest)request).setAttribute("menus","123123");
         } catch (Exception e) {
             throw new CredentialsExpiredException(SystemConstCode.USER_LOGIN_TIMEOUT.getMessage());
         }

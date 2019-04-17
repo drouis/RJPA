@@ -79,7 +79,7 @@ public class SystemMenusMvcController {
         }
         menuView.addObject("bundMenuSelect", pageSelectV);
         menuView.addObject("errMsg", errMsg);
-        // TODO 4 共通处理
+        // TODO 共通处理
         initCommonDatas(request);
         return menuView;
     }
@@ -96,7 +96,7 @@ public class SystemMenusMvcController {
         menuView.addObject(PAGE_MENU_PO_NAME, adminMenuV);
         Result r = iSystemMenuService.getMenus();
         menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
-        // TODO 3 取得全部菜单列表作为下拉菜单
+        // TODO 2 取得全部菜单列表作为下拉菜单
         List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
         List<AdminMenuV> allMenus = (List) iSystemMenuService.getMenus().getData();
         for (AdminMenuV allMenu : allMenus) {
@@ -111,7 +111,7 @@ public class SystemMenusMvcController {
 
         menuView.addObject("errMsg", errMsg);
         menuView.addObject("bundMenuSelect", pageSelectV);
-        // TODO 4 共通处理
+        // TODO 共通处理
         initCommonDatas(request);
         return menuView;
     }
@@ -158,7 +158,7 @@ public class SystemMenusMvcController {
             menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
         }
         menuView.addObject("errMsg", errMsg);
-        // TODO 4 共通处理
+        // TODO 共通处理
         initCommonDatas(request);
         return menuView;
     }
@@ -192,7 +192,7 @@ public class SystemMenusMvcController {
         Result r = iSystemMenuService.getMenus();
         menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
         menuView.addObject("errMsg", errMsg);
-        // TODO 4 共通处理
+        // TODO 共通处理
         initCommonDatas(request);
         return menuView;
     }
@@ -259,7 +259,7 @@ public class SystemMenusMvcController {
         }
         menuView.addObject("bundMenuSelect", pageSelectV);
         menuView.addObject("errMsg", errMsg);
-        // TODO 4 共通处理
+        // TODO 共通处理
         initCommonDatas(request);
         return menuView;
     }

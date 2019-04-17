@@ -531,7 +531,7 @@
                                         <td th:text="${dict.dpresent}"></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
-                                                <a th:href="@{/sys/initSysMenu?id=}+${dict.did}">
+                                                <a th:href="@{/sys/initSysDictcode?id=}+${dict.did}">
                                                     <button class="btn btn-xs btn-info"><i
                                                             class="ace-icon fa fa-pencil bigger-120"></i> 编辑
                                                     </button>
@@ -541,9 +541,9 @@
                                                             class="ace-icon fa fa-trash-o bigger-120"></i> 删除
                                                     </button>
                                                 </a>
-                                                <a th:href="@{/sys/getBundSubMenu?id=}+${dict.did}">
+                                                <a th:href="@{/sys/getBundSubDict?id=}+${dict.did}">
                                                     <button class="btn btn-xs "><i
-                                                            class="ace-icon fa fa-exchange bigger-120"></i> 编辑子字典
+                                                            class="ace-icon fa fa-exchange bigger-120"></i> 编辑字典标准值
                                                     </button>
                                                 </a>
                                             </div>

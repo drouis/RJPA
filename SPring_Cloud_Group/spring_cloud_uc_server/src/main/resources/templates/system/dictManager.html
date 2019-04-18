@@ -346,6 +346,17 @@
                     <li class="active">系统字典管理</li>
                 </ul><!-- /.breadcrumb -->
             </div>
+            <input type="hidden" id="errCodeVal" th:value="${errMsg.code}" />
+            <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <small th:text="${errMsg.code}"></small>
+                <strong class="green" th:text="${errMsg.msg}"></strong>
+            </div>
+            <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <small id="errCodeText" th:text="${errMsg.code}"></small>
+                <strong class="warning" th:text="${errMsg.msg}" id="errMsgText"></strong>
+            </div>
             <div class="page-content">
                 <!-- 悬浮工具栏 -->
                 <div class="ace-settings-container" id="ace-settings-container">
@@ -448,20 +459,24 @@
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <form id="dictCodeForm" class="form-horizontal" role="form"
-                                                  th:action="@{/sys/addSysMenu}" target="_self" method="post">
-                                                <input type="hidden" name="id" th:value="${adminDictv.did}"/>
+                                                  th:action="@{/sys/addSysDictcode}" target="_self" method="post">
+                                                <input type="hidden" name="did" th:value="${adminDictv.did}"/>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 字典索引 </label>
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-9" th:if="${adminDictv.did == 0}">
                                                         <input type="text" id="form-field-1" class="col-xs-10 col-sm-5"
-                                                               name="name" th:value="${adminDictv.dcolumn}"/>
+                                                               name="dcolumn" th:value="${adminDictv.dcolumn}" />
+                                                    </div>
+                                                    <div class="col-sm-9" th:if="${adminDictv.did > 0}">
+                                                        <input type="text" id="form-field-1" class="col-xs-10 col-sm-5"
+                                                               name="dcolumn" th:value="${adminDictv.dcolumn}" readonly />
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 字典值 </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-2" class="col-xs-10 col-sm-5"
-                                                               name="url" th:value="${adminDictv.dvalue}"/>
+                                                               name="dvalue" th:value="${adminDictv.dvalue}"/>
                                                     </div>
                                                 </div>
 
@@ -469,14 +484,14 @@
                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 字典说明 </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-3" class="col-xs-10 col-sm-5"
-                                                               name="classes" th:value="${adminDictv.dmemo}"/>
+                                                               name="dmemo" th:value="${adminDictv.dmemo}"/>
                                                     </div>
                                                 </div>
                                                 <div class="space-4"></div>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-6"> 父字典 </label>
                                                     <div class="col-sm-9">
-                                                        <select name="bundMenuSelect" id="form-field-6" class="col-sm-5">
+                                                        <select name="bundSysdictcodeSelect" id="form-field-6" class="col-sm-5">
                                                             <option value="-1">主字典</option>
                                                             <option th:each="select:${bundSysdictSelect}" th:value="${select.selectValue}" th:text="${select.selectText}" th:selected="${select.selected}"></option>
                                                         </select>
@@ -603,7 +618,23 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function ($) {
-        //in ajax mode, remove remaining elements before leaving page
+        var errCodeVal = $("#errCodeVal").val();
+        if (errCodeVal != 0) {
+            if (errCodeVal == 200) {
+                $("#succMsgDiv").slideToggle("slow");
+            } else {
+                $("#errMsgDiv").slideToggle("slow");
+            }
+        }
+        $("#userSubmitButton").click(function () {
+            var adminvID = $("#adminvID").val();
+            if(adminvID ==0){
+                $("#userForm").attr("action","/micoUSC/sys/addSysUser");
+            }else {
+                $("#userForm").attr("action","/micoUSC/sys/editSysUser");
+            }
+            $("#userForm").submit();
+        });
     });
     function editSysdictJsonP(did) {
         var jumpUrl = "/micoUSC/sys/delSysRole";
@@ -622,7 +653,14 @@
         });
     }
     function reloadPage(obj) {
-        window.document.location.reload();
+        var msg = eval(obj)
+        if (msg.code != 200) {
+            $("#errCodeText").text(msg.code);
+            $("#errMsgText").text(msg.msg);
+            $("#errMsgDiv").show("slow");
+        } else {
+            window.document.location.reload();
+        }
     }
     function formReset() {
         document.getElementById("dictCodeForm").reset()

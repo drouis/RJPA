@@ -345,6 +345,17 @@
                     <li class="active">系统用户管理</li>
                 </ul><!-- /.breadcrumb -->
             </div>
+            <input type="hidden" id="errCodeVal" th:value="${errMsg.code}" />
+            <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <small th:text="${errMsg.code}"></small>
+                <strong class="green" th:text="${errMsg.msg}"></strong>
+            </div>
+            <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <small id="errCodeText" th:text="${errMsg.code}"></small>
+                <strong class="warning" th:text="${errMsg.msg}" id="errMsgText"></strong>
+            </div>
             <div class="page-content">
                 <!-- 悬浮工具栏 -->
                 <div class="ace-settings-container" id="ace-settings-container">
@@ -678,6 +689,23 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function ($) {
+        var errCodeVal = $("#errCodeVal").val();
+        if (errCodeVal != 0) {
+            if (errCodeVal == 200) {
+                $("#succMsgDiv").slideToggle("slow");
+            } else {
+                $("#errMsgDiv").slideToggle("slow");
+            }
+        }
+        $("#userSubmitButton").click(function () {
+            var adminvID = $("#adminvID").val();
+            if(adminvID ==0){
+                $("#userForm").attr("action","/micoUSC/sys/addSysUser");
+            }else {
+                $("#userForm").attr("action","/micoUSC/sys/editSysUser");
+            }
+            $("#userForm").submit();
+        });
         $('select[name="sysUsers"]').bootstrapDualListbox({
             nonSelectedListLabel: "系统用户列表",
             selectedListLabel: "已绑定用户列表",
@@ -735,9 +763,15 @@
     }
 
     function reloadPage(obj) {
-        window.document.location.reload();
+        var msg = eval(obj)
+        if (msg.code != 200) {
+            $("#errCodeText").text(msg.code);
+            $("#errMsgText").text(msg.msg);
+            $("#errMsgDiv").show("slow");
+        } else {
+            window.document.location.reload();
+        }
     }
-
     function formReset() {
         document.getElementById("userForm").reset()
     }

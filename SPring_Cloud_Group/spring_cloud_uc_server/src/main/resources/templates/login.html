@@ -40,15 +40,27 @@
                             <span class="white" id="id-text2">Application</span>
                         </h1>
                     </div>
+                    <div th:if="${null != errMsg}">
+                    <input type="hidden" id="errCodeVal" th:value="${errMsg.code}" />
+                    <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
+                        <button class="close" type="button" data-dismiss="alert">
+                            <i class="ace-icon fa fa-times red"></i>
+                        </button>
+                        <i class="ace-icon fa fa-check green"></i> 请求处理成功 <strong class="green" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
+                    </div>
+                    <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
+                        <button class="close" type="button" data-dismiss="alert">
+                            <i class="ace-icon fa fa-times red"></i>
+                        </button>
+                        <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <strong class="warning" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
+                    </div>
+                    </div>
                     <div class="space-6"></div>
                     <div class="position-relative">
                         <div id="login-box" class="login-box visible widget-box no-border">
                             <div class="widget-body">
                                 <div class="widget-main">
-                                    <h4 class="header blue lighter bigger">
-                                        <i class="ace-icon fa fa-coffee green"></i>
-                                        请输入登陆信息
-                                    </h4>
+                                    <h4 class="header blue lighter bigger"><i class="ace-icon fa fa-coffee green"></i>请输入登陆信息</h4>
                                     <div class="space-6"></div>
                                     <form th:action="@{/Authlogin}" target="_self" th:method="@{post}">
                                         <fieldset>
@@ -163,6 +175,23 @@
             var target = $(this).data('target');
             $('.widget-box.visible').removeClass('visible');//hide others
             $(target).addClass('visible');//show target
+        });
+        var errCodeVal = $("#errCodeVal").val();
+        if (errCodeVal != 0) {
+            if (errCodeVal == 200) {
+                $("#succMsgDiv").slideToggle("slow");
+            } else {
+                $("#errMsgDiv").slideToggle("slow");
+            }
+        }
+        $("#userSubmitButton").click(function () {
+            var adminvID = $("#adminvID").val();
+            if(adminvID ==0){
+                $("#userForm").attr("action","/micoUSC/sys/addSysUser");
+            }else {
+                $("#userForm").attr("action","/micoUSC/sys/editSysUser");
+            }
+            $("#userForm").submit();
         });
     });
     //you don't need this, just used for changing background

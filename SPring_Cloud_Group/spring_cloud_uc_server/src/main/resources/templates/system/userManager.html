@@ -335,16 +335,14 @@
             </div>
             <input type="hidden" id="errCodeVal" th:value="${errMsg.code}" />
             <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
-                <button class="close" type="button" data-dismiss="alert">
-                    <i class="ace-icon fa fa-times red"></i>
-                </button>
-                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <strong class="green" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <small th:text="${errMsg.code}"></small>
+                <strong class="green" th:text="${errMsg.msg}"></strong>
             </div>
             <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
-                <button class="close" type="button" data-dismiss="alert">
-                    <i class="ace-icon fa fa-times red"></i>
-                </button>
-                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <strong class="warning" th:text="${errMsg.msg}"><small th:text="${errMsg.code}"></small></strong>
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <small id="errCodeText" th:text="${errMsg.code}"></small>
+                <strong class="warning" th:text="${errMsg.msg}" id="errMsgText"></strong>
             </div>
             <div class="page-content">
                 <!-- 悬浮工具栏 -->
@@ -665,7 +663,14 @@
         });
     }
     function reloadPage(obj) {
-        window.document.location.reload();
+        var msg = eval(obj)
+        if (msg.code != 200) {
+            $("#errCodeText").text(msg.code);
+            $("#errMsgText").text(msg.msg);
+            $("#errMsgDiv").show("slow");
+        } else {
+            window.document.location.reload();
+        }
     }
     function formReset() {
         document.getElementById("userForm").reset()

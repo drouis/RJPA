@@ -54,30 +54,29 @@ public class SystemRoleUserMvcController {
     @Permission(name = "系统用户列表", permissionName = "local.micoUSC.sys.sysUser", permissionUrl = "/sys/sysUser_")
     @RequestMapping(value = "/sysUser_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
     public ModelAndView sysUser_(HttpServletRequest request, @PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
+        // TODO 共通处理
+        initCommonDatas(request);
         // TODO 1 读取当前系统中所有的绑定用户
         Result r = iSystemUserService.getAdmins();
         AdminUserV adminv = new AdminUserV();
         userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
         userView.addObject(PAGE_USER_PO_NAME, adminv);
         userView.addObject("errMsg", errMsg);
-        // TODO 共通处理
-        initCommonDatas(request);
         return userView;
     }
 
     @Permission(name = "系统用户管理初始化", permissionName = "local.micoUSC.sys.initSysUser", permissionUrl = "/sys/initSysUser")
     @RequestMapping(value = "/initSysUser", method = RequestMethod.GET)
     public ModelAndView initSysUser_(HttpServletRequest request, @RequestParam(value = "id") int id) {
+        // TODO 共通处理
+        initCommonDatas(request);
         Result r = new Result();
-        errMsg = new Result();
         // TODO 1 读取当前系统中所有的绑定用户
         AdminUserV adminv = iSystemUserService.getUserByUId(id);
         userView.addObject(PAGE_USER_PO_NAME, adminv);
         r = iSystemUserService.getAdmins();
         userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
         userView.addObject("errMsg", errMsg);
-        // TODO 共通处理
-        initCommonDatas(request);
         return userView;
     }
 
@@ -87,7 +86,8 @@ public class SystemRoleUserMvcController {
     @Permission(name = "添加系统用户", permissionName = "local.micoUSC.sys.addSysUser", permissionUrl = "/sys/addSysUser")
     @RequestMapping(value = "/addSysUser", method = RequestMethod.POST)
     public ModelAndView addSysUser_(HttpServletRequest request, AdminUserV adminUserV) {
-        errMsg = new Result();
+        // TODO 共通处理
+        initCommonDatas(request);
         // TODO 1 用户信息验证
         // TODO 1.1 登陆名重复验证,绑定手机验证
         boolean checkFlg = iSystemUserService.checkUserExist(adminUserV.getUserName(), adminUserV.getPhoneNumber());
@@ -105,8 +105,6 @@ public class SystemRoleUserMvcController {
         Result r = iSystemUserService.getAdmins();
         userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
         userView.addObject("errMsg", errMsg);
-        // TODO 共通处理
-        initCommonDatas(request);
         return userView;
     }
 
@@ -116,7 +114,8 @@ public class SystemRoleUserMvcController {
     @Permission(name = "修改系统用户", permissionName = "local.micoUSC.sys.editSysUser", permissionUrl = "/sys/editSysUser")
     @RequestMapping(value = "/editSysUser", method = RequestMethod.POST)
     public ModelAndView editSysUser_(HttpServletRequest request, AdminUserV adminUserV) {
-        errMsg = new Result();
+        // TODO 共通处理
+        initCommonDatas(request);
         // TODO 1 用户信息验证
         // TODO 1.1 系统用户存在验证
         AdminUserV checkData = iSystemUserService.checkUserExistByUId(adminUserV.getId());
@@ -142,8 +141,6 @@ public class SystemRoleUserMvcController {
         Result r = iSystemUserService.getAdmins();
         userView.addObject(PAGE_USER_LIST_PO_NAME, r.getData());
         userView.addObject("errMsg", errMsg);
-        // TODO 共通处理
-        initCommonDatas(request);
         return userView;
     }
 
@@ -250,12 +247,14 @@ public class SystemRoleUserMvcController {
     }
 
     private void initCommonDatas(HttpServletRequest request) {
+        errMsg = new Result();
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
                 .getAttribute("SPRING_SECURITY_CONTEXT");
         User u = (User) securityContextImpl.getAuthentication().getPrincipal();
         List<IndexPageMenuV> menuVS = u.getMenuVS();
         userView.addObject(IndexMvcController.MENU_REDIS_NAME, menuVS);
         userView.addObject("admin", u);
+        userView.addObject("errMsg", errMsg);
     }
 
     @Autowired

@@ -346,6 +346,17 @@
                     <li class="active">系统菜单管理</li>
                 </ul><!-- /.breadcrumb -->
             </div>
+            <input type="hidden" id="errCodeVal" th:value="${errMsg.code}"/>
+            <div class="alert alert-block alert-success" id="succMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-check green"></i> 请求处理成功 <small th:text="${errMsg.code}"></small>
+                <strong class="green" th:text="${errMsg.msg}"></strong>
+            </div>
+            <div class="alert alert-block alert-danger red" id="errMsgDiv" style="display: none">
+                <button class="close" type="button" data-dismiss="alert"><i class="ace-icon fa fa-times red"></i></button>
+                <i class="ace-icon fa fa-times bigger-110 red"></i> 请求处理失败 <small id="errCodeText" th:text="${errMsg.code}"></small>
+                <strong class="warning" th:text="${errMsg.msg}" id="errMsgText"></strong>
+            </div>
             <div class="page-content">
                 <!-- 悬浮工具栏 -->
                 <div class="ace-settings-container" id="ace-settings-container">
@@ -415,7 +426,9 @@
                 <!-- 页面内容 -->
                 <div class="page-header">
                     <h1>主页面
-                        <a th:href="@{/sys/sysMenu_0_0_0}" target="_self"><small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统菜单管理</small></a>
+                        <a th:href="@{/sys/sysMenu_0_0_0}" target="_self">
+                            <small><i class="ace-icon fa fa-angle-double-right"></i>&nbsp; 系统菜单管理</small>
+                        </a>
                     </h1>
                 </div><!-- /.page-header -->
 
@@ -451,14 +464,16 @@
                                                   th:action="@{/sys/addSysMenu}" target="_self" method="post">
                                                 <input type="hidden" name="id" th:value="${adminMenuv.id}"/>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 系统菜单名称 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-1"> 系统菜单名称 </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-1" class="col-xs-10 col-sm-5"
                                                                name="name" th:value="${adminMenuv.name}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-2"> 系统菜单访问地址 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-2"> 系统菜单访问地址 </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-2" class="col-xs-10 col-sm-5"
                                                                name="url" th:value="${adminMenuv.url}"/>
@@ -466,21 +481,24 @@
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-3"> 系统菜单排序 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-3"> 系统菜单排序 </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-3" class="col-xs-10 col-sm-5"
                                                                name="classes" th:value="${adminMenuv.classes}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-4"> 系统菜单权限 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-4"> 系统菜单权限 </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-4" class="col-xs-10 col-sm-5"
                                                                name="permission" th:value="${adminMenuv.permission}"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-5"> 系统菜单ICON </label>
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-5"> 系统菜单ICON </label>
                                                     <div class="col-sm-9">
                                                         <input type="text" id="form-field-5" class="col-xs-10 col-sm-5"
                                                                name="icon" th:value="${adminMenuv.icon}"/>
@@ -488,11 +506,16 @@
                                                 </div>
                                                 <div class="space-4"></div>
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-6"> 父菜单 </label>
+                                                    <label class="col-sm-3 control-label no-padding-right"
+                                                           for="form-field-6"> 父菜单 </label>
                                                     <div class="col-sm-9">
-                                                        <select name="bundMenuSelect" id="form-field-6" class="col-sm-5">
+                                                        <select name="bundMenuSelect" id="form-field-6"
+                                                                class="col-sm-5">
                                                             <option value="-1">主菜单</option>
-                                                            <option th:each="select:${bundMenuSelect}" th:value="${select.selectValue}" th:text="${select.selectText}" th:selected="${select.selected}"></option>
+                                                            <option th:each="select:${bundMenuSelect}"
+                                                                    th:value="${select.selectValue}"
+                                                                    th:text="${select.selectText}"
+                                                                    th:selected="${select.selected}"></option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -520,12 +543,12 @@
                                     <thead>
                                     <tr>
                                         <th class="center"></th>
-                                        <th >系统菜单名称</th>
-                                        <th >系统菜单访问地址</th>
-                                        <th >系统菜单排序</th>
-                                        <th >父菜单</th>
-                                        <th >系统菜单权限</th>
-                                        <th >系统菜单ICON</th>
+                                        <th>系统菜单名称</th>
+                                        <th>系统菜单访问地址</th>
+                                        <th>系统菜单排序</th>
+                                        <th>父菜单</th>
+                                        <th>系统菜单权限</th>
+                                        <th>系统菜单ICON</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -542,7 +565,7 @@
                                         <td th:text="${menu.classes}"></td>
                                         <td th:text="${menu.parentMenuName}"></td>
                                         <td th:text="${menu.permission}"></td>
-                                        <td ><i th:class="'ace-icon '+${menu.icon}"></i></td>
+                                        <td><i th:class="'ace-icon '+${menu.icon}"></i></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs btn-group">
                                                 <a th:href="@{/sys/initSysMenu?id=}+${menu.id}">
@@ -615,7 +638,23 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
     jQuery(function ($) {
-
+        var errCodeVal = $("#errCodeVal").val();
+        if (errCodeVal != 0) {
+            if (errCodeVal == 200) {
+                $("#succMsgDiv").slideToggle("slow");
+            } else {
+                $("#errMsgDiv").slideToggle("slow");
+            }
+        }
+        $("#userSubmitButton").click(function () {
+            var adminvID = $("#adminvID").val();
+            if (adminvID == 0) {
+                $("#userForm").attr("action", "/micoUSC/sys/addSysUser");
+            } else {
+                $("#userForm").attr("action", "/micoUSC/sys/editSysUser");
+            }
+            $("#userForm").submit();
+        });
     });
     function editMenuJsonP(uid) {
         var jumpUrl = "/micoUSC/sys/delSysMenu"
@@ -634,7 +673,14 @@
         });
     }
     function reloadPage(obj) {
-        window.document.location.reload();
+        var msg = eval(obj)
+        if (msg.code != 200) {
+            $("#errCodeText").text(msg.code);
+            $("#errMsgText").text(msg.msg);
+            $("#errMsgDiv").show("slow");
+        } else {
+            window.document.location.reload();
+        }
     }
     function formReset() {
         document.getElementById("menuForm").reset()

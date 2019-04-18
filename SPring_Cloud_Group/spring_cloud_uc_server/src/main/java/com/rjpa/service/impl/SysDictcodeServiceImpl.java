@@ -42,7 +42,7 @@ public class SysDictcodeServiceImpl implements ISysDictcodeService {
     @Override
     public boolean checkSysDictcodeExist(String dcolumn) {
         List<SysDictcodeEntity> dbData = sysDictCodeRepository.findByDcolumn(dcolumn);
-        if (null != dbData) {
+        if (null != dbData && 0 < dbData.size()) {
             return true;
         }
         return false;

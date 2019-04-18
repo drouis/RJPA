@@ -103,9 +103,11 @@ public class SystemPermissionServiceImpl implements ISystemPermissionService {
         for (LzhAdminRolePermissionEntity bundPermissionId : bundRolePermissions) {
             try {
                 LzhAdminPermissionEntity p = (LzhAdminPermissionEntity) adminPermissionRepository.findById(new Long(bundPermissionId.getPermissionId()).intValue());
-                AdminPermissionV v = new AdminPermissionV();
-                BeanUtils.copyProperties(p, v);
-                r.add(v);
+                if(null != p){
+                    AdminPermissionV v = new AdminPermissionV();
+                    BeanUtils.copyProperties(p, v);
+                    r.add(v);
+                }
             } catch (Exception e) {
                 System.out.println(bundPermissionId.getId() + bundPermissionId.getPermissionId() + bundPermissionId.getRoleId());
             }

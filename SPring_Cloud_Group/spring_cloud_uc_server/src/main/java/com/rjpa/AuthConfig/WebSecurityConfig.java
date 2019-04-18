@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.rjpa.AuthConfig.endPoint.CustomLoginAuthEntryPoint;
 import com.rjpa.AuthConfig.filter.CustomLoginFilter;
 import com.rjpa.AuthConfig.filter.CustomSecurityInterceptor;
+import com.rjpa.AuthConfig.handler.CustomAccessDeniedHandler;
 import com.rjpa.AuthConfig.handler.CustomLoginAuthFailureHandler;
 import com.rjpa.AuthConfig.handler.CustomLoginAuthSuccessHandler;
 import com.rjpa.AuthConfig.handler.CustomLogoutSuccessHandler;
@@ -91,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         Result r = Result.error(SystemConstCode.USER_LOGIN_TIMEOUT.getCode(), SystemConstCode.USER_LOGIN_TIMEOUT.getMessage());
         //TODO session失效后跳转
         http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?errMsg=" + gson.toJson(r)).sessionRegistry(sessionRegistry);
-        http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().anyRequest().authenticated().and().exceptionHandling().accessDeniedHandler(getCustomAccessDeniedHandler());
         http.logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())
                 .and().formLogin().loginProcessingUrl("/Authlogin").loginPage("/login").permitAll()// 设置登陆信息和登陆权限
                 .and().logout().logoutUrl("/logout").permitAll(); // 配置登出信息和登出权限
@@ -211,6 +212,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         if (logoutSuccessUrl != null) {
             handler.setLoginUrl(logoutSuccessUrl.toString());
         }
+        return handler;
+    }
+
+    public CustomAccessDeniedHandler getCustomAccessDeniedHandler(){
+        CustomAccessDeniedHandler handler = new CustomAccessDeniedHandler();
         return handler;
     }
 

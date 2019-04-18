@@ -8,25 +8,25 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-@CacheConfig(cacheNames = "lzhAdminMenusRightsEntity")
+// @CacheConfig(cacheNames = "lzhAdminMenusRightsEntity")
 public interface LzhAdminMenusRightsRepository extends JpaRepository<LzhAdminMenusRightsEntity, Integer> {
-    @Cacheable
+//    @Cacheable
     List<LzhAdminMenusRightsEntity> getLzhAdminMenusRightsEntitiesByParentidOrderByClassesAsc(int parentid);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminMenusRightsEntity> findById(int mid);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminMenusRightsEntity> findByName(String name);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminMenusRightsEntity> findByPermission(String permission);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminMenusRightsEntity> findByParentidAndNameAndPermissionOrderByClassesAsc(@Param(value = "parentid") int parentid,
                                                                                         @Param(value = "name") String name,
                                                                                         @Param(value = "permission") String permission);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminMenusRightsEntity> findByParentidOrderByClassesAsc(int mid);
 }

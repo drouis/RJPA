@@ -7,23 +7,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-@CacheConfig(cacheNames = "lzhAdminPermissionEntity")
+// @CacheConfig(cacheNames = "lzhAdminPermissionEntity")
 public interface LzhAdminPermissionRepository extends JpaRepository<LzhAdminPermissionEntity, Integer> {
-    @Cacheable
+//    @Cacheable
     LzhAdminPermissionEntity findById(int id);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminPermissionEntity> findByPermission(String permission);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminPermissionEntity> findByName(String name);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminPermissionEntity> findByDescription(String description);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminPermissionEntity> findByPermissionUrlLike(String permissionUrl);
 
-    @Cacheable
+//    @Cacheable
     LzhAdminPermissionEntity findByIdAndAndDescriptionNotNull(int id);
 }

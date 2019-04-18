@@ -34,7 +34,9 @@ public interface ISysDictcodeService {
      * @author: drouis
      * @date: 2019/4/13 00:39
      */
-    public SysDictV checkSysDictcodeExistByDId(int mid);
+    public SysDictV checkSysDictcodeExistByDId(int did);
+
+    public boolean checkSysDictcodeExist(String dcolumn);
 
     /**
      * @return model.Result

@@ -1,7 +1,6 @@
 package com.rjpa.AuthConfig.handler;
 
 import model.Result;
-import model.utils.JsonUtils;
 import model.utils.SystemConstCode;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -18,7 +17,10 @@ import java.io.IOException;
 /**
  * 登陆失败处理
  */
-public class CustomLoginAuthFailureHandler implements AuthenticationFailureHandler {
+    public class CustomLoginAuthFailureHandler implements AuthenticationFailureHandler {
+    private String authSuccessUrl = "/login";
+    Result errMsg = new Result();
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         Result responseData = null;
@@ -38,6 +40,8 @@ public class CustomLoginAuthFailureHandler implements AuthenticationFailureHandl
             //其他情况
             responseData = Result.error(SystemConstCode.ERROR.getCode(), exception.getMessage());
         }
-        JsonUtils.writeJson(response, responseData);
+        request.setAttribute("errMsg", responseData);
+        request.getSession().setAttribute("errMsg", responseData);
+        response.sendRedirect(request.getContextPath() + authSuccessUrl);
     }
 }

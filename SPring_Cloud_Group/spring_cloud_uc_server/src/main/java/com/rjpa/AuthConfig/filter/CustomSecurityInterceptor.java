@@ -1,23 +1,16 @@
 package com.rjpa.AuthConfig.filter;
 
-import com.rjpa.AuthConfig.vo.User;
-import com.rjpa.controller.IndexMvcController;
-import com.rjpa.vo.IndexPageMenuV;
 import model.utils.SystemConstCode;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * 安全拦截器，访问用户URL进行拦截，如果没有权限返回到登陆界面
@@ -70,6 +63,7 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
             fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
         } catch (Exception e) {
             logger.error(e.getMessage());
+            throw new AccountExpiredException(SystemConstCode.USER_LOGIN_TIMEOUT.getMessage());
         } finally {
             super.afterInvocation(token, null);
         }

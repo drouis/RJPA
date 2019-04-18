@@ -10,7 +10,7 @@
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_microser_server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web </name>
+    <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web /RABBITMQ</name>
     <description>SPring Cloud MicoSer server1</description>
 
     <dependencies>
@@ -41,6 +41,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-ribbon</artifactId>
             <version>${spring-cloud-ribbon.version}</version>
+        </dependency>
+        <!-- RabbitMQ 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>1.5.2.RELEASE</version>
         </dependency>
 
         <!-- 共通类目模块引用 -->

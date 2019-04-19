@@ -39,6 +39,8 @@
         <spring-boot-admin.version>2.1.3</spring-boot-admin.version>
         <spring-boot-admin-client.version>2.1.3</spring-boot-admin-client.version>
         <spring-boot-admin-server-ui.version>2.1.3</spring-boot-admin-server-ui.version>
+        <spring-context-support.version>5.1.5.RELEASE</spring-context-support.version>
+        <org.quartz-scheduler.version>2.2.3</org.quartz-scheduler.version>
         <mysql.connector>6.0.6</mysql.connector>
         <zaxxer.HikariCP>3.3.1</zaxxer.HikariCP>
         <google.gson>2.8.5</google.gson>

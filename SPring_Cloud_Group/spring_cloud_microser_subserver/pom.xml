@@ -10,7 +10,7 @@
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_microser_subserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web /JPA数据库 / SubMicoServer</name>
+    <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web /JPA数据库 / QUARTZ / SubMicoServer</name>
     <description>SPring Cloud MicoSer server2</description>
 
     <dependencies>
@@ -43,11 +43,21 @@
             <artifactId>spring-cloud-starter-ribbon</artifactId>
             <version>${spring-cloud-ribbon.version}</version>
         </dependency>
-        <!-- 共通类目模块引用 -->
+        <!-- 声明式注入 -->
         <dependency>
-            <groupId>com.rjpa</groupId>
-            <artifactId>spring_cloud_common</artifactId>
-            <version>1.0.0</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.feign</groupId>
+            <artifactId>feign-jackson</artifactId>
+            <version>8.18.0</version>
+        </dependency>
+
+        <!--Hystrix 依赖 主要是用  @HystrixCommand-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
         <!-- JPA JDBC 数据库定义配置 -->
         <dependency>
@@ -84,16 +94,44 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector}</version>
         </dependency>
-
+        <!--spring quartz依赖-->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${org.quartz-scheduler.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+            <version>${org.quartz-scheduler.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring-context-support.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring-context-support.version}</version>
+        </dependency>
+        <!-- Spring Boot devtools 热部署 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+        <!-- 共通类目模块引用 -->
+        <dependency>
+            <groupId>com.rjpa</groupId>
+            <artifactId>spring_cloud_common</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>

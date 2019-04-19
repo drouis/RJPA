@@ -18,15 +18,28 @@ public class CustomProducer implements RabbitTemplate.ConfirmCallback {
      * 构造方法注入rabbitTemplate
      */
     public CustomProducer(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
         //rabbitTemplate如果为单例的话，那回调就是最后设置的内容
         rabbitTemplate.setConfirmCallback(this);
+        rabbitTemplate.setUsePublisherConnection(true);
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMsg(String content) {
+    public void sendSMSMsg(String content) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
         rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_A, RabbitMQConfiguration.ROUTINGKEY_A, content, correlationId);
+    }
+
+    public void sendEMAILMsg(String content){
+        CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
+        //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_B, RabbitMQConfiguration.ROUTINGKEY_B, content, correlationId);
+    }
+
+    public void sendQUARTZMsg(String content){
+        CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
+        //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_C, RabbitMQConfiguration.ROUTINGKEY_C, content, correlationId);
     }
 
     @Override

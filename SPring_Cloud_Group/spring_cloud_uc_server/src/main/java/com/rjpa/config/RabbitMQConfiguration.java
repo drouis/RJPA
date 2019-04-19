@@ -3,25 +3,33 @@ package com.rjpa.config;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.util.StringUtils;
+
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Component
 @Configuration
+@ConfigurationProperties(prefix = "custom")
 public class RabbitMQConfiguration {
-    @Value("${custom.spring.rabbitmq.host}")
+    //    @Value("${spring.rabbitmq.host}")
     private String host;
-    @Value("${custom.spring.rabbitmq.port}")
+    //    @Value("${spring.rabbitmq.port}")
     private int port;
-    @Value("${custom.spring.rabbitmq.username}")
+    //    @Value("${spring.rabbitmq.username}")
     private String username;
-    @Value("${custom.spring.rabbitmq.password}")
+    //    @Value("${spring.rabbitmq.password}")
     private String password;
 
     public static final String FANOUT_EXCHANGE = "QUEUE_ROAUTER";
@@ -41,12 +49,43 @@ public class RabbitMQConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
+
+        if (StringUtils.isEmpty(host)){
+            String name = "bootstrap-rabbitmq.yml";
+            Properties pop = new Properties();
+            try {
+                InputStream in = RabbitMQConfiguration.class.getClassLoader().getResourceAsStream(name);
+                pop.load(in);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            Map popM = new HashMap();
+            Enumeration em = pop.propertyNames();
+            while (em.hasMoreElements()) {
+                String key = (String) em.nextElement();
+                String value = pop.getProperty(key);
+                popM.put(key, value);
+            }
+            host = popM.get("host").toString();
+            port = Integer.parseInt(popM.get("port").toString());
+            username= popM.get("username").toString();
+            password= popM.get("password").toString();
+        }
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host, port);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
         connectionFactory.setVirtualHost("/");
         connectionFactory.setPublisherConfirms(true);
+        connectionFactory.setUri("amqp://" + username + ":" + password + "@" + host + ":" + port);
         return connectionFactory;
+    }
+
+    @Bean
+    public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+        //设置忽略声明异常
+        rabbitAdmin.setIgnoreDeclarationExceptions(true);
+        return rabbitAdmin;
     }
 
     @Bean
@@ -56,7 +95,6 @@ public class RabbitMQConfiguration {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
         return template;
     }
-
 
     /**
      * 针对消费者配置

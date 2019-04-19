@@ -1,6 +1,8 @@
 package com.rjpa;
 
 import com.rjpa.config.ApplicationPermissionScanStartup;
+import com.rjpa.rabbitMq.RabbitChannelListener;
+import com.rjpa.rabbitMq.RabbitConnectionListener;
 import com.rjpa.service.InitPermissionIntoDBService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

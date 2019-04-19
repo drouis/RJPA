@@ -34,18 +34,18 @@ public class RabbitMQConfiguration {
 
     public static final String FANOUT_EXCHANGE = "QUEUE_ROAUTER";
 
-    public static final String EXCHANGE_A = "my-mq-exchange_A";
-    public static final String EXCHANGE_B = "my-mq-exchange_B";
-    public static final String EXCHANGE_C = "my-mq-exchange_C";
+    public static final String EXCHANGE_SMS = "CUSTOM-SMS-MQ-EXCHANGE";
+    public static final String EXCHANGE_EMAIL = "CUSTOM-EMAIL-MQ-EXCHANGE";
+    public static final String EXCHANGE_QUARTZ = "CUSTOM-QUARTZ-MQ-EXCHANGE";
 
 
     public static final String QUEUE_A = "QUEUE_SMS";
     public static final String QUEUE_B = "QUEUE_EMAIL";
     public static final String QUEUE_C = "QUEUE_QUARTZ";
 
-    public static final String ROUTINGKEY_A = "spring-boot-routingKey_A";
-    public static final String ROUTINGKEY_B = "spring-boot-routingKey_B";
-    public static final String ROUTINGKEY_C = "spring-boot-routingKey_C";
+    public static final String ROUTINGKEY_SMS = "spring-boot-routingKey_SMS";
+    public static final String ROUTINGKEY_EMAIL = "spring-boot-routingKey_EMAIL";
+    public static final String ROUTINGKEY_QUARTZ = "spring-boot-routingKey_QUARTZ";
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -107,30 +107,19 @@ public class RabbitMQConfiguration {
      */
     @Bean
     public DirectExchange defaultExchangeA() {
-        return new DirectExchange(EXCHANGE_A);
+        return new DirectExchange(EXCHANGE_SMS);
     }
 
     @Bean
     public DirectExchange defaultExchangeB() {
-        return new DirectExchange(EXCHANGE_B);
+        return new DirectExchange(EXCHANGE_EMAIL);
     }
 
     @Bean
     public DirectExchange defaultExchangeC() {
-        return new DirectExchange(EXCHANGE_C);
+        return new DirectExchange(EXCHANGE_QUARTZ);
     }
 
-    //配置fanout_exchange 绑定到交换机
-    @Bean
-    FanoutExchange fanoutExchange() {
-        return new FanoutExchange(RabbitMQConfiguration.FANOUT_EXCHANGE);
-    }
-
-    /**
-     * 获取队列A
-     *
-     * @return
-     */
     @Bean
     public Queue queueA() {
         return new Queue(QUEUE_A, true); //队列持久
@@ -144,20 +133,23 @@ public class RabbitMQConfiguration {
         return new Queue(QUEUE_C, true); //队列持久
     }
 
-
     @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queueA()).to(defaultExchangeA()).with(RabbitMQConfiguration.ROUTINGKEY_A);
+    public Binding bindingA() {
+        return BindingBuilder.bind(queueA()).to(defaultExchangeA()).with(RabbitMQConfiguration.ROUTINGKEY_SMS);
     }
-
     @Bean
     public Binding bindingB() {
-        return BindingBuilder.bind(queueB()).to(defaultExchangeB()).with(RabbitMQConfiguration.ROUTINGKEY_B);
+        return BindingBuilder.bind(queueB()).to(defaultExchangeB()).with(RabbitMQConfiguration.ROUTINGKEY_EMAIL);
     }
-
     @Bean
     public Binding bindingC() {
-        return BindingBuilder.bind(queueC()).to(defaultExchangeC()).with(RabbitMQConfiguration.ROUTINGKEY_C);
+        return BindingBuilder.bind(queueC()).to(defaultExchangeC()).with(RabbitMQConfiguration.ROUTINGKEY_QUARTZ);
+    }
+
+    //配置fanout_exchange 绑定到交换机
+    @Bean
+    FanoutExchange fanoutExchange() {
+        return new FanoutExchange(RabbitMQConfiguration.FANOUT_EXCHANGE);
     }
 
     //把所有的队列都绑定到这个交换机上去

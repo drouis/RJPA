@@ -11,7 +11,7 @@
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_eureka_server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Cloud / 注册中心 / 微服务 / 监控管理 / 安全管理</name>
+    <name>Spring Cloud / 注册中心 / 微服务 / 监控管理 / 安全管理 / Eureka</name>
     <description>SPring Cloud Eureka Server</description>
 
     <properties>

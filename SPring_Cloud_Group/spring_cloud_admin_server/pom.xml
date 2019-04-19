@@ -10,7 +10,7 @@
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_admin_server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Cloud 微服务 / 监控中心 / 安全管理 / Web</name>
+    <name>Spring Cloud 微服务 / 监控中心 / 安全管理 / Web / bootAdmin</name>
     <description>SPring Cloud Admin Server</description>
 
     <properties>

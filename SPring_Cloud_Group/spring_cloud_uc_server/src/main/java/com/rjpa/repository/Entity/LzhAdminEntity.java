@@ -1,5 +1,6 @@
 package com.rjpa.repository.Entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;

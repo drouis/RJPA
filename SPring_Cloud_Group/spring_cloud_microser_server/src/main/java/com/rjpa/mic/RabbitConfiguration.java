@@ -1,17 +1,25 @@
 package com.rjpa.mic;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 public class RabbitConfiguration {
@@ -24,18 +32,21 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.password}")
     private String password;
 
-    public static final String EXCHANGE_A = "my-mq-exchange_A";
-    public static final String EXCHANGE_B = "my-mq-exchange_B";
-    public static final String EXCHANGE_C = "my-mq-exchange_C";
+    public static final String FANOUT_EXCHANGE = "QUEUE_ROAUTER";
+
+    public static final String EXCHANGE_SMS = "CUSTOM-SMS-MQ-EXCHANGE";
+    public static final String EXCHANGE_EMAIL = "CUSTOM-EMAIL-MQ-EXCHANGE";
+    public static final String EXCHANGE_QUARTZ = "CUSTOM-QUARTZ-MQ-EXCHANGE";
 
 
     public static final String QUEUE_A = "QUEUE_SMS";
     public static final String QUEUE_B = "QUEUE_EMAIL";
     public static final String QUEUE_C = "QUEUE_QUARTZ";
 
-    public static final String ROUTINGKEY_A = "spring-boot-routingKey_A";
-    public static final String ROUTINGKEY_B = "spring-boot-routingKey_B";
-    public static final String ROUTINGKEY_C = "spring-boot-routingKey_C";
+    public static final String ROUTINGKEY_SMS = "spring-boot-routingKey_SMS";
+    public static final String ROUTINGKEY_EMAIL = "spring-boot-routingKey_EMAIL";
+    public static final String ROUTINGKEY_QUARTZ = "spring-boot-routingKey_QUARTZ";
+
 
     @Bean
     public ConnectionFactory connectionFactory() {
@@ -44,63 +55,15 @@ public class RabbitConfiguration {
         connectionFactory.setPassword(password);
         connectionFactory.setVirtualHost("/");
         connectionFactory.setPublisherConfirms(true);
+        connectionFactory.setUri("amqp://" + username + ":" + password + "@" + host + ":" + port);
         return connectionFactory;
     }
 
     @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    //必须是prototype类型
-    public RabbitTemplate rabbitTemplate() {
-        RabbitTemplate template = new RabbitTemplate(connectionFactory());
-        return template;
-    }
-
-
-    /**
-     * 针对消费者配置
-     * 1. 设置交换机类型
-     * 2. 将队列绑定到交换机
-     FanoutExchange: 将消息分发到所有的绑定队列，无routingkey的概念
-     HeadersExchange ：通过添加属性key-value匹配
-     DirectExchange:按照routingkey分发到指定队列
-     TopicExchange:多关键字匹配
-     */
-    @Bean
-    public DirectExchange defaultExchangeA() {
-        return new DirectExchange(EXCHANGE_A);
-    }
-    @Bean
-    public DirectExchange defaultExchangeB() {
-        return new DirectExchange(EXCHANGE_A);
-    }
-    @Bean
-    public DirectExchange defaultExchangeC() {
-        return new DirectExchange(EXCHANGE_A);
-    }
-    /**
-     * 获取队列A
-     * @return
-     */
-    @Bean
-    public Queue queueA() {
-        return new Queue(QUEUE_A, true); //队列持久
-    }
-    public Queue queueB() {
-        return new Queue(QUEUE_B, true); //队列持久
-    }
-    public Queue queueC() {
-        return new Queue(QUEUE_C, true); //队列持久
-    }
-    @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queueA()).to(defaultExchangeA()).with(RabbitConfiguration.ROUTINGKEY_A);
-    }
-    @Bean
-    public Binding bindingB() {
-        return BindingBuilder.bind(queueB()).to(defaultExchangeB()).with(RabbitConfiguration.ROUTINGKEY_B);
-    }
-    @Bean
-    public Binding bindingC() {
-        return BindingBuilder.bind(queueC()).to(defaultExchangeC()).with(RabbitConfiguration.ROUTINGKEY_C);
+    public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+        //设置忽略声明异常
+        rabbitAdmin.setIgnoreDeclarationExceptions(true);
+        return rabbitAdmin;
     }
 }

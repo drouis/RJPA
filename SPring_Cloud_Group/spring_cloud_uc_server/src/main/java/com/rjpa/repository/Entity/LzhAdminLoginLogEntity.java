@@ -1,5 +1,7 @@
 package com.rjpa.repository.Entity;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;

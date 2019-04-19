@@ -27,19 +27,19 @@ public class CustomProducer implements RabbitTemplate.ConfirmCallback {
     public void sendSMSMsg(String content) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
-        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_SMS, RabbitMQConfiguration.EXCHANGE_SMS, content, correlationId);
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_SMS, RabbitMQConfiguration.ROUTINGKEY_SMS, content, correlationId);
     }
 
     public void sendEMAILMsg(String content){
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
-        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_EMAIL, RabbitMQConfiguration.EXCHANGE_EMAIL, content, correlationId);
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_EMAIL, RabbitMQConfiguration.ROUTINGKEY_EMAIL, content, correlationId);
     }
 
     public void sendQUARTZMsg(String content){
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
-        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_QUARTZ, RabbitMQConfiguration.EXCHANGE_QUARTZ, content, correlationId);
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_QUARTZ, RabbitMQConfiguration.ROUTINGKEY_QUARTZ, content, correlationId);
     }
 
     @Override

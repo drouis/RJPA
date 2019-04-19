@@ -63,7 +63,8 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
             <version>${spring-cloud-eureka-client.version}</version>
         </dependency>
-        <!-- WEb 服务依赖 -->
+
+        <!-- Spring Boot Web 服务依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -82,17 +83,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- hibernate 依赖 -->
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>${hibernate-jpa.api}</version>
-        </dependency>
+
         <!-- JPA 二级缓冲配置 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+        <!-- hibernate 缓存FetchType.LAZY依赖 -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernate-jpa.api}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
@@ -162,8 +165,6 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
             <version>1.5.2.RELEASE</version>
         </dependency>
-
-
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -177,7 +178,7 @@
             <artifactId>spring_cloud_common</artifactId>
             <version>1.0.0</version>
         </dependency>
-
+        <!-- Spring Boot devtools 热部署 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

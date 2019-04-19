@@ -32,16 +32,6 @@ spring:
             ddl-auto: update
             naming:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        properties:
-            # 开启二级缓存
-            hibernate:
-                cache:
-                    use_second_level_cache: true
-                    # 指定缓存provider
-                    region:
-                        factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
-            cache:
-                use_query_cache: true
     mvc:
         static-path-pattern: /assets
         # 修改默认的静态寻址资源目录 多个使用逗号分隔
@@ -49,6 +39,19 @@ spring:
         static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
     main:
         allow-bean-definition-overriding: true
+    # Redis 配置 ,对于缓存的支持
+    redis:
+        database: 0
+        host: 39.108.124.176
+        port: 6379
+        password: 1q2w3e4R
+        timeout: 36000
+    # RabbitMQ 配置 ,对于rabbitMQ的支持
+    rabbitmq:
+        host: 39.108.124.176
+        port: 5672
+        username: drouis
+        password: 1q2w3e4r
 # tag::configuration-eureka[]
 eureka:
     instance:
@@ -86,7 +89,7 @@ management:
 ---
 # 匹配正则表达式
 security:
-    ignoring: "\\/actuator\\/(\\w+), /include/*.*, /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
+    ignoring: "\\/actuator\\/(\\w+), /ampq/*.*, /include/*.*, /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
     intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
     successUrl: "/welcome"
     logoutSuccessUrl: "/login"

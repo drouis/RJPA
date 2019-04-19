@@ -25,7 +25,6 @@ import java.util.Set;
  * 指定权限的控制类加入到内存列表中
  * Created by drouis on 2018/4/3 0003.
  */
-@Order(1)
 public class ApplicationPermissionScanStartup implements ApplicationListener<ContextRefreshedEvent> {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     public static ArrayList<AdminPermissionV> permissionsList = new ArrayList<AdminPermissionV>();

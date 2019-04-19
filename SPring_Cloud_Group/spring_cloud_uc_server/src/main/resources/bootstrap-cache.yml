@@ -1,7 +1,0 @@
-#开启二级缓存
----
-#开启二级缓存
-spring.jpa.properties.hibernate.cache.use_second_level_cache=true
-spring.jpa.properties.cache.use_query_cache=true
-  #指定缓存provider
-spring.jpa.properties.hibernate.cache.region.factory_class=org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory

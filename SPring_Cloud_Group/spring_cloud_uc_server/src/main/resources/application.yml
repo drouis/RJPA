@@ -4,7 +4,7 @@ EUREKA.APPLICATION.NAME: spring-cloud-mico-usercenter-server
 server:
   port: ${EUREKA.CONST.PORT}
   servlet:
-    context-path: ${EUREKA.CONST.PATH}
+      context-path: ${EUREKA.CONST.PATH}
 spring:
   application:
-    name: ${EUREKA.APPLICATION.NAME}
+      name: ${EUREKA.APPLICATION.NAME}

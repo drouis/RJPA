@@ -32,7 +32,6 @@ import java.util.List;
 @Aspect   //定义一个切面
 @Component
 @Configuration
-@Order(3)
 public class ApplicationControllerAspect {
     public static final Logger logger = LoggerFactory.getLogger(ApplicationControllerAspect.class);
     private Gson gson = new Gson();

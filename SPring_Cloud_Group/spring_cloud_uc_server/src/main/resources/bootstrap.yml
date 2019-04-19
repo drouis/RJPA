@@ -9,82 +9,54 @@ EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
 spring:
-  profiles:
-    active: native
-    # 静态文件请求匹配方式
-  mvc:
-    static-path-pattern: /assets
-    # 修改默认的静态寻址资源目录 多个使用逗号分隔
-  resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
-  redis:
-    database: 0
-    host: 39.108.124.176
-    port: 6379
-    password: 1q2w3e4R
-    timeout: 36000
-  main:
-    allow-bean-definition-overriding: true
+    profiles:
+        active: admin,jpa,rabbitmq,redis,thymeleaf
+        # 静态文件请求匹配方式
+    mvc:
+        static-path-pattern: /assets
+        # 修改默认的静态寻址资源目录 多个使用逗号分隔
+    resources:
+        static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
+    main:
+        allow-bean-definition-overriding: true
 # tag::configuration-eureka[]
 eureka:
-  instance:
-    hostname: /${EUREKA.INSTANCE.HOSTNAME}
-    ip-address: ${EUREKA.CONTEXT.IPADD}
-    prefer-ip-address: true
-    leaseRenewalIntervalInSeconds: 10
-    home-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
-    health-check-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
-    status-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
-    home-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
-    status-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
-    health-check-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
-    metadata-map:
-      user.name: ${EUREKA.INSTANCE.ADMIN.USR}
-      user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
-      management:
-        context-path: ${EUREKA.CONTEXT.PATH}/actuator
-  #    instance-id: ${eureka.instance.ip-address}:${server.port}
-  client:
-    registryFetchIntervalSeconds: 5
-    register-with-eureka: true
-    fetch-registry: true
-    serviceUrl:
-      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/eureka/
+    instance:
+        hostname: /${EUREKA.INSTANCE.HOSTNAME}
+        ip-address: ${EUREKA.CONTEXT.IPADD}
+        prefer-ip-address: true
+        leaseRenewalIntervalInSeconds: 10
+        home-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
+        health-check-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
+        status-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+        home-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
+        status-page-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+        health-check-url: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
+        metadata-map:
+            user.name: ${EUREKA.INSTANCE.ADMIN.USR}
+            user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
+            management:
+                context-path: ${EUREKA.CONTEXT.PATH}/actuator
+    #    instance-id: ${eureka.instance.ip-address}:${server.port}
+    client:
+        registryFetchIntervalSeconds: 5
+        register-with-eureka: true
+        fetch-registry: true
+        serviceUrl:
+            defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/eureka/
 management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: ALWAYS
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            show-details: ALWAYS
 # end::configuration-eureka[]
 ---
 # 匹配正则表达式
 security:
-  ignoring: "\\/actuator\\/(\\w+), /include/*.*, /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
-  intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
-  successUrl: "/welcome"
-  logoutSuccessUrl: "/login"
-# 通用数据库源配置
----
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
-    # Hikari 数据源专用配置
-    hikari:
-      username: drouis
-      password: 1q2w3e4R
-      jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      maximum-pool-size: 20
-      minimum-idle: 5
-      max-lifetime: 20
-  #JPA 相关配置
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    ignoring: "\\/actuator\\/(\\w+), /include/*.*, /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
+    intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
+    successUrl: "/welcome"
+    logoutSuccessUrl: "/login"

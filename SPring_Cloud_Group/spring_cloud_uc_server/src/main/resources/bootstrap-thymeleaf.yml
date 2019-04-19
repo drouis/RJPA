@@ -1,17 +1,16 @@
-#thymeleaf
----
 spring:
+  #thymeleaf 页面模板配置
   thymeleaf:
-    mode: HTML5
-    encoding: UTF-8
-    cache: false
-    servlet:
-      content-type: text/html
-    prefix: classpath:/templates
-    suffix: .html
+      mode: HTML5
+      encoding: UTF-8
+      cache: false
+      servlet:
+          content-type: text/html
+      prefix: classpath:/templates
+      suffix: .html
   resources:
-    chain:
-      strategy:
-        content:
-          enabled: true
-          paths: /**
+      chain:
+          strategy:
+              content:
+                  enabled: true
+                  paths: /**

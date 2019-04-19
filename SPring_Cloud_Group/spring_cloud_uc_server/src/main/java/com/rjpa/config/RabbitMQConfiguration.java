@@ -6,23 +6,22 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Configuration
-@Order(4)
 public class RabbitMQConfiguration {
-    @Value("${spring.rabbitmq.host}")
+    @Value("${custom.spring.rabbitmq.host}")
     private String host;
-    @Value("${spring.rabbitmq.port}")
+    @Value("${custom.spring.rabbitmq.port}")
     private int port;
-    @Value("${spring.rabbitmq.username}")
+    @Value("${custom.spring.rabbitmq.username}")
     private String username;
-    @Value("${spring.rabbitmq.password}")
+    @Value("${custom.spring.rabbitmq.password}")
     private String password;
 
     public static final String FANOUT_EXCHANGE = "QUEUE_ROAUTER";

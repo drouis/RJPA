@@ -1,9 +1,7 @@
-# RabbitMQ 配置
----
-#对于rabbitMQ的支持
 spring:
+  # RabbitMQ 配置 ,对于rabbitMQ的支持
   rabbitmq:
-    host: 39.108.124.176
-    port: 5672
-    username: drouis
-    password: 1q2w3e4r
+      host: 39.108.124.176
+      port: 5672
+      username: drouis
+      password: 1q2w3e4r

@@ -1,7 +1,6 @@
-package com.rjpa;
+package com.rjpa.service;
 
-import com.rjpa.service.ISystemMenuService;
-import com.rjpa.service.ISystemPermissionService;
+import com.rjpa.config.ApplicationPermissionScanStartup;
 import com.rjpa.service.impl.SystemMenuServiceImpl;
 import com.rjpa.vo.AdminMenuV;
 import com.rjpa.vo.AdminPermissionV;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class InitPermissionIntoDBStartup {
-    public void initPermissionIntoDBStartup() {
+public class InitPermissionIntoDBService {
+    public void initPermissionIntoDBService() {
         // TODO 根据权限列表更新系统权限数据库表
         List<AdminPermissionV> permissionVList = new ApplicationPermissionScanStartup().getPermissionsList();
         for (AdminPermissionV permissionV : permissionVList) {

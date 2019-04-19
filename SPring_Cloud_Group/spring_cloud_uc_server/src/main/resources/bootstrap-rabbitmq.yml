@@ -3,7 +3,7 @@
 #对于rabbitMQ的支持
 spring:
   rabbitmq:
-    host: 127.0.0.1
+    host: 39.108.124.176
     port: 5672
-    username: guest
-    password: guest
+    username: drouis
+    password: 1q2w3e4r

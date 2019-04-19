@@ -1,4 +1,4 @@
-package com.rjpa;
+package com.rjpa.config;
 
 import anno.Permission;
 import com.rjpa.vo.AdminPermissionV;

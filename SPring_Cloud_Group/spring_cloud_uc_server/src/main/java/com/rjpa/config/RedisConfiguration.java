@@ -1,4 +1,4 @@
-package com.rjpa.redis;
+package com.rjpa.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

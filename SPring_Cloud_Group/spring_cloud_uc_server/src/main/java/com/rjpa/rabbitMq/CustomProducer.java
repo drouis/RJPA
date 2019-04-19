@@ -1,6 +1,5 @@
 package com.rjpa.rabbitMq;
-
-import com.rjpa.RabbitConfiguration;
+import com.rjpa.config.RabbitMQConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -27,7 +26,7 @@ public class CustomProducer implements RabbitTemplate.ConfirmCallback {
     public void sendMsg(String content) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         //把消息放入ROUTINGKEY_A对应的队列当中去，对应的是队列A
-        rabbitTemplate.convertAndSend(RabbitConfiguration.EXCHANGE_A, RabbitConfiguration.ROUTINGKEY_A, content, correlationId);
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_A, RabbitMQConfiguration.ROUTINGKEY_A, content, correlationId);
     }
 
     @Override
@@ -41,6 +40,6 @@ public class CustomProducer implements RabbitTemplate.ConfirmCallback {
     }
 
     public void sendAll(String content) {
-        rabbitTemplate.convertAndSend(RabbitConfiguration.FANOUT_EXCHANGE,"", content);
+        rabbitTemplate.convertAndSend(RabbitMQConfiguration.FANOUT_EXCHANGE,"", content);
     }
 }

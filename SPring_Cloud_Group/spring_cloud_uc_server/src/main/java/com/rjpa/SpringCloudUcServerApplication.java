@@ -1,5 +1,7 @@
 package com.rjpa;
 
+import com.rjpa.config.ApplicationPermissionScanStartup;
+import com.rjpa.service.InitPermissionIntoDBService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.ImportResource;
@@ -37,7 +38,7 @@ public class SpringCloudUcServerApplication extends SpringBootServletInitializer
     }
 
     @Configuration
-    @ImportResource(locations = {"classpath: bootstrap-*.yml"})
+    @ImportResource(locations = {"classpath: bootstrap-*"})
     public class CustomPropertySourceLocator {
         //TODO 加入AOP 启动扫描注册全部权限注解类，并加入到权限表
     }
@@ -49,9 +50,9 @@ public class SpringCloudUcServerApplication extends SpringBootServletInitializer
 
     @Override
     public void run(String... strings) throws Exception {
-        initPermissionIntoDBStartup.initPermissionIntoDBStartup();
+        initPermissionIntoDBService.initPermissionIntoDBService();
     }
 
     @Autowired
-    InitPermissionIntoDBStartup initPermissionIntoDBStartup;
+    InitPermissionIntoDBService initPermissionIntoDBService;
 }

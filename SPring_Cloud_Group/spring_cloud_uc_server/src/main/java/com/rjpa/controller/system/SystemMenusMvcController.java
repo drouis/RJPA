@@ -11,6 +11,7 @@ import com.rjpa.vo.IndexPageMenuV;
 import model.Result;
 import model.SelectObject;
 import model.utils.SystemConstCode;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "系统菜单列表", permissionName = "local.micoUSC.sys.sysMenu", permissionUrl = "/sys/sysMenu_")
     @RequestMapping(value = "/sysMenu_{pageCurrent}_{pageSize}_{pageCount}", method = RequestMethod.GET)
-    public ModelAndView sysUser_(HttpServletRequest request, @PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
+    public ModelAndView sysMenu_(HttpServletRequest request, @PathVariable Integer pageCurrent, @PathVariable Integer pageSize, @PathVariable Integer pageCount) {
         // TODO 共通处理
         initCommonDatas(request);
         // TODO 1 读取当前系统中所有的菜单
@@ -85,19 +86,20 @@ public class SystemMenusMvcController {
 
     @Permission(name = "系统菜单初始化", permissionName = "local.micoUSC.sys.initSysMenu", permissionUrl = "/sys/initSysMenu")
     @RequestMapping(value = "/initSysMenu", method = RequestMethod.GET)
-    public ModelAndView initSysRole_(HttpServletRequest request, @RequestParam(value = "id") int mid) {
+    public ModelAndView initSysMenu_(HttpServletRequest request, @RequestParam(value = "id") int mid) {
         // TODO 共通处理
         initCommonDatas(request);
         // TODO 1 读取当前系统中所有的绑定菜单
         AdminMenuV adminMenuV = iSystemMenuService.getMenuByMId(mid);
-        if (adminMenuV.getParentid() > 0) {
+        if (StringUtils.isEmpty(adminMenuV.getPermission()) && adminMenuV.getParentid() > 0) {
             AdminMenuV pMenu = iSystemMenuService.getMenuByMId(adminMenuV.getParentid());
             adminMenuV.setPermission(pMenu.getPermission() + ".");
         }
         menuView.addObject(PAGE_MENU_PO_NAME, adminMenuV);
-        Result r = iSystemMenuService.getMenus();
+        // TODO 2 根据当前菜单判定显示的菜单列表
+        Result r = iSystemMenuService.getSubMenusByMId(adminMenuV.getParentid());
         menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
-        // TODO 2 取得全部菜单列表作为下拉菜单
+        // TODO 3 取得全部菜单列表作为下拉菜单
         List<SelectObject> pageSelectV = new ArrayList<SelectObject>();
         List<AdminMenuV> allMenus = (List) iSystemMenuService.getMenus().getData();
         for (AdminMenuV allMenu : allMenus) {
@@ -119,7 +121,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "添加系统菜单", permissionName = "local.micoUSC.sys.addSysMenu", permissionUrl = "/sys/addSysMenu")
     @RequestMapping(value = "/addSysMenu", method = RequestMethod.POST)
-    public ModelAndView addSysRole_(HttpServletRequest request, AdminMenuV adminMenuV) {
+    public ModelAndView addSysMenu_(HttpServletRequest request, AdminMenuV adminMenuV) {
         // TODO 共通处理
         initCommonDatas(request);
         // TODO 1 菜单信息验证
@@ -152,7 +154,6 @@ public class SystemMenusMvcController {
             } catch (Exception e) {
                 errMsg = Result.error(SystemConstCode.ERROR.getMessage());
             }
-
             // TODO 2 读取当前系统中所有的绑定菜单
             Result r = iSystemMenuService.getSubMenusByMId(adminMenuV.getParentid());
             menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
@@ -166,7 +167,7 @@ public class SystemMenusMvcController {
      */
     @Permission(name = "修改系统菜单", permissionName = "local.micoUSC.sys.editSysMenu", permissionUrl = "/sys/editSysMenu")
     @RequestMapping(value = "/editSysMenu", method = RequestMethod.POST)
-    public ModelAndView editSysRole_(HttpServletRequest request, AdminMenuV adminMenuV) {
+    public ModelAndView editSysMenu_(HttpServletRequest request, AdminMenuV adminMenuV) {
         // TODO 共通处理
         initCommonDatas(request);
         // TODO 1 菜单信息验证
@@ -189,6 +190,7 @@ public class SystemMenusMvcController {
         // TODO 2 读取当前系统中所有的绑定菜单
         Result r = iSystemMenuService.getMenus();
         menuView.addObject(PAGE_MENU_LIST_PO_NAME, r.getData());
+        menuView.addObject(PAGE_MENU_PO_NAME, adminMenuV);
         menuView.addObject("errMsg", errMsg);
         return menuView;
     }

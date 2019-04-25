@@ -13,6 +13,8 @@ public class AdminUserV extends LzhAdminEntity implements Serializable {
 
     List<IndexPageMenuV> menuVS;
 
+    boolean adminFlg=false;
+
     public List<IndexPageMenuV> getMenuVS() {
         return menuVS;
     }
@@ -35,5 +37,13 @@ public class AdminUserV extends LzhAdminEntity implements Serializable {
 
     public void setAllowPermissionService(List allowPermissionService) {
         this.allowPermissionService = allowPermissionService;
+    }
+
+    public boolean isAdminFlg() {
+        return adminFlg;
+    }
+
+    public void setAdminFlg(boolean adminFlg) {
+        this.adminFlg = adminFlg;
     }
 }

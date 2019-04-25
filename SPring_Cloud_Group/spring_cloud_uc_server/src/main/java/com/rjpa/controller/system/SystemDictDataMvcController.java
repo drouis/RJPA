@@ -76,7 +76,7 @@ public class SystemDictDataMvcController {
         return dictView;
     }
 
-    @Permission(name = "数据字典初始化", permissionName = "local.micoUSC.syss.initSysMenu", permissionUrl = "/sys/initSysMenu")
+    @Permission(name = "数据字典初始化", permissionName = "local.micoUSC.syss.initSysDictcode", permissionUrl = "/sys/initSysDictcode")
     @RequestMapping(value = "/initSysDictcode", method = RequestMethod.GET)
     public ModelAndView initSysDictcode_(HttpServletRequest request, @RequestParam(value = "did") int did) {
         // TODO 共通处理
@@ -104,7 +104,7 @@ public class SystemDictDataMvcController {
         return dictView;
     }
 
-    @Permission(name = "数据字典标准值", permissionName = "local.micoUSC.sys.getBundSubMenu", permissionUrl = "/sys/getBundSubMenu")
+    @Permission(name = "数据字典标准值", permissionName = "local.micoUSC.syss.getBundSubSysDictcode", permissionUrl = "/sys/getBundSubSysDictcode")
     @RequestMapping(value = "/getBundSubSysDictcode", method = RequestMethod.GET)
     public ModelAndView getBundSubSysDictcode_(HttpServletRequest request, SysDictV sysDictV) {
         // TODO 共通处理
@@ -136,7 +136,7 @@ public class SystemDictDataMvcController {
     /**
      * 添加系统数据字典
      */
-    @Permission(name = "添加系统数据字典", permissionName = "local.micoUSC.sys.addSysMenu", permissionUrl = "/sys/addSysMenu")
+    @Permission(name = "添加系统数据字典", permissionName = "local.micoUSC.syss.addSysDictcode", permissionUrl = "/sys/addSysDictcode")
     @RequestMapping(value = "/addSysDictcode", method = RequestMethod.POST)
     public ModelAndView addSysRole_(HttpServletRequest request, SysDictV sysDictV, @RequestParam(value = "bundSysdictcodeSelect") String bundSysdictcodeSelect) {
         // TODO 共通处理

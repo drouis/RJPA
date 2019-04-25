@@ -14,11 +14,12 @@ public class User extends AdminUserV implements UserDetails, Serializable {
 
     public String tokenStr;
 
-    public void initUser(String userName, String password, List<GrantedAuthority> permissionList, List<IndexPageMenuV> menuVS) {
+    public void initUser(String userName, String password, List<GrantedAuthority> permissionList, List<IndexPageMenuV> menuVS,boolean adminFlg) {
         super.setUserName(userName);
         super.setPassword(password);
         super.setAllowPermissionService(permissionList);
         super.setMenuVS(menuVS);
+        super.setAdminFlg(adminFlg);
     }
 
     @Override
@@ -71,5 +72,10 @@ public class User extends AdminUserV implements UserDetails, Serializable {
 
     public void setTokenStr(String tokenStr) {
         this.tokenStr = tokenStr;
+    }
+
+    @Override
+    public boolean isAdminFlg() {
+        return super.isAdminFlg();
     }
 }

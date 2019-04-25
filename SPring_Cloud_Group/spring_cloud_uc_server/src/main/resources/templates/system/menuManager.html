@@ -462,7 +462,7 @@
                                         <div class="widget-main">
                                             <form id="menuForm" class="form-horizontal" role="form"
                                                   th:action="@{/sys/addSysMenu}" target="_self" method="post">
-                                                <input type="hidden" name="id" th:value="${adminMenuv.id}"/>
+                                                <input type="hidden" id="adminvID" name="id" th:value="${adminMenuv.id}"/>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label no-padding-right"
                                                            for="form-field-1"> 系统菜单名称 </label>
@@ -509,8 +509,7 @@
                                                     <label class="col-sm-3 control-label no-padding-right"
                                                            for="form-field-6"> 父菜单 </label>
                                                     <div class="col-sm-9">
-                                                        <select name="bundMenuSelect" id="form-field-6"
-                                                                class="col-sm-5">
+                                                        <select name="bundMenuSelect" id="form-field-6" class="col-sm-5">
                                                             <option value="-1">主菜单</option>
                                                             <option th:each="select:${bundMenuSelect}"
                                                                     th:value="${select.selectValue}"
@@ -521,11 +520,11 @@
                                                 </div>
                                                 <div class="clearfix form-actions">
                                                     <div class="col-md-offset-3 col-md-9">
-                                                        <button class="btn btn-info" style="margin: 15px" type="submit">
+                                                        <button class="btn btn-info" style="margin: 15px" type="button" th:id="@{menuSubmitButton}">
                                                             <i class="ace-icon fa fa-check bigger-110"></i>保存数据
                                                         </button>
-                                                        <button class="btn" type="reset" onclick="formReset()"><i
-                                                                class="ace-icon fa fa-undo bigger-110"></i>数据重置
+                                                        <button class="btn" type="reset" onclick="formReset()">
+                                                            <i class="ace-icon fa fa-undo bigger-110"></i>数据重置
                                                         </button>
                                                     </div>
                                                 </div>
@@ -646,14 +645,14 @@
                 $("#errMsgDiv").slideToggle("slow");
             }
         }
-        $("#userSubmitButton").click(function () {
+        $("#menuSubmitButton").click(function () {
             var adminvID = $("#adminvID").val();
             if (adminvID == 0) {
-                $("#userForm").attr("action", "/micoUSC/sys/addSysUser");
+                $("#menuForm").attr("action", "/micoUSC/sys/addSysMenu");
             } else {
-                $("#userForm").attr("action", "/micoUSC/sys/editSysUser");
+                $("#menuForm").attr("action", "/micoUSC/sys/editSysMenu");
             }
-            $("#userForm").submit();
+            $("#menuForm").submit();
         });
     });
     function editMenuJsonP(uid) {

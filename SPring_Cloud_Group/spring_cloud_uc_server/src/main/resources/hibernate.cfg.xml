@@ -11,6 +11,7 @@
       <mapping class="com.rjpa.repository.Entity.LzhAdminUserRoleEntity"/>
       <mapping class="com.rjpa.repository.Entity.LzhAdminPermissionEntity"/>
       <mapping class="com.rjpa.repository.Entity.SysDictcodeEntity"/>
+      <mapping class="com.rjpa.repository.Entity.AmpqMessageEntity"/>
       <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

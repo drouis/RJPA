@@ -86,6 +86,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
             //
             try {
                 BeanUtils.copyProperties(adminMenuV, menu);
+                menu.setParentid(adminMenuV.getBundMenuSelect());
                 adminMenusRightsRepository.save(menu);
             } catch (Exception e) {
                 return Result.error(SystemConstCode.ERROR.getMessage());

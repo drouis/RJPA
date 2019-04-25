@@ -2,7 +2,10 @@ package com.rjpa.controller.ampq;
 
 import anno.Permission;
 import com.google.gson.Gson;
+import com.rjpa.config.RabbitMQConfiguration;
 import com.rjpa.rabbitMq.CustomProducer;
+import com.rjpa.service.IAmpqMessageService;
+import com.rjpa.vo.MessageAmpqV;
 import feign.Param;
 import model.Result;
 import org.slf4j.Logger;
@@ -33,7 +36,14 @@ public class AmpqSMSMvcController {
         Result errMsg = new Result();
         try {
             // TODO 1 设置消息队列
-            customProducer.sendSMSMsg(content);
+            customProducer.sendEMAILMsg(content);
+            MessageAmpqV v = new MessageAmpqV();
+            v.setAmpqQueName(RabbitMQConfiguration.EXCHANGE_SMS);
+            v.setAmpqStatue(v.getMessageUnSend());
+            v.setAmpqMemo(content);
+            v.setAmpqType(v.getEmailMessageType());
+            v.setAmpqClass(AmpqSMSMvcController.SmsMessage.class.getName());
+            ampqMessageService.addAmpqMessage(v);
             // TODO 2 返回更新数据结果 前端传过来的回调函数名称
             String callback = request.getParameter("callback");
             //TODO 用回调函数名称包裹返回数据，这样，返回数据就作为回调函数的参数传回去了
@@ -44,6 +54,38 @@ public class AmpqSMSMvcController {
         }
     }
 
+    class SmsMessage extends MessageAmpqV {
+        String phoneNumber;
+        String smsContent;
+        Long sendTIme;
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+
+        public String getSmsContent() {
+            return smsContent;
+        }
+
+        public void setSmsContent(String smsContent) {
+            this.smsContent = smsContent;
+        }
+
+        public Long getSendTIme() {
+            return sendTIme;
+        }
+
+        public void setSendTIme(Long sendTIme) {
+            this.sendTIme = sendTIme;
+        }
+    }
+
     @Autowired
     CustomProducer customProducer;
+    @Autowired
+    IAmpqMessageService ampqMessageService;
 }

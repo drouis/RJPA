@@ -75,7 +75,7 @@ public class MyUserDetailsService implements UserDetailsService {
         // TODO 封装用户信息，并返回。参数分别是：用户名，密码，用户权限
         User user = new User();
         BeanUtils.copyProperties(admin, user);
-        user.initUser(admin.getUserName(), password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()), menuVS);
+        user.initUser(admin.getUserName(), password, AuthorityUtils.commaSeparatedStringToAuthorityList(sb.toString()), menuVS, adminFlg);
         return user;
     }
 

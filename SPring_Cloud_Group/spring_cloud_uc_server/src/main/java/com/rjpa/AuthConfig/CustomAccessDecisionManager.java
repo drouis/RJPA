@@ -1,5 +1,6 @@
 package com.rjpa.AuthConfig;
 
+import com.rjpa.AuthConfig.vo.User;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -19,8 +20,8 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
      * 通过传递的参数来决定用户是否有访问对应受保护对象的权限
      *
      * @param authentication 当前正在请求受包含对象的Authentication
-     * @param o 受保护对象，其可以是一个MethodInvocation、JoinPoint或FilterInvocation。
-     * @param collection 与正在请求的受保护对象相关联的配置属性
+     * @param o              受保护对象，其可以是一个MethodInvocation、JoinPoint或FilterInvocation。
+     * @param collection     与正在请求的受保护对象相关联的配置属性
      **/
     @Override
     public void decide(Authentication authentication, Object o, Collection<ConfigAttribute> collection) throws AccessDeniedException, InsufficientAuthenticationException {
@@ -28,7 +29,17 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
         if (collection == null) {
             return;
         }
-        //TODO 2.1 查询当前用户角色下是否有该资源的访问权限
+        try {
+            //TODO 2.1 查询当前用户角色下是否有该资源的访问权限
+            if (authentication.getPrincipal().getClass() == User.class) {
+                User u = (User) authentication.getPrincipal();
+                if (u.isAdminFlg()) {
+                    return;
+                }
+            }
+        } catch (Exception e) {
+
+        }
         for (ConfigAttribute configAttribute : collection) {
             // TODO 2.2 访问URL对应的权限列表
             String needRole = configAttribute.getAttribute();

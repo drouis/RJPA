@@ -499,11 +499,11 @@
                                                 </div>
                                                 <div class="clearfix form-actions">
                                                     <div class="col-md-offset-3 col-md-9">
-                                                        <button class="btn btn-info" style="margin: 15px" type="submit">
+                                                        <button class="btn btn-info" style="margin: 15px" type="submit" th:id="@{dictSubmitButton}">
                                                             <i class="ace-icon fa fa-check bigger-110"></i>保存数据
                                                         </button>
-                                                        <button class="btn" type="reset" onclick="formReset()"><i
-                                                                class="ace-icon fa fa-undo bigger-110"></i>数据重置
+                                                        <button class="btn" type="reset" onclick="formReset()">
+                                                            <i class="ace-icon fa fa-undo bigger-110"></i>数据重置
                                                         </button>
                                                     </div>
                                                 </div>
@@ -626,15 +626,15 @@
                 $("#errMsgDiv").slideToggle("slow");
             }
         }
-        $("#userSubmitButton").click(function () {
-            var adminvID = $("#adminvID").val();
-            if(adminvID ==0){
-                $("#userForm").attr("action","/micoUSC/sys/addSysUser");
-            }else {
-                $("#userForm").attr("action","/micoUSC/sys/editSysUser");
-            }
-            $("#userForm").submit();
-        });
+        // $("#dictSubmitButton").click(function () {
+        //     var adminvID = $("#adminvID").val();
+        //     if(adminvID ==0){
+        //         $("#dictCodeForm").attr("action","/micoUSC/sys/addSysDictcode");
+        //     }else {
+        //         $("#dictCodeForm").attr("action","/micoUSC/sys/editSysUser");
+        //     }
+        //     $("#dictCodeForm").submit();
+        // });
     });
     function editSysdictJsonP(did) {
         var jumpUrl = "/micoUSC/sys/delSysRole";

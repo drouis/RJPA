@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,7 @@ public class AmpqMessageServiceImpl implements IAmpqMessageService {
         BeanUtils.copyProperties(vo, dbData);
         dbData.setUuid(UUID.randomUUID().toString().replaceAll("-", ""));
         dbData.setAmpqStatue(vo.getMessageUnSend());
+        dbData.setAmpqTIme(new Timestamp(System.currentTimeMillis()));
         ampqMessageRepository.save(dbData);
     }
 

@@ -4,7 +4,13 @@ EUREKA.APPLICATION.NAME: spring-cloud-micouser-server
 server:
   port: ${EUREKA.CONST.PORT}
   servlet:
-      context-path: ${EUREKA.CONST.PATH}
+    context-path: ${EUREKA.CONST.PATH}
 spring:
   application:
-      name: ${EUREKA.APPLICATION.NAME}
+    name: ${EUREKA.APPLICATION.NAME}
+    # RabbitMQ 配置 ,对于rabbitMQ的支持
+  rabbitmq:
+    host: 39.108.124.176
+    port: 5672
+    username: drouis
+    password: 1q2w3e4r

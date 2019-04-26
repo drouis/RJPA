@@ -29,11 +29,21 @@ public class CustomMetadataSourceService implements FilterInvocationSecurityMeta
     @Value("${security.intercept}")
     String interceptPaths;
 
-    private PathMatcher matcher = new AntPathMatcher();
+    private static PathMatcher matcher = new AntPathMatcher();
     private String indexUrl = "/index.html";
     private Map<String, Collection<ConfigAttribute>> resourceMap = null;
     private PathMatcher pathMatcher = new AntPathMatcher();
 
+    public static void main(String[] args) {
+        try {
+            boolean matchFlg = matcher.match("/assets/**/*.*","/assets/cronPlugs/themes/bootstrap/easyui.min.css");
+            System.out.println(matchFlg);
+            matchFlg = matcher.match("/assets/**/*.*","/assets/cronPlugs/themes/icon.css");
+            System.out.println(matchFlg);
+        }catch (Exception e){
+
+        }
+    }
     /**
      * @param object
      * @return CustomAccessDecisionManager

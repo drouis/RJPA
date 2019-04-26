@@ -20,7 +20,7 @@ public class RedisDao {
 
     public void setKey(String key, String value) {
         ValueOperations ops = redisTemplate.opsForValue();
-        ops.set(key, value, 30, TimeUnit.MINUTES); // 1分钟后数据过期
+        ops.set(key, value, 36000, TimeUnit.MINUTES); // 1分钟后数据过期
     }
 
     /**
@@ -32,7 +32,7 @@ public class RedisDao {
      */
     public <T> ValueOperations<String, T> setCacheObject(String key, T value) {
         ValueOperations<String, T> operation = (ValueOperations<String, T>) redisTemplate.opsForValue();
-        operation.set(key, value, 30, TimeUnit.MINUTES);
+        operation.set(key, value, 36000, TimeUnit.MINUTES);
         return operation;
     }
 

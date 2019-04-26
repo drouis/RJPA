@@ -44,8 +44,14 @@ spring:
         database: 0
         host: 39.108.124.176
         port: 6379
+        lettuce:
+            pool:
+                max-active: 8
+                max-wait: -1
+                max-idle: 8
+                min-idle: 0
         password: 1q2w3e4R
-        timeout: 36000
+        timeout: 10000
     # RabbitMQ 配置 ,对于rabbitMQ的支持
     rabbitmq:
         host: 39.108.124.176
@@ -89,7 +95,7 @@ management:
 ---
 # 匹配正则表达式
 security:
-    ignoring: "\\/actuator\\/(\\w+), \\/subPermissionAPI\\/(\\w+), /include/*.*, /assets/*.*, /static/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/*.*, /login"
+    ignoring: "\\/actuator\\/(\\w+), \\/subPermissionAPI\\/(\\w+), /include/**/*.*, /assets/**/*.*, /static/**/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/**/*.*, /login"
     intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
     successUrl: "/welcome"
     logoutSuccessUrl: "/login"

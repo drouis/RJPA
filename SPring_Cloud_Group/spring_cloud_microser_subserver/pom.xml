@@ -10,7 +10,7 @@
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_microser_subserver</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web /JPA数据库 / QUARTZ / SubMicoServer</name>
+    <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web /JPA数据库 / QUARTZ / SMS / EMAIL / RABBIT / SubMicoServer</name>
     <description>SPring Cloud MicoSer server2</description>
 
     <dependencies>
@@ -104,6 +104,12 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz-jobs</artifactId>
             <version>${org.quartz-scheduler.version}</version>
+        </dependency>
+        <!-- RabbitMQ 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>1.5.2.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

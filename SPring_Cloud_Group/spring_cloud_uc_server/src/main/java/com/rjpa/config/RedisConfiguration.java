@@ -1,5 +1,6 @@
 package com.rjpa.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -26,6 +27,12 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class RedisConfiguration extends CachingConfigurerSupport {
+    @Value("${spring.redis.host}")
+    private String host;
+    @Value("${spring.redis.port}")
+    private int port;
+    @Value("${spring.redis.timeout}")
+    private int timeout;
 
     @Bean
     @ConditionalOnMissingBean(name = "redisTemplate")
@@ -44,21 +51,26 @@ public class RedisConfiguration extends CachingConfigurerSupport {
             throws UnknownHostException {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(redisConnectionFactory);
+        template.afterPropertiesSet();
         return template;
     }
 
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory factory) {
-// 更改值的序列化方式，否则在Redis可视化软件中会显示乱码。默认为JdkSerializationRedisSerializer
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        // 更改值的序列化方式，否则在Redis可视化软件中会显示乱码。默认为JdkSerializationRedisSerializer
         RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair
                 .fromSerializer(new GenericJackson2JsonRedisSerializer());
-        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration
-                .defaultCacheConfig()
-                .serializeValuesWith(pair)      // 设置序列化方式
-                .entryTtl(Duration.ofHours(1)); // 设置过期时间
-        return RedisCacheManager
-                .builder(RedisCacheWriter.nonLockingRedisCacheWriter(factory))
+        /* 默认配置， 默认超时时间为30s */
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
+                // 设置序列化方式
+                .serializeValuesWith(pair)
+                .entryTtl(Duration.ofSeconds(120L))
+                .disableCachingNullValues();
+        /* 配置超时时间为120s*/
+        RedisCacheManager cacheManager = RedisCacheManager
+                .builder(RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory))
                 .cacheDefaults(defaultCacheConfig).build();
+        return cacheManager;
     }
 
     @Override

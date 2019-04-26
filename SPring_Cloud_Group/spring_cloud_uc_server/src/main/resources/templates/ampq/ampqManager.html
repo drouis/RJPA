@@ -32,8 +32,7 @@
     <script th:src="@{/assets/js/html5shiv.min.js}"></script>
     <script th:src="@{/assets/js/respond.min.js}"></script>
     <![endif]-->
-    </head>
-
+</head>
 <body class="no-skin">
 <div id="navbar" class="navbar navbar-default ace-save-state">
     <div class="navbar-container ace-save-state" id="navbar-container">
@@ -436,71 +435,286 @@
                         <!-- 消息队列列表 -->
                         <div class="row">
                             <div class="col-sm-12 widget-container-col ui-sortable" id="widget-container-col-10">
-                                <div class="widget-box ui-sortable-handle" id="widget-box-10">
-                                    <div class="widget-header widget-header-small">
-                                        <h5 class="widget-title smaller">消息队列类型</h5>
-                                        <div class="widget-toolbar">
-                                            <div class="widget-menu">
-                                                <a href="#" data-action="settings" data-toggle="dropdown">
-                                                    <i class="ace-icon fa fa-bars"></i>
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-menu-right dropdown-light-blue dropdown-caret dropdown-closer">
-                                                    <li><a th:href="@{/sys/sysRole_0_0_0}">重置数据</a></li>
-                                                </ul>
-                                            </div>
-                                            <a href="#" data-action="fullscreen" class="orange2">
-                                                <i class="ace-icon fa fa-expand"></i>
-                                            </a>
-                                            <a href="#" data-action="collapse">
-                                                <i class="ace-icon fa fa-chevron-up"></i>
-                                            </a>
-                                        </div>
-                                        <div class="widget-toolbar">
-                                            <ul class="nav nav-tabs" id="myTab">
-                                                <li class="">
-                                                    <a data-toggle="tab" href="#emai" aria-expanded="false">Email队列消息</a>
-                                                </li>
-
-                                                <li class="">
-                                                    <a data-toggle="tab" href="#sms" aria-expanded="false">SMS短信消息</a>
-                                                </li>
-
-                                                <li class="active">
-                                                    <a data-toggle="tab" href="#qutz" aria-expanded="true">定时任务消息</a>
-                                                </li>
-                                            </ul>
+                                <ul id="myTab" class="nav nav-tabs">
+                                    <li><a href="#emai" data-toggle="tab">Email队列消息</a></li>
+                                    <li><a href="#sms" data-toggle="tab">SMS短信消息</a></li>
+                                    <li class="dropdown">
+                                        <a href="#" id="myTabDrop1" class="dropdown-toggle"
+                                           data-toggle="dropdown">定时任务消息<b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                                            <li><a href="#qutzjb" tabindex="1" data-toggle="tab">定时任务消息</a></li>
+                                            <li><a href="#singlejb" tabindex="-1" data-toggle="tab">单次任务消息</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade in active" id="home">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12">
+                                                <div class="widget-box form-group">
+                                                    <div class="widget-header">
+                                                        <h4 class="widget-title"><p><Strong>RabbitMQ is the most widely deployed open source message broker.</Strong></p></h4>
+                                                    </div>
+                                                    <div class="widget-body">
+                                                        <div class="widget-main">
+                                                            <div>
+                                                                <p>With more than 35,000 production deployments of RabbitMQ world-wide at small startups and large enterprises, RabbitMQ is the most popular open source message broker.
+                                                                    RabbitMQ is lightweight and easy to deploy on premises and in the cloud. It supports multiple messaging protocols. RabbitMQ can be deployed in distributed and federated configurations to meet high-scale, high-availability requirements.
+                                                                    RabbitMQ runs on many operating systems and cloud environments, and provides a wide range of developer tools for most popular languages.
+                                                                    See how other people are using RabbitMQ: </p>
+                                                            </div>
+                                                            <hr />
+                                                            <div>
+                                                                <p>RabbitMQ在全球范围内在小型初创企业和大型企业部署了35000多个产品，是最受欢迎的开源消息代理。rabbitmq重量轻，易于在内部和云中部署。它支持多种消息协议。rabbitmq可以部署在分布式和联邦配置中，以满足高规模、高可用性要求。rabbitmq运行在许多操作系统和云环境中，并为最流行的语言提供广泛的开发工具。了解其他人如何使用rabbitmq：</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- /.span -->
                                         </div>
                                     </div>
+                                    <div class="tab-pane fade" id="emai">
+                                        <p></p>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="widget-box">
+                                                    <div class="widget-header">
+                                                        <h4 class="widget-title">邮件信息内容</h4>
+                                                        <div class="widget-toolbar">
+                                                            <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                                                            <a href="#" data-action="close"><i class="ace-icon fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-body">
+                                                        <div class="widget-main">
+                                                            <!-- PAGE CONTENT BEGINS -->
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendEMAILMsg'}" method="post">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-10"> 收件人地址 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-10" name="mailTo" placeholder="收件人地址" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="space-4"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-11"> 抄送人地址 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-11" name="mailCc" placeholder="抄送人地址" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="space-4"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-12"> 邮件主题 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-12" name="mailSubject" placeholder="邮件主题" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="space-4"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-13"> 正文 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <textarea id="form-field-13" class="autosize-transition form-control" name="mailContent" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 102px;"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr hr-24"></div>
+                                                                <div class="clearfix form-actions">
+                                                                    <div class="col-md-offset-3 col-md-9">
+                                                                        <button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+                                                                        &nbsp; &nbsp; &nbsp;
+                                                                        <button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="sms">
+                                        <p>jMeter 是一款开源的测试软件。它是 100% 纯 Java 应用程序，用于负载和性能测试。</p>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="widget-box">
+                                                    <div class="widget-header">
+                                                        <h4 class="widget-title">短信信息内容</h4>
+                                                        <div class="widget-toolbar">
+                                                            <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                                                            <a href="#" data-action="close"><i class="ace-icon fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-body">
+                                                        <div class="widget-main">
+                                                            <!-- PAGE CONTENT BEGINS -->
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendSMSMsg'}" method="post">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-20"> 消息手机号 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-20" name="inPhoneNumber" placeholder="消息手机号" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
 
-                                    <div class="widget-body">
-                                        <div class="widget-main padding-6">
-                                            <div class="tab-content">
-                                                <form id="emailForm" class="form-horizontal" role="form" action=""
-                                                      target="_self" method="post">
-                                                    <div id="email" class="tab-pane">
-                                                        <p>Raw denim you probably haven't heard of them jean shorts
-                                                            Austin.</p>
+                                                                <div class="space-4"></div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-21"> 短信内容 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <textarea id="form-field-21" class="autosize-transition form-control" name="smsContent" style="overflow: hidden; overflow-wrap: break-word; resize: horizontal; height: 102px;"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr hr-24"></div>
+                                                                <div class="clearfix form-actions">
+                                                                    <div class="col-md-offset-3 col-md-9">
+                                                                        <button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+                                                                        &nbsp; &nbsp; &nbsp;
+                                                                        <button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                </form>
-                                                <form id="smsForm" class="form-horizontal" role="form" action=""
-                                                      target="_self" method="post">
-                                                    <div id="sms" class="tab-pane">
-                                                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                                                            single-origin coffee squid.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="qutzjb">
+                                        <input type="hidden" id="cronHrefUrl" th:value="@{/assets/cronExpIndex.htm}" />
+                                        <p>Enterprise Java Beans（EJB）是一个创建高度可扩展性和强大企业级应用程序的开发架构，部署在兼容应用程序服务器（比如 JBOSS、Web Logic 等）的 J2EE 上。<a name="alertCronDiv">Cron表达式生成器</a></p>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="widget-box">
+                                                    <div class="widget-header">
+                                                        <h4 class="widget-title">计划任务信息内容</h4>
+                                                        <div class="widget-toolbar">
+                                                            <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                                                            <a href="#" data-action="close"><i class="ace-icon fa fa-times"></i></a>
+                                                        </div>
                                                     </div>
-                                                </form>
-                                                <form id="qutzForm" class="form-horizontal" role="form" action=""
-                                                      target="_self" method="post">
-                                                    <div id="qutz" class="tab-pane active">
-                                                        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they
-                                                            sold out mcsweeney's organic lomo retro fanny pack lo-fi
-                                                            farm-to-table readymade.</p>
+                                                    <div class="widget-body">
+                                                        <div class="widget-main">
+                                                            <!-- PAGE CONTENT BEGINS -->
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendQUARTZMsg'}" method="post">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-30"> 任务名称 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-30" name="cronName" placeholder="任务名称" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-31"> 任务类型 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-31" name="cronClass" placeholder="任务类型" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-32"> 任务执行条件 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-32" name="cronTriger" placeholder="任务执行条件" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-33"> 任务执行方式 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <select id="form-field-33" name="cronScheduFlg" placeholder="任务执行方式" class="col-xs-10 col-sm-5">
+                                                                            <option value="0" th:text="单次运行" ></option>
+                                                                            <option value="1" th:text="定时任务运行" selected></option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-34"> 任务执行脚本 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-34" name="cronExp" placeholder="Cron表达式" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="hr hr-24"></div>
+                                                                <div class="clearfix form-actions">
+                                                                    <div class="col-md-offset-3 col-md-9">
+                                                                        <button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+                                                                        &nbsp; &nbsp; &nbsp;
+                                                                        <button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="singlejb">
+                                        <p>这是一个标签 <a name="alertCronDiv">Cron表达式生成器</a></p>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <div class="widget-box">
+                                                    <div class="widget-header">
+                                                        <h4 class="widget-title">计划任务信息内容</h4>
+                                                        <div class="widget-toolbar">
+                                                            <a href="#" data-action="collapse"><i class="ace-icon fa fa-chevron-up"></i></a>
+                                                            <a href="#" data-action="close"><i class="ace-icon fa fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="widget-body">
+                                                        <div class="widget-main">
+                                                            <!-- PAGE CONTENT BEGINS -->
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendQUARTZMsg'}" method="post">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-40"> 任务名称 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-40" name="cronName" placeholder="任务名称" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-41"> 任务类型 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-41" name="cronClass" placeholder="任务类型" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-42"> 任务执行条件 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-42" name="cronTriger" placeholder="任务执行条件" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-43"> 任务执行方式 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <select id="form-field-43" name="cronScheduFlg" placeholder="任务执行方式" class="col-xs-10 col-sm-5">
+                                                                            <option value="0" th:text="单次运行" selected></option>
+                                                                            <option value="1" th:text="定时任务运行" ></option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-44"> 任务执行脚本 Field </label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" id="form-field-44" name="cronExp" placeholder="Cron表达式" class="col-xs-10 col-sm-5">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="hr hr-24"></div>
+                                                                <div class="clearfix form-actions">
+                                                                    <div class="col-md-offset-3 col-md-9">
+                                                                        <button class="btn btn-info" type="button"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+                                                                        &nbsp; &nbsp; &nbsp;
+                                                                        <button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <!-- 数据分栏行 -->
@@ -557,6 +771,8 @@
 <script th:src="@{/assets/js/ace-elements.min.js}"></script>
 <script th:src="@{/assets/js/ace.min.js}"></script>
 <!-- inline scripts related to this page -->
+<!-- Layer scripts -->
+<script th:src="@{/assets/layer/layer.js}"></script>
 <script type="text/javascript">
     jQuery(function ($) {
         var errCodeVal = $("#errCodeVal").val();
@@ -567,6 +783,22 @@
                 $("#errMsgDiv").slideToggle("slow");
             }
         }
+        $('#myTab a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+        $("a[name='alertCronDiv']").click(function () {
+            var hrefUrl = $("#cronHrefUrl").val();
+            layer.open({
+                type: 2,
+                title: false,
+                area: ['850px', '580px'],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: [hrefUrl,'no']
+            });
+        })
     });
 </script>
 </body>

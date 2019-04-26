@@ -76,7 +76,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             AUTH_WHITELIST = StringUtil.clearSpace(AUTH_WHITELIST);
         }
         for (String au : AUTH_WHITELIST) {
-            http.authorizeRequests().regexMatchers(au).permitAll();// 采用正则表达式匹配白名单的url地址
+            http.authorizeRequests().antMatchers(au).permitAll();// 采用正则表达式匹配白名单的url地址
         }
         //设置过滤器
         // TODO 解决不允许显示在iframe的问题

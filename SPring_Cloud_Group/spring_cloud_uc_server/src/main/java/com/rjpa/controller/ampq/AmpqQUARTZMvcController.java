@@ -6,7 +6,7 @@ import com.rjpa.config.RabbitMQConfiguration;
 import com.rjpa.rabbitMq.CustomProducer;
 import com.rjpa.service.IAmpqMessageService;
 import com.rjpa.vo.MessageAmpqV;
-import feign.Param;
+import com.rjpa.vo.QuartzMessageV;
 import model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,27 +22,25 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/ampq")
 public class AmpqQUARTZMvcController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    // 发送定时任务消息队列页面初始化
-
-    // 编辑发送定时任务消息队列页面
+    Gson gson = new Gson();
 
     // 发送定时任务消息队列请求
     @Permission(name = "发送定时任务消息队列请求", permissionName = "local.micoUSC.ampq.sendQUARTZMsg", permissionUrl = "/ampq/sendQUARTZMsg")
-    @RequestMapping(value = "/sendQUARTZMsg", method = RequestMethod.GET)
-    public void sendQUARTZMsg_(@Param(value = "content") String content, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/sendQUARTZMsg", method = RequestMethod.POST)
+    public void sendQUARTZMsg_(QuartzMessageV quartzMessage, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
         Result errMsg = new Result();
         try {
             // TODO 1 设置消息队列
-            customProducer.sendEMAILMsg(content);
             MessageAmpqV v = new MessageAmpqV();
+            customProducer.sendQUARTZMsg(gson.toJson(v));
             v.setAmpqQueName(RabbitMQConfiguration.EXCHANGE_QUARTZ);
             v.setAmpqStatue(v.getMessageUnSend());
-            v.setAmpqMemo(content);
+            v.setAmpqMemo(gson.toJson(v));
             v.setAmpqType(v.getEmailMessageType());
-            v.setAmpqClass(AmpqQUARTZMvcController.QuartzMessage.class.getName());
+            v.setAmpqClass(QuartzMessageV.class.getName());
             ampqMessageService.addAmpqMessage(v);
             // TODO 2 返回更新数据结果 前端传过来的回调函数名称
             String callback = request.getParameter("callback");
@@ -51,72 +49,6 @@ public class AmpqQUARTZMvcController {
             response.getWriter().write(result);
         } catch (Exception e) {
             logger.error(e.getMessage());
-        }
-    }
-
-    class QuartzMessage extends MessageAmpqV {
-        String cronName;
-        String cronTriger;
-        String cronClass;
-        String cronTag;
-        String cronExp;
-        int cronScheduFlg;
-        Long qutzTime;
-
-        public String getCronName() {
-            return cronName;
-        }
-
-        public void setCronName(String cronName) {
-            this.cronName = cronName;
-        }
-
-        public String getCronTriger() {
-            return cronTriger;
-        }
-
-        public void setCronTriger(String cronTriger) {
-            this.cronTriger = cronTriger;
-        }
-
-        public String getCronClass() {
-            return cronClass;
-        }
-
-        public void setCronClass(String cronClass) {
-            this.cronClass = cronClass;
-        }
-
-        public String getCronTag() {
-            return cronTag;
-        }
-
-        public void setCronTag(String cronTag) {
-            this.cronTag = cronTag;
-        }
-
-        public String getCronExp() {
-            return cronExp;
-        }
-
-        public void setCronExp(String cronExp) {
-            this.cronExp = cronExp;
-        }
-
-        public int getCronScheduFlg() {
-            return cronScheduFlg;
-        }
-
-        public void setCronScheduFlg(int cronScheduFlg) {
-            this.cronScheduFlg = cronScheduFlg;
-        }
-
-        public Long getQutzTime() {
-            return qutzTime;
-        }
-
-        public void setQutzTime(Long qutzTime) {
-            this.qutzTime = qutzTime;
         }
     }
 

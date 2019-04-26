@@ -6,7 +6,7 @@ import com.rjpa.config.RabbitMQConfiguration;
 import com.rjpa.rabbitMq.CustomProducer;
 import com.rjpa.service.IAmpqMessageService;
 import com.rjpa.vo.MessageAmpqV;
-import feign.Param;
+import com.rjpa.vo.SmsMessageV;
 import model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,27 +22,25 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/ampq")
 public class AmpqSMSMvcController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    // 发送短信消息队列页面初始化
-
-    // 编辑发送短信消息队列页面
+    Gson gson = new Gson();
 
     // 发送短信消息队列请求
     @Permission(name = "发送短信消息队列请求", permissionName = "local.micoUSC.ampq.sendSMSMsg", permissionUrl = "/ampq/sendSMSMsg")
-    @RequestMapping(value = "/sendSMSMsg", method = RequestMethod.GET)
-    public void sendSMSMsg_(@Param(value = "content") String content, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/sendSMSMsg", method = RequestMethod.POST)
+    public void sendSMSMsg_(SmsMessageV smsMessage, HttpServletRequest request, HttpServletResponse response) {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
         Result errMsg = new Result();
         try {
             // TODO 1 设置消息队列
-            customProducer.sendEMAILMsg(content);
             MessageAmpqV v = new MessageAmpqV();
+            customProducer.sendSMSMsg(gson.toJson(v));
             v.setAmpqQueName(RabbitMQConfiguration.EXCHANGE_SMS);
             v.setAmpqStatue(v.getMessageUnSend());
-            v.setAmpqMemo(content);
+            v.setAmpqMemo(gson.toJson(v));
             v.setAmpqType(v.getEmailMessageType());
-            v.setAmpqClass(AmpqSMSMvcController.SmsMessage.class.getName());
+            v.setAmpqClass(SmsMessageV.class.getName());
             ampqMessageService.addAmpqMessage(v);
             // TODO 2 返回更新数据结果 前端传过来的回调函数名称
             String callback = request.getParameter("callback");
@@ -51,36 +49,6 @@ public class AmpqSMSMvcController {
             response.getWriter().write(result);
         } catch (Exception e) {
             logger.error(e.getMessage());
-        }
-    }
-
-    class SmsMessage extends MessageAmpqV {
-        String phoneNumber;
-        String smsContent;
-        Long sendTIme;
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public void setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
-
-        public String getSmsContent() {
-            return smsContent;
-        }
-
-        public void setSmsContent(String smsContent) {
-            this.smsContent = smsContent;
-        }
-
-        public Long getSendTIme() {
-            return sendTIme;
-        }
-
-        public void setSendTIme(Long sendTIme) {
-            this.sendTIme = sendTIme;
         }
     }
 

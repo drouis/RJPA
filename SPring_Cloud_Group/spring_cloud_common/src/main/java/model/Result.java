@@ -33,7 +33,7 @@ public class Result<T> {
     }
 
     public static <T> Result ok(T data) {
-        return new Result(null, "200", data, true);
+        return new Result("请求处理完成", "200", data, true);
     }
 
     public static <T> Result ok(int code, String errorMsg, T data) {

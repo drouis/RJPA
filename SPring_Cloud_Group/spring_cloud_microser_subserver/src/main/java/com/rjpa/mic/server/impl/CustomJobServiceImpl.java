@@ -12,15 +12,17 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 
 @Service
 public class CustomJobServiceImpl implements ICustomJobService {
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+
     @Autowired
     private SchedulerFactoryBean schedulerFactoryBean;
 
     /**
-     * 创建一个定时任务
-     *
-     * @param jobName
-     * @param jobGroup
+     * @return
+     * @ClassName: com.rjpa.mic.server.impl.CustomJobServiceImpl
+     * @Description: 创建一个定时任务
+     * @parm: String jobName, String jobGroup
+     * @author: drouis
+     * @date: 2019/4/27 02:11
      */
     @Override
     public void addCronJob(String jobName, String jobGroup) {
@@ -49,6 +51,14 @@ public class CustomJobServiceImpl implements ICustomJobService {
         }
     }
 
+    /**
+     * @return
+     * @ClassName: com.rjpa.mic.server.impl.CustomJobServiceImpl
+     * @Description: 创建异步任务
+     * @parm: String jobName, String jobGroup
+     * @author: drouis
+     * @date: 2019/4/27 02:10
+     */
     @Override
     public void addAsyncJob(String jobName, String jobGroup) {
         try {
@@ -74,6 +84,14 @@ public class CustomJobServiceImpl implements ICustomJobService {
 
     }
 
+    /**
+     * @return
+     * @ClassName: com.rjpa.mic.server.impl.CustomJobServiceImpl
+     * @Description: 暂停任务
+     * @parm: String jobName, String jobGroup
+     * @author: drouis
+     * @date: 2019/4/27 02:10
+     */
     @Override
     public void pauseJob(String jobName, String jobGroup) {
         try {
@@ -88,10 +106,12 @@ public class CustomJobServiceImpl implements ICustomJobService {
     }
 
     /**
-     * 恢复任务
-     *
-     * @param jobName
-     * @param jobGroup
+     * @return
+     * @ClassName: com.rjpa.mic.server.impl.CustomJobServiceImpl
+     * @Description: 恢复任务
+     * @parm: String jobName, String jobGroup
+     * @author: drouis
+     * @date: 2019/4/27 02:10
      */
     @Override
     public void resumeJob(String jobName, String jobGroup) {
@@ -105,6 +125,14 @@ public class CustomJobServiceImpl implements ICustomJobService {
         }
     }
 
+    /**
+     * @return
+     * @ClassName: com.rjpa.mic.server.impl.CustomJobServiceImpl
+     * @Description: 删除任务
+     * @parm: String jobName, String jobGroup
+     * @author: drouis
+     * @date: 2019/4/27 02:09
+     */
     @Override
     public void deleteJob(String jobName, String jobGroup) {
         try {
@@ -115,6 +143,5 @@ public class CustomJobServiceImpl implements ICustomJobService {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-
     }
 }

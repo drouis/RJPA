@@ -1,7 +1,7 @@
-package com.rjpa.mic.Repository;
+package com.rjpa.mic.repository.driverschool;
 
 
-import com.rjpa.mic.Repository.Entity.LzhAdminEntity;
+import com.rjpa.mic.repository.driverschool.Entity.LzhAdminEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

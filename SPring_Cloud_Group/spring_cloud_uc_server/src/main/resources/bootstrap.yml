@@ -25,6 +25,7 @@ spring:
             maximum-pool-size: 20
             minimum-idle: 5
             max-lifetime: 20
+        type: com.zaxxer.hikari.HikariDataSource
     # JPA 相关配置
     jpa:
         show-sql: true

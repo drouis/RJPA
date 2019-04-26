@@ -1,4 +1,4 @@
-package com.rjpa.mic.Repository.Entity;
+package com.rjpa.mic.repository.driverschool.Entity;
 
 import javax.persistence.*;
 import java.sql.Date;

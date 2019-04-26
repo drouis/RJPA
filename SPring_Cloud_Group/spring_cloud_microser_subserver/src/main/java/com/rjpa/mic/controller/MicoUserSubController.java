@@ -1,9 +1,10 @@
 package com.rjpa.mic.controller;
 
-import com.rjpa.mic.Repository.Entity.LzhAdminEntity;
-import com.rjpa.mic.Repository.Entity.LzhAdminPermissionEntity;
-import com.rjpa.mic.Repository.LzhAdminPermissionRepository;
-import com.rjpa.mic.Repository.LzhAdminRepository;
+
+import com.rjpa.mic.repository.driverschool.Entity.LzhAdminEntity;
+import com.rjpa.mic.repository.driverschool.Entity.LzhAdminPermissionEntity;
+import com.rjpa.mic.repository.driverschool.LzhAdminPermissionRepository;
+import com.rjpa.mic.repository.driverschool.LzhAdminRepository;
 import model.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;

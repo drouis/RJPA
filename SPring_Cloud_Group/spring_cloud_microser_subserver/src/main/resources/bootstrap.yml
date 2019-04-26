@@ -9,19 +9,19 @@ EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
 spring:
-    profiles:
-        active: native
-    # RabbitMQ 配置 ,对于rabbitMQ的支持
-    rabbitmq:
-        host: 39.108.124.176
-        port: 5672
-        username: drouis
-        password: 1q2w3e4r
+  profiles:
+    active: native
+  # RabbitMQ 配置 ,对于rabbitMQ的支持
+  rabbitmq:
+    host: 39.108.124.176
+    port: 5672
+    username: drouis
+    password: 1q2w3e4r
 feign:
-    httpclient:
-        enabled: true
-    hystrix:
-        enabled: true
+  httpclient:
+    enabled: true
+  hystrix:
+    enabled: true
 # tag::configuration-eureka[]
 eureka:
   instance:
@@ -66,20 +66,26 @@ sprint:
 # 通用数据库源配置
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
-    # Hikari 数据源专用配置
-    hikari:
-      username: drouis
-      password: 1q2w3e4R
-      jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      maximum-pool-size: 20
-      minimum-idle: 5
-  #JPA 相关配置
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    type: com.zaxxer.hikari.HikariDataSource
+    quartz:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://39.108.124.176:3306/quartz?charset=utf8
+        jdbc-url: jdbc:mysql://39.108.124.176:3306/quartz?charset=utf8
+        username: drouis
+        password: 1q2w3e4R
+    driverschool:
+      hikari:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+        jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+        username: drouis
+        password: 1q2w3e4R
+    #JPA 相关配置
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+

@@ -34,7 +34,16 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        LzhAdminEntity admin = (LzhAdminEntity) loginService.getUserByUserName(s).getData();
+        Result fuck = loginService.getUserByUserName(s);
+        LzhAdminEntity admin = null;
+        try {
+            if (fuck.getCode().equals("200")) {
+                admin = (LzhAdminEntity) fuck.getData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (admin == null) {
             throw new UsernameNotFoundException("用户名不存在");
         }

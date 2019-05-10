@@ -7,14 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-@CacheConfig(cacheNames = "lzhAdminRoleEntity")
+//@CacheConfig(cacheNames = "lzhAdminRoleEntity")
 public interface LzhAdminRoleRepository extends JpaRepository<LzhAdminRoleEntity, Integer> {
-    @Cacheable
+//    @Cacheable
     List<LzhAdminRoleEntity> findByName(String name);
 
-    @Cacheable
+//    @Cacheable
     List<LzhAdminRoleEntity> findByRole(String role);
 
-    @Cacheable
+//    @Cacheable
     LzhAdminRoleEntity findById(int rid);
 }

@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@CacheConfig(cacheNames = "lzhAdminUserRoleEntity")
+//@CacheConfig(cacheNames = "lzhAdminUserRoleEntity")
 public interface LzhAdminUserRoleRepository extends JpaRepository<LzhAdminUserRoleEntity, Integer> {
-    @Cacheable
+//    @Cacheable
     public List<LzhAdminUserRoleEntity> findByRoleId(long roleId);
 
-    @Cacheable
+//    @Cacheable
     public List<LzhAdminUserRoleEntity> findByUserId(long userId);
 
     @Transactional

@@ -16,13 +16,15 @@ import java.util.UUID;
 @Service
 public class AmpqMessageServiceImpl implements IAmpqMessageService {
     @Override
-    public void addAmpqMessage(MessageAmpqV vo) {
+    public MessageAmpqV addAmpqMessage(MessageAmpqV vo) {
         AmpqMessageEntity dbData = new AmpqMessageEntity();
         BeanUtils.copyProperties(vo, dbData);
         dbData.setUuid(UUID.randomUUID().toString().replaceAll("-", ""));
         dbData.setAmpqStatue(vo.getMessageUnSend());
         dbData.setAmpqTIme(new Timestamp(System.currentTimeMillis()));
         ampqMessageRepository.save(dbData);
+        BeanUtils.copyProperties(dbData,vo);
+        return vo;
     }
 
     /**

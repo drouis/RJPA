@@ -12,7 +12,6 @@ import java.util.List;
 public interface LzhAdminRolePermissionRepository extends JpaRepository<LzhAdminRolePermissionEntity, Integer> {
 //    @Cacheable
     List<LzhAdminRolePermissionEntity> findByRoleId(long roleId);
-
     @Transactional
     void deleteAllByRoleId(long roleId);
 }

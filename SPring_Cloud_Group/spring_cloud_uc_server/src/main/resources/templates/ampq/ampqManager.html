@@ -489,7 +489,7 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main">
                                                             <!-- PAGE CONTENT BEGINS -->
-                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendEMAILMsg'}" method="post">
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendEMAILMsg'}" method="post" id="sendEMAILMsgForm">
                                                                 <div class="form-group">
                                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-10"> 收件人地址 Field </label>
                                                                     <div class="col-sm-9">
@@ -520,7 +520,7 @@
                                                                 <div class="hr hr-24"></div>
                                                                 <div class="clearfix form-actions">
                                                                     <div class="col-md-offset-3 col-md-9">
-                                                                        <button class="btn btn-info" type="submit"><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
+                                                                        <button class="btn btn-info" type="submit" ><i class="ace-icon fa fa-check bigger-110"></i>Submit</button>
                                                                         &nbsp; &nbsp; &nbsp;
                                                                         <button class="btn" type="reset"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
                                                                     </div>
@@ -547,7 +547,7 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main">
                                                             <!-- PAGE CONTENT BEGINS -->
-                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendSMSMsg'}" method="post">
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendSMSMsg'}" method="post" id="sendSMSMsgForm">
                                                                 <div class="form-group">
                                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-20"> 消息手机号 Field </label>
                                                                     <div class="col-sm-9">
@@ -593,7 +593,7 @@
                                                     <div class="widget-body">
                                                         <div class="widget-main">
                                                             <!-- PAGE CONTENT BEGINS -->
-                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendQUARTZMsg'}" method="post">
+                                                            <form class="form-horizontal" role="form" th:action="@{'/ampq/sendQUARTZMsg'}" method="post" id="sendQUARTZMsgForm">
                                                                 <div class="form-group">
                                                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-30"> 任务名称 Field </label>
                                                                     <div class="col-sm-9">
@@ -799,7 +799,56 @@
                 content: [hrefUrl,'no']
             });
         })
+        $("#sendEMAILMsgForm").submit(function () {
+            $("#errMsgDiv").hide();
+            $("#succMsgDiv").hide();
+            var data = $("#sendEMAILMsgForm").serialize();
+            submitAMPQJsonP($("#sendEMAILMsgForm").attr("action"),data);
+            return false;
+        })
+        $("#sendSMSMsgForm").submit(function () {
+            $("#errMsgDiv").hide();
+            $("#succMsgDiv").hide();
+            var data = $("#sendSMSMsgForm").serialize();
+            submitAMPQJsonP($("#sendSMSMsgForm").attr("action"),data);
+            return false;
+        })
+        $("#sendQUARTZMsgForm").submit(function () {
+            $("#errMsgDiv").hide();
+            $("#succMsgDiv").hide();
+            var data = $("#sendQUARTZMsgForm").serialize();
+            submitAMPQJsonP($("#sendQUARTZMsgForm").attr("action"),data);
+            return false;
+        })
     });
+    function submitAMPQJsonP(url,data) {
+        var data = data;
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            dataType: "jsonp",  //指定服务器返回的数据类型
+            jsonp: "callback",   //指定参数名称
+            jsonpCallback: "reloadPage",  //指定回调函数名称
+            success: function (data) {
+                console.info("调用success");
+            }
+        });
+    }
+    function reloadPage(obj) {
+        var msg = eval(obj)
+        if (msg.code != 200) {
+            $("#succMsgDiv").hide("slow");
+            $("#errCodeText").text(msg.code);
+            $("#errMsgText").text(msg.msg);
+            $("#errMsgDiv").show("slow");
+        } else {
+            $("#errMsgDiv").hide();
+            $("#errCodeText").text(msg.code);
+            $("#errMsgText").text(msg.msg);
+            $("#succMsgDiv").show("slow");
+        }
+    }
 </script>
 </body>
 </html>

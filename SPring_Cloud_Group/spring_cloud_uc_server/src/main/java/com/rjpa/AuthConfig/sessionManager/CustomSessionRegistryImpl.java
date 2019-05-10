@@ -56,7 +56,13 @@ public class CustomSessionRegistryImpl implements SessionRegistry, ApplicationLi
 
     public SessionInformation getSessionInformation(String sessionId) {
         Assert.hasText(sessionId, "SessionId required as per interface contract");
-        return (SessionInformation) redisDao.getSessionInfo(SESSIONIDS, sessionId);
+        SessionInformation sessionInformation = null;
+        try {
+            sessionInformation = (SessionInformation) redisDao.getSessionInfo(SESSIONIDS, sessionId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return sessionInformation;
     }
 
     public void onApplicationEvent(SessionDestroyedEvent sessionDestroyedEvent) {

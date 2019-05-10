@@ -1,10 +1,10 @@
-EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
+EUREKA.INSTANCE.BASE.HOST: 127.0.0.1 #39.108.124.176
 EUREKA.INSTANCE.BASE.PORT: 8761
 EUREKA.INSTANCE.HOSTNAME: micoUserCenter
 EUREKA.CONTEXT.IPADD: 127.0.0.1
 EUREKA.CONTEXT.PORT: 6200
 EUREKA.CONTEXT.PATH: micoUSC
-EUREKA.INSTANCE.ADMIN.HOSTNAME: 39.108.124.176
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1 #39.108.124.176
 EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
@@ -15,16 +15,17 @@ spring:
     datasource:
         # 通用数据库源配置
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+        url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
         # Hikari 数据源专用配置
         hikari:
             username: drouis
             password: 1q2w3e4R
-            jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+            jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
             driver-class-name: com.mysql.cj.jdbc.Driver
             maximum-pool-size: 20
-            minimum-idle: 5
-            max-lifetime: 20
+            minimum-idle: 200
+            max-lifetime: 1800000
+            validation-timeout: 5000
         type: com.zaxxer.hikari.HikariDataSource
     # JPA 相关配置
     jpa:
@@ -52,7 +53,7 @@ spring:
                 max-idle: 8
                 min-idle: 0
         password: 1q2w3e4R
-        timeout: 10000
+        timeout: 5000
     # RabbitMQ 配置 ,对于rabbitMQ的支持
     rabbitmq:
         host: 39.108.124.176

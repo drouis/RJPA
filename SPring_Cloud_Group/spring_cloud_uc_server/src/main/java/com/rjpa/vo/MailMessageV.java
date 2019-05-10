@@ -2,7 +2,8 @@ package com.rjpa.vo;
 
 import java.io.Serializable;
 
-public class MailMessageV extends MessageAmpqV implements Serializable {
+public class
+MailMessageV extends MessageAmpqV implements Serializable {
 
     private static final long serialVersionUID = -4874878727807730612L;
     String mailFrom;

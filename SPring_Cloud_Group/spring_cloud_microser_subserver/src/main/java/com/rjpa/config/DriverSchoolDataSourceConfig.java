@@ -2,7 +2,6 @@ package com.rjpa.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -23,10 +22,33 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
+        basePackages = {"com.rjpa.mic.repository.driverschool.*"},//设置Repository所在位置
         entityManagerFactoryRef = "entityManagerFactoryDriverSchool",
-        transactionManagerRef = "transactionManagerDriverSchool",
-        basePackages = {"com.rjpa.mic.repository.driverschool"}) //设置Repository所在位置
+        transactionManagerRef = "transactionManagerDriverSchool")
 public class DriverSchoolDataSourceConfig {
+
+    @Primary
+    @Bean(name = "entityManagerDriverSchool")
+    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+        return entityManagerFactoryDriverSchool(builder).getObject().createEntityManager();
+    }
+
+    @Primary
+    @Bean(name = "entityManagerFactoryDriverSchool")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryDriverSchool(EntityManagerFactoryBuilder builder) {
+        Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
+        return builder.dataSource(driverSchoolDataSource)
+                .properties(properties)
+                .packages("com.rjpa.mic.repository.driverschool.Entity.*") //设置实体类所在位置
+                .persistenceUnit("driverSchoolPersistenceUnit")
+                .build();
+    }
+
+    @Primary
+    @Bean(name = "transactionManagerDriverSchool")
+    public PlatformTransactionManager transactionManagerDriverSchool(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactoryDriverSchool(builder).getObject());
+    }
 
     @Autowired
     @Qualifier("driverSchoolDataSource")
@@ -35,29 +57,4 @@ public class DriverSchoolDataSourceConfig {
     private JpaProperties jpaProperties;
     @Autowired
     private HibernateProperties hibernateProperties;
-
-    @Primary
-    @Bean(name = "entityManagerDriverSchool")
-    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
-        return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
-    }
-
-    @Primary
-    @Bean(name = "entityManagerFactoryDriverSchool")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary(EntityManagerFactoryBuilder builder) {
-        Map<String, Object> properties = hibernateProperties.determineHibernateProperties(jpaProperties.getProperties(), new HibernateSettings());
-        return builder
-                .dataSource(driverSchoolDataSource)
-                .properties(properties)
-                .packages("com.rjpa.mic.Repository.driverschool.Entity") //设置实体类所在位置
-                .persistenceUnit("primaryPersistenceUnit")
-                .build();
-    }
-
-    @Primary
-    @Bean(name = "transactionManagerDriverSchool")
-    public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
-        return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
-    }
-
 }

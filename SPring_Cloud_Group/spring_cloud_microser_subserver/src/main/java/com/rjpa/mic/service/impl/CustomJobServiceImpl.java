@@ -1,6 +1,6 @@
-package com.rjpa.mic.server.impl;
+package com.rjpa.mic.service.impl;
 
-import com.rjpa.mic.server.ICustomJobService;
+import com.rjpa.mic.service.ICustomJobService;
 import com.rjpa.quartz.AsyncJob;
 import com.rjpa.quartz.CronJob;
 import org.quartz.*;

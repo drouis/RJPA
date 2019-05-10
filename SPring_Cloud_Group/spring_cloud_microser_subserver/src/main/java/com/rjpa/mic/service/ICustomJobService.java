@@ -1,4 +1,4 @@
-package com.rjpa.mic.server;
+package com.rjpa.mic.service;
 
 public interface ICustomJobService {
     /**

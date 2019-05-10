@@ -1,10 +1,12 @@
 package com.rjpa.mic.repository.driverschool.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "lzh_admin_permission", schema = "driverschool", catalog = "")
-public class LzhAdminPermissionEntity {
+public class LzhAdminPermissionEntity implements Serializable {
+    private static final long serialVersionUID = 5564934224339346218L;
     private long id;
     private String name;
     private String permission;

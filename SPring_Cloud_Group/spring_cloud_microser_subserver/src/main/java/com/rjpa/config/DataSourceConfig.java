@@ -7,6 +7,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -33,12 +34,20 @@ public class DataSourceConfig {
                 .password(properties.getPassword()).build();
     }
 
+    @Primary
+    @Bean(name = "driverSchoolJdbcTemplate")
+    public JdbcTemplate primaryJdbcTemplate(
+            @Qualifier("driverSchoolDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
     @Bean(name = "quartzDataSourceProperties")
     @Qualifier("quartzDataSourceProperties")
     @ConfigurationProperties(prefix = "spring.datasource.quartz.hikari")
     public DataSourceProperties quartzDatasourceProperties() {
         return new DataSourceProperties();
     }
+
     @Bean(name = "quartzDataSource")
     @Qualifier("quartzDataSource")
     public DataSource quartzDataSource() {
@@ -48,6 +57,12 @@ public class DataSourceConfig {
                 .url(properties.getUrl())
                 .username(properties.getUsername())
                 .password(properties.getPassword()).build();
+    }
+
+    @Bean(name = "quartzJdbcTemplate")
+    public JdbcTemplate secondaryJdbcTemplate(
+            @Qualifier("quartzDataSource") DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 
 }

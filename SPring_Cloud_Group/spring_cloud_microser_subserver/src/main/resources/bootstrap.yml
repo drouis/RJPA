@@ -70,22 +70,21 @@ spring:
     quartz:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://39.108.124.176:3306/quartz?charset=utf8
-        jdbc-url: jdbc:mysql://39.108.124.176:3306/quartz?charset=utf8
+        url: jdbc:mysql://39.108.124.176:3306/quartz?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
+        jdbc-url: jdbc:mysql://39.108.124.176:3306/quartz?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
         username: drouis
         password: 1q2w3e4R
     driverschool:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
-        jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?charset=utf8
+        url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
+        jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
         username: drouis
         password: 1q2w3e4R
     #JPA 相关配置
     jpa:
       show-sql: true
       hibernate:
-        ddl-auto:
+        ddl-auto: update
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-

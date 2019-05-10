@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -20,6 +21,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -29,6 +31,8 @@ import java.util.List;
 @EnableDiscoveryClient
 @EnableHystrix
 @EnableFeignClients("com.rjpa.feign")
+@EnableJpaRepositories(basePackages = {"com.rjpa.mic.repository.driverschool.*","com.rjpa.mic.repository.quartz.*"})
+@EntityScan(basePackages = {"com.rjpa.mic.repository.quartz.Entity.*","com.rjpa.mic.repository.driverschool.Entity.*"})
 public class SpringCloudMicroserSubServerApplication extends SpringBootServletInitializer implements CommandLineRunner {
     protected final static Logger logger = LoggerFactory.getLogger(SpringCloudMicroserSubServerApplication.class);
 

@@ -1,10 +1,12 @@
 package com.rjpa.mic.repository.driverschool.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "lzh_admin_menus_rights", schema = "driverschool", catalog = "")
-public class LzhAdminMenusRightsEntity {
+public class LzhAdminMenusRightsEntity implements Serializable {
+    private static final long serialVersionUID = -8472323052434295405L;
     private int id;
     private String name;
     private String url;

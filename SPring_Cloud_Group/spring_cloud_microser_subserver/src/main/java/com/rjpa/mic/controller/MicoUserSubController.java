@@ -20,49 +20,6 @@ import java.util.Optional;
 @RestController
 public class MicoUserSubController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/hi")
-    public Result sayHi(@RequestParam(value = "name", required = false) String name) {
-        Result r = Result.ok(null);
-        String instanceStr = getLocalInstanceInfo();
-        r.setMsg("ClientName: MIcoUserSErverInterface sub Nodes" + ",ServerName: SubServer");
-        return r;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/find/{id}")
-    public Result findByUserId(@PathVariable Integer id) {
-        Optional<LzhAdminEntity> u = lzhAdminRepository.findById(id);
-        Result r = Result.ok(u);
-        return r;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/user/name")
-    public Result findUserByName(@RequestParam(value = "userName") String userName) {
-        Result r = null;
-        List<LzhAdminEntity> u = lzhAdminRepository.findByUserName(userName);
-        if (null != u && 0 < u.size()) {
-            r = Result.ok(u.get(0));
-        }
-        return r;
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/user/phone")
-    public Result findUserByPhone(@RequestParam(value = "phone") String phone) {
-        Result r = null;
-        List<LzhAdminEntity> u = lzhAdminRepository.findByPhoneNumber(phone);
-        if (null != u && 0 < u.size()) {
-            r = Result.ok(u.get(0));
-        }
-        return r;
-    }
-
-
-    @RequestMapping(method = RequestMethod.GET, value = "/permissionURLs")
-    public Result findAllAdminPermission() {
-        List<LzhAdminPermissionEntity> p = lzhAdminPermissionRepository.findAll();
-        Result r = Result.ok(p);
-        return r;
-    }
-
     @Autowired
     private DiscoveryClient discoveryClient;
 
@@ -75,9 +32,4 @@ public class MicoUserSubController {
             return "Instance HostName Error!";
         }
     }
-
-    @Autowired
-    LzhAdminRepository lzhAdminRepository;
-    @Autowired
-    LzhAdminPermissionRepository lzhAdminPermissionRepository;
 }

@@ -1,11 +1,13 @@
 package com.rjpa.mic.repository.driverschool.Entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name = "lzh_admin", schema = "driverschool", catalog = "")
-public class LzhAdminEntity {
+public class LzhAdminEntity implements Serializable {
+    private static final long serialVersionUID = -8198902099782001478L;
     private int id;
     private String userName;
     private String password;

@@ -2,7 +2,7 @@ package com.rjpa.mic.controller;
 
 import anno.Permission;
 import com.google.gson.Gson;
-import com.rjpa.mic.server.ICustomJobService;
+import com.rjpa.mic.service.ICustomJobService;
 import model.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

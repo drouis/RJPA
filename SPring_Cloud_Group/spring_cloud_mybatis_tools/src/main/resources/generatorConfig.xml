@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 数据库驱动 -->
+    <classPathEntry
+            location="/Users/a/Desktop/RJPA/SPring_Cloud_Group/spring_cloud_mybatis_tools/src/lib/mysql-connector-java-5.1.7-bin.jar"/>
+    <!-- 数据库驱动 -->
+    <context id="DB2Tables" targetRuntime="MyBatis3" defaultModelType="flat">
+        <commentGenerator>
+            <!-- optional，旨在创建class时，对注释进行控制 -->
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+            <property name="autoDelimitKeywords" value="true"/>
+        </commentGenerator>
+        <!-- 数据库链接地址账号密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://39.108.124.176:3305/driverschool?characterEncoding=UTF-8"
+                        userId="drouis"
+                        password="1q2w3e4R">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- 生成Model类存放位置 -->
+        <javaModelGenerator targetPackage="com.rjpa.mybatis.model"
+                            targetProject="/Users/a/Desktop/RJPA/SPring_Cloud_Group/spring_cloud_mybatis_tools/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 生成映射文件存放位置 -->
+        <sqlMapGenerator targetPackage="com.rjpa.mybatis.mapper"
+                         targetProject="/Users/a/Desktop/RJPA/SPring_Cloud_Group/spring_cloud_mybatis_tools/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成Dao类存放位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.rjpa.mybatis.dao"
+                             targetProject="/Users/a/Desktop/RJPA/SPring_Cloud_Group/spring_cloud_mybatis_tools/src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!-- 生成对应表及类名 -->
+        <table tableName="cte_qicai" domainObjectName="CteQicai">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+    </context>
+</generatorConfiguration>

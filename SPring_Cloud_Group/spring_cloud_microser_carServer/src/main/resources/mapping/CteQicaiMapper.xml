@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rjpa.mic.repository.dao.CteQicaiMapper" >
+  <resultMap id="BaseResultMap" type="com.rjpa.mic.repository.model.CteQicai" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="quuid" property="quuid" jdbcType="VARCHAR" />
+    <result column="qname" property="qname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="disssell" property="disssell" jdbcType="DECIMAL" />
+    <result column="sellarea" property="sellarea" jdbcType="VARCHAR" />
+    <result column="maketype" property="maketype" jdbcType="INTEGER" />
+    <result column="usetype" property="usetype" jdbcType="INTEGER" />
+    <result column="presellstu" property="presellstu" jdbcType="INTEGER" />
+    <result column="preselldate" property="preselldate" jdbcType="DATE" />
+    <result column="selldate" property="selldate" jdbcType="DATE" />
+    <result column="sellstu" property="sellstu" jdbcType="INTEGER" />
+    <result column="sysDate" property="sysdate" jdbcType="TIMESTAMP" />
+    <result column="memoint" property="memoint" jdbcType="INTEGER" />
+    <result column="memostr" property="memostr" jdbcType="VARCHAR" />
+    <result column="sys_date" property="sysDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, quuid, qname, price, disssell, sellarea, maketype, usetype, presellstu, preselldate, 
+    selldate, sellstu, sysDate, memoint, memostr, sys_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.rjpa.mic.repository.model.CteQicaiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from cte_qicai
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cte_qicai
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cte_qicai
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.rjpa.mic.repository.model.CteQicaiExample" >
+    delete from cte_qicai
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.rjpa.mic.repository.model.CteQicai" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cte_qicai (quuid, qname, price, 
+      disssell, sellarea, maketype, 
+      usetype, presellstu, preselldate, 
+      selldate, sellstu, sysDate, 
+      memoint, memostr, sys_date
+      )
+    values (#{quuid,jdbcType=VARCHAR}, #{qname,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{disssell,jdbcType=DECIMAL}, #{sellarea,jdbcType=VARCHAR}, #{maketype,jdbcType=INTEGER}, 
+      #{usetype,jdbcType=INTEGER}, #{presellstu,jdbcType=INTEGER}, #{preselldate,jdbcType=DATE}, 
+      #{selldate,jdbcType=DATE}, #{sellstu,jdbcType=INTEGER}, #{sysdate,jdbcType=TIMESTAMP}, 
+      #{memoint,jdbcType=INTEGER}, #{memostr,jdbcType=VARCHAR}, #{sysDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.rjpa.mic.repository.model.CteQicai" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cte_qicai
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="quuid != null" >
+        quuid,
+      </if>
+      <if test="qname != null" >
+        qname,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="disssell != null" >
+        disssell,
+      </if>
+      <if test="sellarea != null" >
+        sellarea,
+      </if>
+      <if test="maketype != null" >
+        maketype,
+      </if>
+      <if test="usetype != null" >
+        usetype,
+      </if>
+      <if test="presellstu != null" >
+        presellstu,
+      </if>
+      <if test="preselldate != null" >
+        preselldate,
+      </if>
+      <if test="selldate != null" >
+        selldate,
+      </if>
+      <if test="sellstu != null" >
+        sellstu,
+      </if>
+      <if test="sysdate != null" >
+        sysDate,
+      </if>
+      <if test="memoint != null" >
+        memoint,
+      </if>
+      <if test="memostr != null" >
+        memostr,
+      </if>
+      <if test="sysDate != null" >
+        sys_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="quuid != null" >
+        #{quuid,jdbcType=VARCHAR},
+      </if>
+      <if test="qname != null" >
+        #{qname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="disssell != null" >
+        #{disssell,jdbcType=DECIMAL},
+      </if>
+      <if test="sellarea != null" >
+        #{sellarea,jdbcType=VARCHAR},
+      </if>
+      <if test="maketype != null" >
+        #{maketype,jdbcType=INTEGER},
+      </if>
+      <if test="usetype != null" >
+        #{usetype,jdbcType=INTEGER},
+      </if>
+      <if test="presellstu != null" >
+        #{presellstu,jdbcType=INTEGER},
+      </if>
+      <if test="preselldate != null" >
+        #{preselldate,jdbcType=DATE},
+      </if>
+      <if test="selldate != null" >
+        #{selldate,jdbcType=DATE},
+      </if>
+      <if test="sellstu != null" >
+        #{sellstu,jdbcType=INTEGER},
+      </if>
+      <if test="sysdate != null" >
+        #{sysdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memoint != null" >
+        #{memoint,jdbcType=INTEGER},
+      </if>
+      <if test="memostr != null" >
+        #{memostr,jdbcType=VARCHAR},
+      </if>
+      <if test="sysDate != null" >
+        #{sysDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.rjpa.mic.repository.model.CteQicaiExample" resultType="java.lang.Integer" >
+    select count(*) from cte_qicai
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update cte_qicai
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.quuid != null" >
+        quuid = #{record.quuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qname != null" >
+        qname = #{record.qname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.disssell != null" >
+        disssell = #{record.disssell,jdbcType=DECIMAL},
+      </if>
+      <if test="record.sellarea != null" >
+        sellarea = #{record.sellarea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maketype != null" >
+        maketype = #{record.maketype,jdbcType=INTEGER},
+      </if>
+      <if test="record.usetype != null" >
+        usetype = #{record.usetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.presellstu != null" >
+        presellstu = #{record.presellstu,jdbcType=INTEGER},
+      </if>
+      <if test="record.preselldate != null" >
+        preselldate = #{record.preselldate,jdbcType=DATE},
+      </if>
+      <if test="record.selldate != null" >
+        selldate = #{record.selldate,jdbcType=DATE},
+      </if>
+      <if test="record.sellstu != null" >
+        sellstu = #{record.sellstu,jdbcType=INTEGER},
+      </if>
+      <if test="record.sysdate != null" >
+        sysDate = #{record.sysdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.memoint != null" >
+        memoint = #{record.memoint,jdbcType=INTEGER},
+      </if>
+      <if test="record.memostr != null" >
+        memostr = #{record.memostr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysDate != null" >
+        sys_date = #{record.sysDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update cte_qicai
+    set id = #{record.id,jdbcType=INTEGER},
+      quuid = #{record.quuid,jdbcType=VARCHAR},
+      qname = #{record.qname,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      disssell = #{record.disssell,jdbcType=DECIMAL},
+      sellarea = #{record.sellarea,jdbcType=VARCHAR},
+      maketype = #{record.maketype,jdbcType=INTEGER},
+      usetype = #{record.usetype,jdbcType=INTEGER},
+      presellstu = #{record.presellstu,jdbcType=INTEGER},
+      preselldate = #{record.preselldate,jdbcType=DATE},
+      selldate = #{record.selldate,jdbcType=DATE},
+      sellstu = #{record.sellstu,jdbcType=INTEGER},
+      sysDate = #{record.sysdate,jdbcType=TIMESTAMP},
+      memoint = #{record.memoint,jdbcType=INTEGER},
+      memostr = #{record.memostr,jdbcType=VARCHAR},
+      sys_date = #{record.sysDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rjpa.mic.repository.model.CteQicai" >
+    update cte_qicai
+    <set >
+      <if test="quuid != null" >
+        quuid = #{quuid,jdbcType=VARCHAR},
+      </if>
+      <if test="qname != null" >
+        qname = #{qname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="disssell != null" >
+        disssell = #{disssell,jdbcType=DECIMAL},
+      </if>
+      <if test="sellarea != null" >
+        sellarea = #{sellarea,jdbcType=VARCHAR},
+      </if>
+      <if test="maketype != null" >
+        maketype = #{maketype,jdbcType=INTEGER},
+      </if>
+      <if test="usetype != null" >
+        usetype = #{usetype,jdbcType=INTEGER},
+      </if>
+      <if test="presellstu != null" >
+        presellstu = #{presellstu,jdbcType=INTEGER},
+      </if>
+      <if test="preselldate != null" >
+        preselldate = #{preselldate,jdbcType=DATE},
+      </if>
+      <if test="selldate != null" >
+        selldate = #{selldate,jdbcType=DATE},
+      </if>
+      <if test="sellstu != null" >
+        sellstu = #{sellstu,jdbcType=INTEGER},
+      </if>
+      <if test="sysdate != null" >
+        sysDate = #{sysdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="memoint != null" >
+        memoint = #{memoint,jdbcType=INTEGER},
+      </if>
+      <if test="memostr != null" >
+        memostr = #{memostr,jdbcType=VARCHAR},
+      </if>
+      <if test="sysDate != null" >
+        sys_date = #{sysDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rjpa.mic.repository.model.CteQicai" >
+    update cte_qicai
+    set quuid = #{quuid,jdbcType=VARCHAR},
+      qname = #{qname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      disssell = #{disssell,jdbcType=DECIMAL},
+      sellarea = #{sellarea,jdbcType=VARCHAR},
+      maketype = #{maketype,jdbcType=INTEGER},
+      usetype = #{usetype,jdbcType=INTEGER},
+      presellstu = #{presellstu,jdbcType=INTEGER},
+      preselldate = #{preselldate,jdbcType=DATE},
+      selldate = #{selldate,jdbcType=DATE},
+      sellstu = #{sellstu,jdbcType=INTEGER},
+      sysDate = #{sysdate,jdbcType=TIMESTAMP},
+      memoint = #{memoint,jdbcType=INTEGER},
+      memostr = #{memostr,jdbcType=VARCHAR},
+      sys_date = #{sysDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

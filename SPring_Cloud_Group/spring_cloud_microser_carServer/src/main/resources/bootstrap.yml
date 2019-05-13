@@ -1,0 +1,70 @@
+EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
+EUREKA.INSTANCE.BASE.PORT: 8761
+EUREKA.INSTANCE.HOSTNAME: micoUSerAServer
+EUREKA.CONTEXT.IPADD: 127.0.0.1
+EUREKA.CONTEXT.PORT: 6100
+EUREKA.CONTEXT.PATH: /micoUSerServer
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1
+EUREKA.INSTANCE.ADMIN.PORT: 8000
+EUREKA.INSTANCE.ADMIN.USR: admin
+EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
+spring:
+  profiles:
+    active: native
+  datasource:
+    # 设置数据库相关
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://39.108.124.176:3305/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
+    username: drouis
+    password: 1q2w3e4R
+    # 设置 c3p0 数据源
+    type: com.mchange.v2.c3p0.ComboPooledDataSource
+# tag::configuration-eureka[]
+eureka:
+  instance:
+    hostname: ${EUREKA.INSTANCE.HOSTNAME}
+    ip-address: ${EUREKA.CONTEXT.IPADD}
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 10
+    home-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}
+    health-check-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/health
+    status-page-url-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator/info
+    metadata-map:
+      user.name: ${EUREKA.INSTANCE.ADMIN.USR}
+      user.password: ${EUREKA.INSTANCE.ADMIN.PWD}
+      management:
+        context-path: http://${EUREKA.CONTEXT.IPADD}:${EUREKA.CONTEXT.PORT}/${EUREKA.CONTEXT.PATH}/actuator
+#    instance-id: ${eureka.instance.ip-address}:${server.port}
+  client:
+    registryFetchIntervalSeconds: 5
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+# end::configuration-eureka[]
+mybatis:
+  # 设置 MyBatis mapper 的别名所在的包
+  type-aliases-package: com.rjpa.mic.repository.model
+  type-dao-package: com.rjpa.mic.repository.dao
+  # 设置 mapper 接口对应 XMl 配置文件的路径
+  mapper-locations: mapping/CteQicaiMapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    use-column-label: true
+    use-generated-keys: true
+---
+sprint:
+  boot:
+    admin:
+      client:
+        url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
+        username: ${EUREKA.INSTANCE.ADMIN.USR}
+        password: ${EUREKA.INSTANCE.ADMIN.PWD}

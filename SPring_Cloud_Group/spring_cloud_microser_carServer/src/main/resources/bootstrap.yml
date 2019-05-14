@@ -55,7 +55,7 @@ mybatis:
   type-aliases-package: com.rjpa.mic.repository.model
   type-dao-package: com.rjpa.mic.repository.dao
   # 设置 mapper 接口对应 XMl 配置文件的路径
-  mapper-locations: mapping/CteQicaiMapper.xml
+  mapper-locations: mapping/*Mapper.xml
   configuration:
     map-underscore-to-camel-case: true
     use-column-label: true

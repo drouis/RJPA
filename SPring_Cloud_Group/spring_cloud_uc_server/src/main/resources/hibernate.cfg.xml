@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:mysql://39.108.124.176:3306/driverschool</property>
+    <property name="connection.url">jdbc:mysql://39.108.124.176:3305/driverschool</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
       <mapping class="com.rjpa.repository.Entity.LzhAdminLoginLogEntity"/>
     <mapping class="com.rjpa.repository.Entity.LzhAdminRoleEntity"/>

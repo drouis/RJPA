@@ -25,6 +25,7 @@
         <module>spring_cloud_common</module>
         <module>spring_cloud_uc_server</module>
         <module>spring_cloud_microser_carServer</module>
+        <module>spring_cloud_mybatis_tools</module>
     </modules>
 
     <properties>

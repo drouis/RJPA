@@ -3,12 +3,12 @@ package Entity;
 import java.io.Serializable;
 import java.util.List;
 
-public class IndexPageMenuV extends LzhAdminMenusRightsEntityV implements Serializable {
+public class IndexPageMenuV extends LzhAdminMenusRightsEntity implements Serializable {
 
     private static final long serialVersionUID = -5515679229644786292L;
     String selected = "";
 
-    List<LzhAdminMenusRightsEntityV> subMenus;
+    List<LzhAdminMenusRightsEntity> subMenus;
 
     public String getSelected() {
         return selected;
@@ -18,11 +18,11 @@ public class IndexPageMenuV extends LzhAdminMenusRightsEntityV implements Serial
         this.selected = selected;
     }
 
-    public List<LzhAdminMenusRightsEntityV> getSubMenus() {
+    public List<LzhAdminMenusRightsEntity> getSubMenus() {
         return subMenus;
     }
 
-    public void setSubMenus(List<LzhAdminMenusRightsEntityV> subMenus) {
+    public void setSubMenus(List<LzhAdminMenusRightsEntity> subMenus) {
         this.subMenus = subMenus;
     }
 }

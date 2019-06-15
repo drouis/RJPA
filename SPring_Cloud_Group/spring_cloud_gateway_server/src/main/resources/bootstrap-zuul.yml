@@ -3,9 +3,36 @@
 #当stripPrefix=false的时候（http://127.0.0.1:8181/api/user/list -> http://192.168.1.100:8080/api/user/list）
 zuul:
   routes:
-    spring-cloud-micouser-server:
-      sevice-id: spring-cloud-micouser-server
-      path: /user/** # 这里指代将访问ribon的路径代理到指定的服务中，如果访问的服务设定了context-path，可以理解为去掉path前面的路径，替换成访问的服务路径
+    ## 127.0.0.1:8759/gtw/usercenter/micoUSC/agentInfo/myBundBankCards
+    ## 127.0.0.1:6200/micoUSC/agentInfo/myBundBankCards
+    spring-cloud-mico-usercenter:
+      sevice-id: spring-cloud-mico-usercenter-server
+      path: /usercenter/** # 这里指代将访问ribon的路径代理到指定的服务中，如果访问的服务设定了context-path，可以理解为去掉path前面的路径，替换成访问的服务路径
+      strip-Prefix: true
+      stripPrefix: true
+    spring-cloud-wood-info:
+      sevice-id: wood-info-server
+      path: /info/**
+      strip-Prefix: true
+      stripPrefix: true
+    spring-cloud-wood-car:
+      sevice-id: wood-car-server
+      path: /car/**
+      strip-Prefix: true
+      stripPrefix: true
+    spring-cloud-wood-systemtools:
+      sevice-id: wood-systools-server
+      path: /tools/**
+      strip-Prefix: true
+      stripPrefix: true
+    spring-cloud-wood-trade:
+      sevice-id: wood-trade-server
+      path: /trade/**
+      strip-Prefix: true
+      stripPrefix: true
+    spring-cloud-wood-pic:
+      sevice-id: wood-picture-server
+      path: /pic/**
       strip-Prefix: true
       stripPrefix: true
   host:
@@ -16,13 +43,48 @@ zuul:
   SendErrorFilter:
     error:
       disable: false
-spring-cloud-micouser-server:
+spring-cloud-mico-usercenter:
   ribbon:
     ReadTimeout: 50000
     ConnectTimeout: 50000
     NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule     #Ribbon LB Strategy
-    listOfServers: 127.0.0.1:6100,localhost:6101     #client services for Ribbon LB
+    listOfServers: 127.0.0.1:6200    #client services for Ribbon LB
+spring-cloud-wood-info:
+  ribbon:
+    ReadTimeout: 50000
+    ConnectTimeout: 50000
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule     #Ribbon LB Strategy
+    listOfServers: 127.0.0.1:4002    #client services for Ribbon LB
+spring-cloud-wood-car:
+  ribbon:
+    ReadTimeout: 50000
+    ConnectTimeout: 50000
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule     #Ribbon LB Strategy
+    listOfServers: 127.0.0.1:4003    #client services for Ribbon LB
+spring-cloud-wood-systemtools:
+  ribbon:
+    ReadTimeout: 50000
+    ConnectTimeout: 50000
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule     #Ribbon LB Strategy
+    listOfServers: 127.0.0.1:4004    #client services for Ribbon LB
+spring-cloud-wood-trade:
+  ribbon:
+    ReadTimeout: 50000
+    ConnectTimeout: 50000
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule     #Ribbon LB Strategy
+    listOfServers: 127.0.0.1:4001    #client services for Ribbon LB
+spring-cloud-wood-pic:
+  ribbon:
+    ReadTimeout: 50000
+    ConnectTimeout: 50000
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule     #Ribbon LB Strategy
+    listOfServers: 127.0.0.1:4011    #client services for Ribbon LB
 ---
 hystrix:
   command:
@@ -43,3 +105,9 @@ ribbon:
   eureka:
     enabled: false # 禁止ribbon 使用 eureka
 ribbon.eureka.enabled: false
+---
+security:
+    # 匹配正则表达式
+    ignoring: " "
+    intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
+    successUrl: "/welcome"

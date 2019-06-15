@@ -13,10 +13,10 @@ spring:
     active: native
   # RabbitMQ 配置 ,对于rabbitMQ的支持
   rabbitmq:
-    host: 39.108.124.176
-    port: 5672
-    username: drouis
-    password: 1q2w3e4r
+    host: 47.106.232.21
+    port: 672
+    username: mucai
+    password: 1q2w3e4R
 feign:
   httpclient:
     enabled: true
@@ -70,16 +70,16 @@ spring:
     quartz:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://39.108.124.176:3306/quartz?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
-        jdbc-url: jdbc:mysql://39.108.124.176:3306/quartz?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
-        username: drouis
+        url: jdbc:mysql://47.106.232.21:3306/quartz?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&useSSL=false
+        jdbc-url: jdbc:mysql://47.106.232.21:3306/quartz?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&useSSL=false
+        username: suotianbao
         password: 1q2w3e4R
     driverschool:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
-        jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
-        username: drouis
+        url: jdbc:mysql://47.106.232.21:3306/system?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&useSSL=false
+        jdbc-url: jdbc:mysql://47.106.232.21:3306/system?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&useSSL=false
+        username: suotianbao
         password: 1q2w3e4R
     #JPA 相关配置
     jpa:

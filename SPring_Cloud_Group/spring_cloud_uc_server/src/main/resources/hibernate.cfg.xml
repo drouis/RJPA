@@ -4,14 +4,23 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:mysql://39.108.124.176:3305/driverschool</property>
+    <property name="connection.url">jdbc:mysql://47.106.232.21:3306/system</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminInmailEntity"/>
       <mapping class="com.rjpa.repository.Entity.LzhAdminLoginLogEntity"/>
-    <mapping class="com.rjpa.repository.Entity.LzhAdminRoleEntity"/>
-      <mapping class="com.rjpa.repository.Entity.LzhAdminUserRoleEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminMenusRightsEntity"/>
       <mapping class="com.rjpa.repository.Entity.LzhAdminPermissionEntity"/>
-      <mapping class="com.rjpa.repository.Entity.SysDictcodeEntity"/>
-      <mapping class="com.rjpa.repository.Entity.AmpqMessageEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminRoleEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminRolePermissionEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminSmsEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminUserRoleEntity"/>
+    <mapping class="com.rjpa.repository.Entity.SysDictcodeEntity"/>
+    <mapping class="com.rjpa.repository.Entity.SysDictionaryEntity"/>
+    <mapping class="com.rjpa.repository.Entity.SysDictionaryDataEntity"/>
+    <mapping class="com.rjpa.repository.Entity.SysDictionaryGroupEntity"/>
+    <mapping class="com.rjpa.repository.Entity.AmpqMessageEntity"/>
+      <mapping class="com.rjpa.repository.Entity.LzhAdminBankcardEntity"/>
       <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

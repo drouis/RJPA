@@ -2,7 +2,6 @@ package com.rjpa.controller;
 
 import anno.Permission;
 import com.rjpa.AuthConfig.vo.User;
-import com.rjpa.redis.RedisDao;
 import com.rjpa.service.IndexMvcService;
 import com.rjpa.vo.IndexPageMenuV;
 import model.Result;
@@ -37,6 +36,7 @@ public class IndexMvcController {
 
         // TODO 4 共通处理
         {
+            // TODO 4.1 根据用户登陆信息，取得用户数据
             SecurityContextImpl securityContextImpl = (SecurityContextImpl) request.getSession()
                     .getAttribute("SPRING_SECURITY_CONTEXT");
             User u = (User) securityContextImpl.getAuthentication().getPrincipal();
@@ -56,6 +56,4 @@ public class IndexMvcController {
 
     @Autowired
     IndexMvcService indexMvcService;
-    @Autowired
-    RedisDao redisDao;
 }

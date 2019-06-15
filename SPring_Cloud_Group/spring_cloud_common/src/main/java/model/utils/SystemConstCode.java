@@ -4,7 +4,7 @@ public enum SystemConstCode {
     SUCCESS(200, "系统执行成功。"),
     ERROR(204, "系统发生不可预知的异常错误。"),
     PARA_ERROR(300, "API接口参数错误。"),
-
+    PARA_EMPTY_ERROR(300, "{paramName}不能为空。"),
     //    用户错误信息
     USER_USERNAME_ERROR(2010, "用户名称错误。"),
     USER_USERPWD_ERROR(2011, "用户密码错误。"),
@@ -13,6 +13,7 @@ public enum SystemConstCode {
     USER_USERNAME_IS_EXIST(2014, "登陆名已经存在。"),
     USER_PHONENUMBER_IS_EXIST(2015, "登陆手机号已经绑定。"),
     USER_LOGIN_TIMEOUT(2016, "长时间未操作，登陆超时。"),
+    USER_LOIGN_TOKEN_EMPTY(2017,"用户登陆验证失效，请重新登陆"),
     // 系统菜单配置错误
     MENU_NAME_ERROR(2020, "菜单名称错误。"),
     MENU_INSERT_FAILD_ERROR(2021, "菜单创建失败。"),
@@ -40,6 +41,24 @@ public enum SystemConstCode {
     // 系统消息配置错误
     MESSAGE_HISTORYDATA_NOT_EXIST(3000, "系统消息未发送成功，没有发送历史数据"),
     MESSAGE_HISTORYDATA_UP_FAILD(3099, "系统消息更新历史数据失败"),
+
+    // 车场数据错误
+    CAR_GROUND_DATA_NOT_EXIST(4003001,"车场数据不存在"),
+    CAR_GROUND_DATA_IS_EXIST(4003002,"车场数据重复存在"),
+    CAR_GROUND_DATA_IS_USING(4003003,"车场数据正在使用无法修改数据"),
+    CAR_GROUND_DATA_INSERT_FAILD_ERROR(4003004,"车场数据创建失败"),
+    CAR_GROUND_DATA_UPDATE_FAILD_ERROR(4003005,"车场数据修改失败"),
+    CAR_GROUND_DATA_DELETE_FAILD_ERROR(4003006,"车场数据删除失败"),
+
+    ORDER_DATA_INSERT_FAILD_ERROR(400404,"订单数据创建失败！"),
+    ORDER_DATA_UDDATE_FAILD_ERROR(400405,"订单数据更新失败！"),
+    ORDER_DATA_DELETE_FAILD_ERROR(400406,"订单数据删除失败！"),
+
+
+    // 应用端用户信息错误
+    MESSAGE_SMS_VERIFY_UNSAME(2001,"用户登陆短信验证错误"),
+    MESSAGE_SMS_VERIFY_EMPTY(2002,"请输入登陆验证码"),
+    MESSAGE_SMS_VERIFY_PHONENUMBER_EMPTY(2003,"请填写发送短信手机号"),
     END_STR(999, "");
 
     SystemConstCode(Integer code, String message) {

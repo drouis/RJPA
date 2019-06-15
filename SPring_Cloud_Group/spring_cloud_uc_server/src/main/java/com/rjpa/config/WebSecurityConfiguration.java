@@ -1,18 +1,18 @@
 package com.rjpa.config;
 
 import com.google.gson.Gson;
-import com.rjpa.AuthConfig.CustomAccessDecisionManager;
-import com.rjpa.AuthConfig.CustomMetadataSourceService;
+import com.rjpa.AuthConfig.filter.CustomAccessDecisionManager;
+import com.rjpa.AuthConfig.filter.CustomMetadataSourceService;
 import com.rjpa.AuthConfig.endPoint.CustomLoginAuthEntryPoint;
 import com.rjpa.AuthConfig.filter.CustomLoginFilter;
 import com.rjpa.AuthConfig.filter.CustomSecurityInterceptor;
+import com.rjpa.AuthConfig.filter.CuzUsernamePasswordAuthenticationFilter;
+import com.rjpa.AuthConfig.filter.MyConcurrentSessionControlAuthenticationStrategy;
 import com.rjpa.AuthConfig.handler.CustomAccessDeniedHandler;
 import com.rjpa.AuthConfig.handler.CustomLoginAuthFailureHandler;
 import com.rjpa.AuthConfig.handler.CustomLoginAuthSuccessHandler;
 import com.rjpa.AuthConfig.handler.CustomLogoutSuccessHandler;
 import com.rjpa.AuthConfig.service.MyUserDetailsService;
-import com.rjpa.AuthConfig.sessionManager.CustomSessionControlAuthenticationStrategy;
-import com.rjpa.AuthConfig.sessionManager.CustomSessionRegistryImpl;
 import model.Result;
 import model.utils.StringUtil;
 import model.utils.SystemConstCode;
@@ -29,14 +29,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.ConcurrentSessionFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
+
+import javax.annotation.Resource;
 
 /**
  * spring-security配置
@@ -59,7 +68,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${security.logoutSuccessUrl}")
     String logoutSuccessUrl;
     private static String[] AUTH_WHITELIST = {};
-
+    private static PathMatcher pathMatcher = new AntPathMatcher();
 
     /**
      * 配置验证Url地址和验证方式
@@ -87,25 +96,26 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic().authenticationEntryPoint(getCustomLoginAuthEntryPoint())
                 .and().addFilterAt(getCustomLoginFilter(), UsernamePasswordAuthenticationFilter.class);
         // TODO 自定义验证访问URL权限拦截器
-        http.addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class);
+//        http.addFilterAt(getCustomSecurityInterceptor(), FilterSecurityInterceptor.class);
         // TODO session管理
         // TODO session并发控制过滤器
         http.addFilterAt(new ConcurrentSessionFilter(sessionRegistry, sessionInformationExpiredStrategy()), ConcurrentSessionFilter.class);
-        Result r = Result.error(SystemConstCode.USER_LOGIN_TIMEOUT.getCode(), SystemConstCode.USER_LOGIN_TIMEOUT.getMessage());
         //TODO session失效后跳转
-        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?errMsg=" + gson.toJson(r)).sessionRegistry(sessionRegistry);
-        http.authorizeRequests().anyRequest().authenticated().and().exceptionHandling().accessDeniedHandler(getCustomAccessDeniedHandler());
+        http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/login?errMsg=" + gson.toJson(Result.error(SystemConstCode.USER_LOGIN_TIMEOUT.getCode(), SystemConstCode.USER_LOGIN_TIMEOUT.getMessage())));
+//        http.authorizeRequests().anyRequest().authenticated().and().exceptionHandling().accessDeniedHandler(getCustomAccessDeniedHandler());
         http.logout().logoutSuccessHandler(getCustomLogoutSuccessHandler())
                 .and().formLogin().loginProcessingUrl("/Authlogin").loginPage("/login").permitAll()// 设置登陆信息和登陆权限
                 .and().logout().logoutUrl("/logout").permitAll(); // 配置登出信息和登出权限
-
-
-        logger.debug("配置忽略验证url");
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().regexMatchers("/assets/*").regexMatchers("/*/subPermissionAPI/*");
+        web.ignoring()
+                .regexMatchers("/*/subPermissionAPI/*")
+                .regexMatchers("/*/assets/*")
+                .regexMatchers("/*/webjars/*")
+                .regexMatchers("/*/swagger*/*")
+                .regexMatchers("/*/agentInfo*/*");
     }
 
     @Autowired
@@ -121,12 +131,48 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new SimpleRedirectSessionInformationExpiredStrategy("/login");
     }
 
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
     //SpringSecurity内置的session监听器
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
+    private UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception {
+        UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new CuzUsernamePasswordAuthenticationFilter();
+        usernamePasswordAuthenticationFilter.setPostOnly(true);
+        usernamePasswordAuthenticationFilter.setAuthenticationManager(this.authenticationManager());
+        usernamePasswordAuthenticationFilter.setUsernameParameter("name_key");
+        usernamePasswordAuthenticationFilter.setPasswordParameter("pwd_key");
+        usernamePasswordAuthenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/checkLogin", "POST"));
+        usernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(simpleUrlAuthenticationFailureHandler());
+        usernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
+        //session并发控制,因为默认的并发控制方法是空方法.这里必须自己配置一个
+//        usernamePasswordAuthenticationFilter.setSessionAuthenticationStrategy(new ConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
+        usernamePasswordAuthenticationFilter.setSessionAuthenticationStrategy(new MyConcurrentSessionControlAuthenticationStrategy(sessionRegistry));
+        return usernamePasswordAuthenticationFilter;
+    }
 
+    /**
+     * 验证异常处理器
+     *
+     * @return
+     */
+    private SimpleUrlAuthenticationFailureHandler simpleUrlAuthenticationFailureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler("/getLoginError");
+    }
+    /**
+     * 登录成功后跳转
+     * 如果需要根据不同的角色做不同的跳转处理,那么继承AuthenticationSuccessHandler重写方法
+     *
+     * @return
+     */
+    private SimpleUrlAuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler("/loginSuccess");
+    }
     /**
      * spring security 配置
      *
@@ -173,7 +219,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationSuccessHandler(getCustomLoginAuthSuccessHandler());
         // 设定登陆失败后的跳转过滤
         filter.setAuthenticationFailureHandler(getCustomLoginAuthFailureHandler());
-        filter.setSessionAuthenticationStrategy(sessionControlAuthenticationStrategy);
         return filter;
     }
 
@@ -256,8 +301,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     MyUserDetailsService userService;
-    @Autowired
-    CustomSessionRegistryImpl sessionRegistry;
-    @Autowired
-    CustomSessionControlAuthenticationStrategy sessionControlAuthenticationStrategy;
+    @Resource
+    private SessionRegistry sessionRegistry;
 }

@@ -1,44 +1,16 @@
-EUREKA.INSTANCE.BASE.HOST: 127.0.0.1
-EUREKA.INSTANCE.BASE.PORT: 8761
-EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1
+EUREKA.INSTANCE.BASE.HOST:  127.0.0.1 # 47.106.232.21
+EUREKA.INSTANCE.BASE.PORT1: 8761
+EUREKA.INSTANCE.BASE.PORT2: 8762
+EUREKA.INSTANCE.BASE.PORT3: 8763
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1  # 47.106.232.21
 EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
-server:
-  port: ${EUREKA.INSTANCE.BASE.PORT}
-  servlet:
-    context-path: /
-spring:
-  profiles:
-    active: instance1
-  application:
-    name: spring-cloud-eureka-server
-eureka:
-  instance:
-    hostname: ${EUREKA.INSTANCE.BASE.HOST}
-    home-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/
-    health-check-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/actuator/health
-    status-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/actuator/info
-    metadata-map:
-      configPath: ${server.servlet.context-path:}
-      user.name: ${spring.security.user.name}
-      user.password: ${spring.security.user.password}
-      management:
-        context-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/actuator
-  server:
-    enable-self-preservation: false
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS
-
 ---
 spring:
   profiles: instance1
+  application:
+    name: spring-cloud-eureka-server
   # 安全参数配置
   security:
     user:
@@ -50,20 +22,119 @@ spring:
         url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
         username: ${EUREKA.INSTANCE.ADMIN.USR}
         password: ${EUREKA.INSTANCE.ADMIN.PWD}
+server:
+  port: ${EUREKA.INSTANCE.BASE.PORT1}
+  servlet:
+    context-path: /
 eureka:
+  instance:
+    hostname: instance1
+    home-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/
+    health-check-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/actuator/health
+    status-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/actuator/info
+    metadata-map:
+      configPath: ${server.servlet.context-path:}
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+      management:
+        context-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/actuator
   client:
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT}/eureka/
-    register-with-eureka: false
+      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/eureka
     fetch-registry: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
 ---
-#spring:
-#  profiles: instance2
-#server:
-#  port: 8762
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${EUREKA.INSTANCE.BASE.HOST}:8761/eureka/
-#    register-with-eureka: false
-#    fetch-registry: false
+spring:
+  profiles: instance2
+  application:
+    name: spring-cloud-eureka-server
+  # 安全参数配置
+  security:
+    user:
+      name: ${EUREKA.INSTANCE.ADMIN.USR}
+      password: ${EUREKA.INSTANCE.ADMIN.PWD}
+  boot:
+    admin:
+      client:
+        url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
+        username: ${EUREKA.INSTANCE.ADMIN.USR}
+        password: ${EUREKA.INSTANCE.ADMIN.PWD}
+server:
+  port: ${EUREKA.INSTANCE.BASE.PORT2}
+  servlet:
+    context-path: /
+eureka:
+  instance:
+    hostname: instance2
+    home-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT2}/
+    health-check-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT2}/actuator/health
+    status-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT2}/actuator/info
+    metadata-map:
+      configPath: ${server.servlet.context-path:}
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+      management:
+        context-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT2}/actuator
+  client:
+    service-url:
+      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/eureka,http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT2}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+---
+spring:
+  profiles: instance3
+  application:
+    name: spring-cloud-eureka-server
+  # 安全参数配置
+  security:
+    user:
+      name: ${EUREKA.INSTANCE.ADMIN.USR}
+      password: ${EUREKA.INSTANCE.ADMIN.PWD}
+  boot:
+    admin:
+      client:
+        url: http://${EUREKA.INSTANCE.ADMIN.HOSTNAME}:${EUREKA.INSTANCE.ADMIN.PORT}/admin
+        username: ${EUREKA.INSTANCE.ADMIN.USR}
+        password: ${EUREKA.INSTANCE.ADMIN.PWD}
+server:
+  port: ${EUREKA.INSTANCE.BASE.PORT3}
+  servlet:
+    context-path: /
+eureka:
+  instance:
+    hostname: instance3
+    home-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT3}/
+    health-check-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT3}/actuator/health
+    status-page-url-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT3}/actuator/info
+    metadata-map:
+      configPath: ${server.servlet.context-path:}
+      user.name: ${spring.security.user.name}
+      user.password: ${spring.security.user.password}
+      management:
+        context-path: http://${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT3}/actuator
+  client:
+    service-url:
+      defaultZone: http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT1}/eureka, http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT2}/eureka,http://${EUREKA.INSTANCE.ADMIN.USR}:${EUREKA.INSTANCE.ADMIN.PWD}@${EUREKA.INSTANCE.BASE.HOST}:${EUREKA.INSTANCE.BASE.PORT3}/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

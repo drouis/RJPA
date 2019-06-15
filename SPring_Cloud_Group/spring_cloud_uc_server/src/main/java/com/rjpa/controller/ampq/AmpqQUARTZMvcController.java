@@ -5,8 +5,6 @@ import com.google.gson.Gson;
 import com.rjpa.config.RabbitMQConfiguration;
 import com.rjpa.rabbitMq.CustomProducer;
 import com.rjpa.service.IAmpqMessageService;
-import com.rjpa.vo.MessageAmpqV;
-import com.rjpa.vo.QuartzMessageV;
 import model.Result;
 import model.utils.SystemConstCode;
 import org.slf4j.Logger;
@@ -15,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import vo.MessageAmpqV;
+import vo.QuartzMessageV;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

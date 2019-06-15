@@ -1,25 +1,19 @@
 package com.rjpa.repository.Entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Proxy(lazy = false)
 @Entity
-@Table(name = "sys_dictcode", schema = "driverschool", catalog = "")
-public class SysDictcodeEntity implements Serializable {
-    private static final long serialVersionUID = 6261416212928654941L;
+@Table(name = "sys_dictcode", schema = "system", catalog = "")
+public class SysDictcodeEntity {
     private int did;
     private String dcolumn;
+    private String dmemo;
     private String dpresent;
     private Integer dvalue;
-    private String dmemo;
 
     @Id
-    @Column(name = "did")
+    @Column(name = "did", nullable = false)
     public int getDid() {
         return did;
     }
@@ -29,7 +23,7 @@ public class SysDictcodeEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dcolumn")
+    @Column(name = "dcolumn", nullable = true, length = 255)
     public String getDcolumn() {
         return dcolumn;
     }
@@ -39,7 +33,17 @@ public class SysDictcodeEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dpresent")
+    @Column(name = "dmemo", nullable = true, length = 255)
+    public String getDmemo() {
+        return dmemo;
+    }
+
+    public void setDmemo(String dmemo) {
+        this.dmemo = dmemo;
+    }
+
+    @Basic
+    @Column(name = "dpresent", nullable = true, length = 255)
     public String getDpresent() {
         return dpresent;
     }
@@ -49,23 +53,13 @@ public class SysDictcodeEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "dvalue")
+    @Column(name = "dvalue", nullable = true)
     public Integer getDvalue() {
         return dvalue;
     }
 
     public void setDvalue(Integer dvalue) {
         this.dvalue = dvalue;
-    }
-
-    @Basic
-    @Column(name = "dmemo")
-    public String getDmemo() {
-        return dmemo;
-    }
-
-    public void setDmemo(String dmemo) {
-        this.dmemo = dmemo;
     }
 
     @Override
@@ -75,13 +69,14 @@ public class SysDictcodeEntity implements Serializable {
         SysDictcodeEntity that = (SysDictcodeEntity) o;
         return did == that.did &&
                 Objects.equals(dcolumn, that.dcolumn) &&
+                Objects.equals(dmemo, that.dmemo) &&
                 Objects.equals(dpresent, that.dpresent) &&
-                Objects.equals(dvalue, that.dvalue) &&
-                Objects.equals(dmemo, that.dmemo);
+                Objects.equals(dvalue, that.dvalue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(did, dcolumn, dpresent, dvalue, dmemo);
+
+        return Objects.hash(did, dcolumn, dmemo, dpresent, dvalue);
     }
 }

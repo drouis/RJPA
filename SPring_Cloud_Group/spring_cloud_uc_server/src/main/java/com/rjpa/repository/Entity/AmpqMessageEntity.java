@@ -1,28 +1,23 @@
 package com.rjpa.repository.Entity;
 
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@Proxy(lazy = false)
 @Entity
-@Table(name = "ampq_message", schema = "driverschool", catalog = "")
-public class AmpqMessageEntity implements Serializable {
-    private static final long serialVersionUID = 9166353003382453741L;
+@Table(name = "ampq_message", schema = "system", catalog = "")
+public class AmpqMessageEntity {
     private int id;
     private String uuid;
-    private Integer ampqType;
-    private String ampqQueName;
     private String ampqClass;
     private String ampqMemo;
+    private String ampqQueName;
     private Integer ampqStatue;
-    private Timestamp ampqTIme;
+    private Timestamp ampqTime;
+    private Integer ampqType;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -32,7 +27,7 @@ public class AmpqMessageEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "uuid")
+    @Column(name = "uuid", nullable = true, length = 255)
     public String getUuid() {
         return uuid;
     }
@@ -42,27 +37,7 @@ public class AmpqMessageEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "ampqType")
-    public Integer getAmpqType() {
-        return ampqType;
-    }
-
-    public void setAmpqType(Integer ampqType) {
-        this.ampqType = ampqType;
-    }
-
-    @Basic
-    @Column(name = "ampqQueName")
-    public String getAmpqQueName() {
-        return ampqQueName;
-    }
-
-    public void setAmpqQueName(String ampqQueName) {
-        this.ampqQueName = ampqQueName;
-    }
-
-    @Basic
-    @Column(name = "ampqClass")
+    @Column(name = "ampq_class", nullable = true, length = 255)
     public String getAmpqClass() {
         return ampqClass;
     }
@@ -72,7 +47,7 @@ public class AmpqMessageEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "ampqMemo")
+    @Column(name = "ampq_memo", nullable = true, length = 255)
     public String getAmpqMemo() {
         return ampqMemo;
     }
@@ -82,7 +57,17 @@ public class AmpqMessageEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "ampqStatue")
+    @Column(name = "ampq_que_name", nullable = true, length = 255)
+    public String getAmpqQueName() {
+        return ampqQueName;
+    }
+
+    public void setAmpqQueName(String ampqQueName) {
+        this.ampqQueName = ampqQueName;
+    }
+
+    @Basic
+    @Column(name = "ampq_statue", nullable = true)
     public Integer getAmpqStatue() {
         return ampqStatue;
     }
@@ -92,13 +77,23 @@ public class AmpqMessageEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "ampqTIme")
-    public Timestamp getAmpqTIme() {
-        return ampqTIme;
+    @Column(name = "ampq_time", nullable = true)
+    public Timestamp getAmpqTime() {
+        return ampqTime;
     }
 
-    public void setAmpqTIme(Timestamp ampqTIme) {
-        this.ampqTIme = ampqTIme;
+    public void setAmpqTime(Timestamp ampqTime) {
+        this.ampqTime = ampqTime;
+    }
+
+    @Basic
+    @Column(name = "ampq_type", nullable = true)
+    public Integer getAmpqType() {
+        return ampqType;
+    }
+
+    public void setAmpqType(Integer ampqType) {
+        this.ampqType = ampqType;
     }
 
     @Override
@@ -108,16 +103,17 @@ public class AmpqMessageEntity implements Serializable {
         AmpqMessageEntity that = (AmpqMessageEntity) o;
         return id == that.id &&
                 Objects.equals(uuid, that.uuid) &&
-                Objects.equals(ampqType, that.ampqType) &&
-                Objects.equals(ampqQueName, that.ampqQueName) &&
                 Objects.equals(ampqClass, that.ampqClass) &&
                 Objects.equals(ampqMemo, that.ampqMemo) &&
+                Objects.equals(ampqQueName, that.ampqQueName) &&
                 Objects.equals(ampqStatue, that.ampqStatue) &&
-                Objects.equals(ampqTIme, that.ampqTIme);
+                Objects.equals(ampqTime, that.ampqTime) &&
+                Objects.equals(ampqType, that.ampqType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, uuid, ampqType, ampqQueName, ampqClass, ampqMemo, ampqStatue, ampqTIme);
+
+        return Objects.hash(id, uuid, ampqClass, ampqMemo, ampqQueName, ampqStatue, ampqTime, ampqType);
     }
 }

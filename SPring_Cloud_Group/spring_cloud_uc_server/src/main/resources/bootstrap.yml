@@ -1,65 +1,37 @@
-EUREKA.INSTANCE.BASE.HOST: 127.0.0.1 #39.108.124.176
+EUREKA.INSTANCE.BASE.HOST: 127.0.0.1 #47.106.232.21
 EUREKA.INSTANCE.BASE.PORT: 8761
 EUREKA.INSTANCE.HOSTNAME: micoUserCenter
 EUREKA.CONTEXT.IPADD: 127.0.0.1
 EUREKA.CONTEXT.PORT: 6200
 EUREKA.CONTEXT.PATH: micoUSC
-EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1 #39.108.124.176
+EUREKA.INSTANCE.ADMIN.HOSTNAME: 127.0.0.1 #47.106.232.21
 EUREKA.INSTANCE.ADMIN.PORT: 8000
 EUREKA.INSTANCE.ADMIN.USR: admin
 EUREKA.INSTANCE.ADMIN.PWD: 1q2w3e4r
 spring:
     profiles:
         active: native
-        # 静态文件请求匹配方式
-    datasource:
-        # 通用数据库源配置
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
-        # Hikari 数据源专用配置
-        hikari:
-            username: drouis
-            password: 1q2w3e4R
-            jdbc-url: jdbc:mysql://39.108.124.176:3306/driverschool?characterEncoding=UTF-8&autoReconnct=true&autoReconnectForPools=true&allowMultiQueries=true
-            driver-class-name: com.mysql.cj.jdbc.Driver
-            maximum-pool-size: 20
-            minimum-idle: 200
-            max-lifetime: 1800000
-            validation-timeout: 5000
-        type: com.zaxxer.hikari.HikariDataSource
-    # JPA 相关配置
+    # 静态文件请求匹配方式
+    mvc:
+        static-path-pattern: /assets
+    # 修改默认的静态寻址资源目录 多个使用逗号分隔
+    resources:
+        static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
+    main:
+        allow-bean-definition-overriding: true
+    # RabbitMQ 配置 ,对于rabbitMQ的支持
+    rabbitmq:
+        host: 47.106.232.21
+        port: 672
+        username: mucai
+        password: 1q2w3e4R
+    #JPA 相关配置
     jpa:
         show-sql: true
         hibernate:
             ddl-auto: update
             naming:
                 physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    mvc:
-        static-path-pattern: /assets
-        # 修改默认的静态寻址资源目录 多个使用逗号分隔
-    resources:
-        static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/statics/,classpath:/static/
-    main:
-        allow-bean-definition-overriding: true
-    # Redis 配置 ,对于缓存的支持
-    redis:
-        database: 0
-        host: 39.108.124.176
-        port: 6379
-        lettuce:
-            pool:
-                max-active: 8
-                max-wait: -1
-                max-idle: 8
-                min-idle: 0
-        password: 1q2w3e4R
-        timeout: 5000
-    # RabbitMQ 配置 ,对于rabbitMQ的支持
-    rabbitmq:
-        host: 39.108.124.176
-        port: 5672
-        username: drouis
-        password: 1q2w3e4r
 # tag::configuration-eureka[]
 eureka:
     instance:
@@ -97,7 +69,7 @@ management:
 ---
 # 匹配正则表达式
 security:
-    ignoring: "\\/actuator\\/(\\w+), \\/subPermissionAPI\\/(\\w+), /include/**/*.*, /assets/**/*.*, /static/**/*.*, /druid/*.*, /webjars/*.*, /images/*.*, /swagger2/**/*.*, /login"
+    ignoring: "**/actuator/**/*, **/subPermissionAPI/**/*, **/agentInfo/**/*, /include/**/*, /assets/**/*, /static/**/*, /druid/*,/webjars/**/*, /images/*, **/swagger*/**/*, /login"
     intercept: "/**/*.jsp, /**/*.html, /**/*.ftl, /**/*.js, /**/*.css, /**/*.jpg, /**/*.png, /**/*.gif"
     successUrl: "/welcome"
     logoutSuccessUrl: "/login"

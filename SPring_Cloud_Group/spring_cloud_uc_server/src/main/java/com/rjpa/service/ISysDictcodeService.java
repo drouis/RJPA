@@ -1,8 +1,7 @@
 package com.rjpa.service;
 
-import com.rjpa.vo.SysDictV;
-import com.rjpa.vo.SysDictV;
 import model.Result;
+import vo.SysDictV;
 
 public interface ISysDictcodeService {
 

@@ -1,7 +1,7 @@
 package com.rjpa.service;
 
-import com.rjpa.vo.MessageAmpqV;
 import model.Result;
+import vo.MessageAmpqV;
 
 public interface IAmpqMessageService {
 

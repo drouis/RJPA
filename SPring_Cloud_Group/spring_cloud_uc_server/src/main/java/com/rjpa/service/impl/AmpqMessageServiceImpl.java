@@ -3,13 +3,12 @@ package com.rjpa.service.impl;
 import com.rjpa.repository.AmpqMessageRepository;
 import com.rjpa.repository.Entity.AmpqMessageEntity;
 import com.rjpa.service.IAmpqMessageService;
-import com.rjpa.vo.MessageAmpqV;
 import model.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vo.MessageAmpqV;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -21,9 +20,9 @@ public class AmpqMessageServiceImpl implements IAmpqMessageService {
         BeanUtils.copyProperties(vo, dbData);
         dbData.setUuid(UUID.randomUUID().toString().replaceAll("-", ""));
         dbData.setAmpqStatue(vo.getMessageUnSend());
-        dbData.setAmpqTIme(new Timestamp(System.currentTimeMillis()));
+        dbData.setAmpqTime(new Timestamp(System.currentTimeMillis()));
         ampqMessageRepository.save(dbData);
-        BeanUtils.copyProperties(dbData,vo);
+        BeanUtils.copyProperties(dbData, vo);
         return vo;
     }
 

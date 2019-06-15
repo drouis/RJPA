@@ -7,16 +7,19 @@
         <groupId>com.rjpa</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_gateway_server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>Spring Cloud 微服务 / 路由器 / 负载均衡 / JPA数据库 / Zuul用户中心 / Gateway</name>
     <description>SPring Cloud Gateway Server</description>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
         <spring-boot-admin.version>2.1.3</spring-boot-admin.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+        <redis.clients>2.9.0</redis.clients>
     </properties>
 
     <dependencies>
@@ -65,6 +68,16 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${redis.clients}</version>
+        </dependency>
+
         <!-- 共通类目模块引用 -->
         <dependency>
             <groupId>com.rjpa</groupId>
@@ -76,6 +89,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
         </dependency>
     </dependencies>
 
@@ -99,28 +116,24 @@
     </dependencyManagement>
 
     <build>
+        <finalName>spring_cloud_gateway_server</finalName>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF8</encoding>
+                    <showWarnings>true</showWarnings>
+                </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.rjpa.SpringCloudGatewayServerApplication</mainClass>
-                    <layout>ZIP</layout>
-                    <classifier>exec</classifier>
-                    <includeSystemScope>true</includeSystemScope>
+                    <mainClass>com.rjpa.SpringCloudGatewayServerApplication</mainClass><!-- 此处main方法入口 -->
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

@@ -1,8 +1,6 @@
 package com.rjpa;
 
 import com.rjpa.config.ApplicationPermissionScanStartup;
-import com.rjpa.rabbitMq.RabbitChannelListener;
-import com.rjpa.rabbitMq.RabbitConnectionListener;
 import com.rjpa.service.InitPermissionIntoDBService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +28,7 @@ import org.springframework.context.annotation.ImportResource;
 @EnableFeignClients("com.rjpa.feign")
 @SpringBootApplication(scanBasePackages = "com.rjpa.**")
 @EnableAspectJAutoProxy
+//@EnableTransactionManagerServer
 public class SpringCloudUcServerApplication extends SpringBootServletInitializer implements CommandLineRunner {
     protected final static Logger logger = LoggerFactory.getLogger(SpringCloudUcServerApplication.class);
 
@@ -52,7 +51,7 @@ public class SpringCloudUcServerApplication extends SpringBootServletInitializer
 
     @Override
     public void run(String... strings) throws Exception {
-        initPermissionIntoDBService.initPermissionIntoDBService();
+        // initPermissionIntoDBService.initPermissionIntoDBService();
     }
 
     @Autowired

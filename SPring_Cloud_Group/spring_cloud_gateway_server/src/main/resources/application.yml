@@ -5,9 +5,6 @@ server:
   port: ${EUREKA.CONST.PORT}
   servlet:
     context-path: ${EUREKA.CONST.PATH}
-  undertow:
-    worker-threads: 4000
-    io-threads: 200
 spring:
   application:
     name: ${EUREKA.APPLICATION.NAME}

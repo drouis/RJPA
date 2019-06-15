@@ -3,10 +3,10 @@ package com.rjpa.mic.service;
 import com.rjpa.mic.repository.driverschool.Entity.AmpqMessageEntity;
 
 public interface IAmpqService {
-    void updateSMSAmpqMessage(AmpqMessageEntity vo);
+    int updateSMSAmpqMessage(AmpqMessageEntity vo);
 
-    void updateQuartzAmpqMessage(AmpqMessageEntity vo);
+    int updateQuartzAmpqMessage(AmpqMessageEntity vo);
 
-    void updateMailAmpqMessage(AmpqMessageEntity vo);
+    int updateMailAmpqMessage(AmpqMessageEntity vo);
 
 }

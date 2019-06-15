@@ -1,0 +1,23 @@
+package com.rjpa.interceptor;
+
+import com.lorne.tx.springcloud.interceptor.TxManagerInterceptor;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+
+public class TxTransactionInterceptor implements Ordered {
+
+    @Override
+    public int getOrder() {
+        return 1;
+    }
+
+    @Autowired
+    private TxManagerInterceptor txManagerInterceptor;
+
+    @Around("execution(* com.rjpa.service.impl.*Impl.*(..))")
+    public Object around(ProceedingJoinPoint point)throws Throwable{
+        return txManagerInterceptor.around(point);
+    }
+}

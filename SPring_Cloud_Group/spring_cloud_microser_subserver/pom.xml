@@ -7,11 +7,13 @@
         <groupId>com.rjpa</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_microser_subserver</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>Spring Cloud 微服务 / 熔断器 / 声明式服务注册 / 负载均衡 / Web /JPA数据库 / QUARTZ / SMS / EMAIL / RABBIT / SubMicoServer</name>
     <description>SPring Cloud MicoSer server2</description>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- 暴露指标 -->
@@ -63,7 +65,6 @@
             <artifactId>feign-jackson</artifactId>
             <version>8.18.0</version>
         </dependency>
-
         <!--Hystrix 依赖 主要是用  @HystrixCommand-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -96,24 +97,23 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <!-- <scope>runtime</scope> -->
             <version>${zaxxer.HikariCP}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.connector}</version>
+            <version>${mySql-connector.version}</version>
         </dependency>
         <!--spring quartz依赖-->
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-            <version>${org.quartz-scheduler.version}</version>
+            <version>2.2.3</version>
         </dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz-jobs</artifactId>
-            <version>${org.quartz-scheduler.version}</version>
+            <version>2.2.3</version>
         </dependency>
         <!-- RabbitMQ 依赖 -->
         <dependency>
@@ -124,13 +124,20 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>${spring-context-support.version}</version>
+            <version>5.1.5.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>${spring-context-support.version}</version>
+            <version>5.1.5.RELEASE</version>
         </dependency>
+        <!-- 阿里云发送短信插件 -->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+
         <!-- Spring Boot devtools 热部署 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -142,6 +149,20 @@
             <artifactId>spring_cloud_common</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <!--Swagger-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+        <!--Swagger UI-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -157,9 +178,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -185,24 +204,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.rjpa.SpringCloudMicroserSubServerApplication</mainClass>
-                    <layout>ZIP</layout>
-                    <classifier>exec</classifier>
-                    <includeSystemScope>true</includeSystemScope>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
 </project>

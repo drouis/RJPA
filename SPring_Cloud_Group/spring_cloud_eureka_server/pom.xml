@@ -11,7 +11,8 @@
     <groupId>com.rjpa</groupId>
     <artifactId>spring_cloud_eureka_server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Cloud / 注册中心 / 微服务 / 监控管理 / 安全管理 / Eureka</name>
+    <name>Spring Cloud 微服务 / 注册中心 / 监控管理 / 安全管理 / Eureka</name>
+    <packaging>jar</packaging>
     <description>SPring Cloud Eureka Server</description>
 
     <properties>
@@ -76,10 +77,24 @@
     </dependencyManagement>
 
     <build>
+        <finalName>spring_cloud_eureka_server</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF8</encoding>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.rjpa.SpringCloudEurekaServerApplication</mainClass><!-- 此处main方法入口 -->
+                </configuration>
             </plugin>
         </plugins>
     </build>

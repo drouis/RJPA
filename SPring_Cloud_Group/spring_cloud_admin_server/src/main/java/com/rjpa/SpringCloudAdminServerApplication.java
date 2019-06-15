@@ -49,7 +49,6 @@ public class SpringCloudAdminServerApplication {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            // @formatter:off
             SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
             successHandler.setTargetUrlParameter("redirectTo");
             http.authorizeRequests()

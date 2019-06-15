@@ -1,9 +1,12 @@
 package com.rjpa.AuthConfig.filter;
 
-import com.rjpa.AuthConfig.sessionManager.CustomSessionRegistryImpl;
+import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rjpa.AuthConfig.vo.User;
-import com.rjpa.redis.RedisDao;
+import com.rjpa.redis.UserCenterRedisTemplateUtils;
 import model.utils.JwtTokenUtil;
+import model.utils.RedisConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -30,6 +33,8 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
     private String usernameParameter = SPRING_SECURITY_RESTFUL_USERNAME_KEY;
     private String passwordParameter = SPRING_SECURITY_RESTFUL_PASSWORD_KEY;
     private boolean postOnly = true;
+
+    Gson gson = new GsonBuilder().setDateFormat("yyyy-mm-dd").create();
 
     public CustomLoginFilter() {
         super(new AntPathRequestMatcher(SPRING_SECURITY_RESTFUL_LOGIN_URL, "POST"));
@@ -62,9 +67,13 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
                 // TODO 用户数据加入REDIS缓存
 //                String token = JwtTokenUtil.generateToken(username, 3600);
                 String tokenStr = UUID.randomUUID().toString().replaceAll("-", "");
-                ((User) authentication.getPrincipal()).setTokenStr(tokenStr);
-//                redisDao.setCacheObject(tokenStr, JwtTokenUtil.TOKEN_HEADER + username);
-                sessionRegistry.registerNewSession(httpServletRequest.getSession().getId(), authRequest.getPrincipal());
+                User u = ((User) authentication.getPrincipal());
+                u.setTokenStr(tokenStr);
+                redisUtils.set(tokenStr, JwtTokenUtil.TOKEN_HEADER + username, RedisConstants.datebase1);
+//                Long resExpire1 = redisUtils.expire(tokenStr, 86400, RedisConstants.datebase1);//设置key过期时间
+                Long resExpire1 = redisUtils.expire(tokenStr, 20, RedisConstants.datebase1);//设置key过期时间
+                redisUtils.set(JwtTokenUtil.TOKEN_HEADER + username, JSON.toJSON(u).toString(), RedisConstants.datebase1);
+                Long resExpire2 = redisUtils.expire(JwtTokenUtil.TOKEN_HEADER + username, 20, RedisConstants.datebase1);//设置key过期时间
             }
         } catch (LockedException e1) {
             throw e1;
@@ -110,7 +119,7 @@ public class CustomLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Autowired
-    CustomSessionRegistryImpl sessionRegistry;
+    UserCenterRedisTemplateUtils redisUtils;
 
     private void setDetails(HttpServletRequest request,
                             UsernamePasswordAuthenticationToken authRequest) {

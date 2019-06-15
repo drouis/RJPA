@@ -1,6 +1,7 @@
 package model;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import model.utils.SystemConstCode;
 
 @ApiModel
@@ -8,15 +9,16 @@ public class Result<T> {
     public Result() {
     }
 
+    @ApiModelProperty(value = "通知")
     private String msg;
-
-    private String code;
-
+    @ApiModelProperty(value = "code")
+    private Integer code;
+    @ApiModelProperty(value = "对象")
     private T data;
 
     private boolean flag;
 
-    public Result(String errMsg, String errCode, T data, boolean flg) {
+    public Result(String errMsg, Integer errCode, T data, boolean flg) {
         super();
         this.msg = errMsg;
         this.code = errCode;
@@ -27,25 +29,25 @@ public class Result<T> {
     public Result(T data) {
         super();
         this.msg = null;
-        this.code = "200";
+        this.code = SystemConstCode.SUCCESS.getCode();
         this.data = data;
         this.flag = true;
     }
 
     public static <T> Result ok(T data) {
-        return new Result("请求处理完成", "200", data, true);
+        return new Result("请求处理完成", SystemConstCode.SUCCESS.getCode(), data, true);
     }
 
     public static <T> Result ok(int code, String errorMsg, T data) {
-        return new Result(errorMsg, String.valueOf(code), data, true);
+        return new Result(errorMsg, code, data, true);
     }
 
     public static Result error(int errorCode, String errorMsg) {
-        return new Result(errorMsg, String.valueOf(errorCode), null, false);
+        return new Result(errorMsg, errorCode, null, false);
     }
 
     public static Result error(Integer errorCode, String errorMsg) {
-        return new Result(errorMsg, String.valueOf(errorCode), null, false);
+        return new Result(errorMsg, errorCode, null, false);
     }
 
     public static Result error(String errMsg) {
@@ -60,11 +62,11 @@ public class Result<T> {
         this.msg = msg;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

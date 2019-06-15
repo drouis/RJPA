@@ -1,35 +1,29 @@
 package com.rjpa.repository.Entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Proxy(lazy = false)
 @Entity
-@Table(name = "lzh_admin_permission", schema = "driverschool", catalog = "")
-public class LzhAdminPermissionEntity implements Serializable {
-    private static final long serialVersionUID = -5126379909324366507L;
-    private int id;
+@Table(name = "lzh_admin_permission", schema = "system", catalog = "")
+public class LzhAdminPermissionEntity {
+    private long id;
     private String name;
     private String permission;
-    private String permissionUrl;
     private String description;
+    private String permissionUrl;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Column(name = "id", nullable = false)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = true, length = 255)
     public String getName() {
         return name;
     }
@@ -39,7 +33,7 @@ public class LzhAdminPermissionEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "permission")
+    @Column(name = "permission", nullable = true, length = 255)
     public String getPermission() {
         return permission;
     }
@@ -49,17 +43,7 @@ public class LzhAdminPermissionEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "permissionUrl")
-    public String getPermissionUrl() {
-        return permissionUrl;
-    }
-
-    public void setPermissionUrl(String permissionUrl) {
-        this.permissionUrl = permissionUrl;
-    }
-
-    @Basic
-    @Column(name = "description")
+    @Column(name = "description", nullable = true, length = 255)
     public String getDescription() {
         return description;
     }
@@ -76,12 +60,22 @@ public class LzhAdminPermissionEntity implements Serializable {
         return id == that.id &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(permission, that.permission) &&
-                Objects.equals(permissionUrl, that.permissionUrl) &&
                 Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, permission, permissionUrl, description);
+
+        return Objects.hash(id, name, permission, description);
+    }
+
+    @Basic
+    @Column(name = "permission_url", nullable = true, length = 255)
+    public String getPermissionUrl() {
+        return permissionUrl;
+    }
+
+    public void setPermissionUrl(String permissionUrl) {
+        this.permissionUrl = permissionUrl;
     }
 }

@@ -1,17 +1,11 @@
 package com.rjpa.repository.Entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Proxy(lazy = false)
 @Entity
-@Table(name = "lzh_admin_role", schema = "driverschool", catalog = "")
-public class LzhAdminRoleEntity implements Serializable {
-    private static final long serialVersionUID = -3137499071341748837L;
+@Table(name = "lzh_admin_role", schema = "system", catalog = "")
+public class LzhAdminRoleEntity {
     private int id;
     private String name;
     private String role;
@@ -19,7 +13,7 @@ public class LzhAdminRoleEntity implements Serializable {
     private Integer flg;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -29,7 +23,7 @@ public class LzhAdminRoleEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = true, length = 255)
     public String getName() {
         return name;
     }
@@ -39,7 +33,7 @@ public class LzhAdminRoleEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "role")
+    @Column(name = "role", nullable = true, length = 255)
     public String getRole() {
         return role;
     }
@@ -49,7 +43,7 @@ public class LzhAdminRoleEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "description")
+    @Column(name = "description", nullable = true, length = 255)
     public String getDescription() {
         return description;
     }
@@ -59,7 +53,7 @@ public class LzhAdminRoleEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "flg")
+    @Column(name = "flg", nullable = true)
     public Integer getFlg() {
         return flg;
     }
@@ -82,6 +76,7 @@ public class LzhAdminRoleEntity implements Serializable {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id, name, role, description, flg);
     }
 }

@@ -1,18 +1,14 @@
 package com.rjpa.repository.Entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "lzh_admin_login_log", schema = "driverschool", catalog = "")
-public class LzhAdminLoginLogEntity implements Serializable {
-    private static final long serialVersionUID = -7434411915359225734L;
+@Table(name = "lzh_admin_login_log", schema = "system", catalog = "")
+public class LzhAdminLoginLogEntity {
     private int id;
-    private int logincount;
+    private Integer logincount;
     private String loginname;
     private Timestamp logintime;
     private String memo1;
@@ -20,7 +16,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
     private String memo3;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -30,17 +26,17 @@ public class LzhAdminLoginLogEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "logincount")
-    public int getLogincount() {
+    @Column(name = "logincount", nullable = true)
+    public Integer getLogincount() {
         return logincount;
     }
 
-    public void setLogincount(int logincount) {
+    public void setLogincount(Integer logincount) {
         this.logincount = logincount;
     }
 
     @Basic
-    @Column(name = "loginname")
+    @Column(name = "loginname", nullable = true, length = 255)
     public String getLoginname() {
         return loginname;
     }
@@ -50,7 +46,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "logintime")
+    @Column(name = "logintime", nullable = true)
     public Timestamp getLogintime() {
         return logintime;
     }
@@ -60,7 +56,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "memo1")
+    @Column(name = "memo1", nullable = true, length = 255)
     public String getMemo1() {
         return memo1;
     }
@@ -70,7 +66,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "memo2")
+    @Column(name = "memo2", nullable = true, length = 255)
     public String getMemo2() {
         return memo2;
     }
@@ -80,7 +76,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "memo3")
+    @Column(name = "memo3", nullable = true, length = 255)
     public String getMemo3() {
         return memo3;
     }
@@ -95,7 +91,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         LzhAdminLoginLogEntity that = (LzhAdminLoginLogEntity) o;
         return id == that.id &&
-                logincount == that.logincount &&
+                Objects.equals(logincount, that.logincount) &&
                 Objects.equals(loginname, that.loginname) &&
                 Objects.equals(logintime, that.logintime) &&
                 Objects.equals(memo1, that.memo1) &&
@@ -105,6 +101,7 @@ public class LzhAdminLoginLogEntity implements Serializable {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id, logincount, loginname, logintime, memo1, memo2, memo3);
     }
 }

@@ -1,6 +1,8 @@
 package com.rjpa.AuthConfig.filter;
 
+import model.utils.StringUtil;
 import model.utils.SystemConstCode;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.AbstractSecurityInterceptor;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
@@ -8,8 +10,11 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -17,6 +22,9 @@ import java.io.IOException;
  */
 public class CustomSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {
     private FilterInvocationSecurityMetadataSource securityMetadataSource;
+    @Value("${security.ignoring}")
+    String ignoringUrls;
+    private static PathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -55,8 +63,8 @@ public class CustomSecurityInterceptor extends AbstractSecurityInterceptor imple
     public void invoke(FilterInvocation fi) throws IOException {
         /**
          * fi里面有一个被拦截的url
-         里面调用CustomSecurityMetadataSource的loadResourceMatchAuthority()这个方法获取fi对应的所有权限
-         再调用CustomerAccessDecisionManager的decide方法来校验用户的权限是否足够
+         里面调用 CustomMetadataSourceService 的 loadResourceMatchAuthority() 判定当前访问的URL是否负责拦截条件，
+         判定需要拦截的url再调用 CustomerAccessDecisionManager 的 decide 方法来校验fi对应的所有权限和用户的权限
          */
         InterceptorStatusToken token = super.beforeInvocation(fi);
         try {

@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Proxy(lazy = false)
 @Entity
-@Table(name = "lzh_admin_role_permission", schema = "driverschool", catalog = "")
+@Table(name = "lzh_admin_role_permission", schema = "system", catalog = "")
 public class LzhAdminRolePermissionEntity implements Serializable {
     private static final long serialVersionUID = 3689352352578382335L;
     private long id;
@@ -16,7 +16,7 @@ public class LzhAdminRolePermissionEntity implements Serializable {
     private Long permissionId;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
@@ -27,7 +27,7 @@ public class LzhAdminRolePermissionEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "role_id")
+    @Column(name = "role_id", nullable = true)
     public Long getRoleId() {
         return roleId;
     }
@@ -37,7 +37,7 @@ public class LzhAdminRolePermissionEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "permission_id")
+    @Column(name = "permission_id", nullable = true)
     public Long getPermissionId() {
         return permissionId;
     }

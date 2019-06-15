@@ -17,15 +17,15 @@
     <packaging>pom</packaging>
     <name>SPring_Cloud_Group SPring 微服务框架包</name>
     <modules>
-        <module>spring_cloud_admin_server</module>
-        <module>spring_cloud_eureka_server</module>
-        <module>spring_cloud_gateway_server</module>
-        <module>spring_cloud_microser_server</module>
-        <module>spring_cloud_microser_subserver</module>
-        <module>spring_cloud_common</module>
-        <module>spring_cloud_uc_server</module>
-        <module>spring_cloud_microser_carServer</module>
-        <module>spring_cloud_mybatis_tools</module>
+        <module>spring_cloud_common</module> <!-- 木材项目通用代码包 -->
+        <module>spring_cloud_admin_server</module> <!-- Eureka 服务监测管理 -->
+        <module>spring_cloud_eureka_server</module> <!-- Eureka 服务注册 -->
+        <module>spring_cloud_gateway_server</module> <!-- Eureka 子服务网关路由 -->
+        <module>spring_cloud_microser_server</module> <!-- Eureka 子服务模板 -->
+        <module>spring_cloud_microser_subserver</module> <!-- Eureka 子服务模板 -->
+        <module>spring_cloud_uc_server</module> <!-- Eureka 用户中心管理 -->
+        <module>spring_cloud_common_mybatis_tools</module><!-- Mybatis 数据库代码子服务 -->
+        <module>spring_cloud_txlcn_tm</module>
     </modules>
 
     <properties>
@@ -38,16 +38,19 @@
         <spring-cloud-zuul.version>1.4.6.RELEASE</spring-cloud-zuul.version>
         <spring-boot-web.version>2.1.3.RELEASE</spring-boot-web.version>
         <spring-boot-jdbc.version>2.1.3.RELEASE</spring-boot-jdbc.version>
-        <spring-boot-admin.version>2.1.3</spring-boot-admin.version>
-        <spring-boot-admin-client.version>2.1.3</spring-boot-admin-client.version>
-        <spring-boot-admin-server-ui.version>2.1.3</spring-boot-admin-server-ui.version>
-        <spring-context-support.version>5.1.5.RELEASE</spring-context-support.version>
+        <spring-boot-admin.version>2.1.1</spring-boot-admin.version>
+        <spring-boot-admin-client.version>2.1.1</spring-boot-admin-client.version>
+        <spring-boot-admin-server-ui.version>2.1.1</spring-boot-admin-server-ui.version>
+        <spring-context-supporter.version>5.1.5.RELEASE</spring-context-supporter.version>
         <org.quartz-scheduler.version>2.2.3</org.quartz-scheduler.version>
-        <mysql.connector>6.0.6</mysql.connector>
+        <mySql-connector.version>6.0.6</mySql-connector.version>
+        <c3p0.version>0.9.5.2</c3p0.version>
         <zaxxer.HikariCP>3.3.1</zaxxer.HikariCP>
+        <com.codingapi.txlcn.version>5.0.2.RELEASE</com.codingapi.txlcn.version>
+        <swagger2.version>2.9.2</swagger2.version>
         <google.gson>2.8.5</google.gson>
         <hibernate-jpa.api>1.0.0.Final</hibernate-jpa.api>
-        <swagger2.version>2.9.2</swagger2.version>
+        <redis.clients>2.9.0</redis.clients>
     </properties>
 
     <dependencies>

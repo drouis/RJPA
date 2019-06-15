@@ -32,18 +32,19 @@ import java.util.List;
 public class MyUserDetailsService implements UserDetailsService {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Result fuck = loginService.getUserByUserName(s);
         LzhAdminEntity admin = null;
         try {
-            if (fuck.getCode().equals("200")) {
-                admin = (LzhAdminEntity) fuck.getData();
-            }
+            admin = (LzhAdminEntity) loginService.getUserByUserName(s).getData();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         if (admin == null) {
             throw new UsernameNotFoundException("用户名不存在");
         }
@@ -52,7 +53,7 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new LockedException("用户账号被冻结，无法登陆请联系管理员！");
         }
         logger.info("用户的用户名: {}", admin.getRealName()); // TODO 根据用户名，查找到对应的密码，与权限
-        String password = passwordEncoder().encode(admin.getPassword());
+        String password = passwordEncoder().encode(admin.getUserPassword());
         logger.info("password: {}", password);
         // TODO 判定用户是否存在管理员角色，管理员绑定全部权限，否则绑定用户权限数据
         List<AdminRoleV> rList = (List<AdminRoleV>) loginService.getRoleByUserId(admin.getId()).getData();
@@ -120,11 +121,6 @@ public class MyUserDetailsService implements UserDetailsService {
             i++;
         }
         return menuVS;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Autowired

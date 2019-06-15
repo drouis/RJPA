@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Proxy(lazy = false)
 @Entity
-@Table(name = "lzh_admin_menus_rights", schema = "driverschool", catalog = "")
+@Table(name = "lzh_admin_menus_rights", schema = "system", catalog = "")
 public class LzhAdminMenusRightsEntity implements Serializable {
     private static final long serialVersionUID = 5434631888952509326L;
     private int id;
@@ -19,7 +19,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     private String icon;
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     public int getId() {
         return id;
     }
@@ -29,7 +29,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, length = 50)
     public String getName() {
         return name;
     }
@@ -39,7 +39,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "url")
+    @Column(name = "url", nullable = true, length = 100)
     public String getUrl() {
         return url;
     }
@@ -49,7 +49,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "classes")
+    @Column(name = "classes", nullable = false)
     public int getClasses() {
         return classes;
     }
@@ -59,7 +59,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "parentid")
+    @Column(name = "parentid", nullable = false)
     public int getParentid() {
         return parentid;
     }
@@ -69,7 +69,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "permission")
+    @Column(name = "permission", nullable = false, length = 255)
     public String getPermission() {
         return permission;
     }
@@ -79,7 +79,7 @@ public class LzhAdminMenusRightsEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "icon")
+    @Column(name = "icon", nullable = true, length = 255)
     public String getIcon() {
         return icon;
     }

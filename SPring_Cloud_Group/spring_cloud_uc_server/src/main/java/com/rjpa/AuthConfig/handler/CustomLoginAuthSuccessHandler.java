@@ -70,6 +70,7 @@ public class CustomLoginAuthSuccessHandler implements AuthenticationSuccessHandl
         request.setAttribute("errMsg", baseMessage);
         requestCache.removeRequest(request, response);
         clearAuthenticationAttributes(request);
+        response.setHeader("userAuthonToken", ((User) authentication.getPrincipal()).getTokenStr());
         response.sendRedirect(request.getContextPath() + authSuccessUrl);
     }
 

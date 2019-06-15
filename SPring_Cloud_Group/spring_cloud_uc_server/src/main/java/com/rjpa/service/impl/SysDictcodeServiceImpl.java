@@ -3,11 +3,11 @@ package com.rjpa.service.impl;
 import com.rjpa.repository.Entity.SysDictcodeEntity;
 import com.rjpa.repository.SysDictCodeRepository;
 import com.rjpa.service.ISysDictcodeService;
-import com.rjpa.vo.SysDictV;
 import model.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import vo.SysDictV;
 
 import java.util.ArrayList;
 import java.util.List;

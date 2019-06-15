@@ -44,6 +44,7 @@ public interface ISystemUserService {
      * @date: 2019/4/13 01:00
      */
     public Result checkUserParamExist(String userName, String phoneNumber);
+
     public boolean checkUserExist(String userName, String phoneNumber);
 
     /**
@@ -135,4 +136,21 @@ public interface ISystemUserService {
      * @date: 2019/4/13 00:51
      */
     public void bundRoleUsers(String[] bundUserIds, int rid);
+
+    /**
+     * 设置密码
+     *
+     * @param vo
+     * @return
+     */
+    public Result reSetUserPWD(AdminUserV vo);
+
+    /**
+     * 变更头像
+     *
+     * @param vo
+     * @return
+     */
+    public Result reSetUserHead(AdminUserV vo);
+
 }

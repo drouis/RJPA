@@ -190,6 +190,28 @@ public class SystemUserServiceImpl implements ISystemUserService {
         adminUserRoleRepository.saveAll(dbList);
     }
 
+    @Override
+    public Result reSetUserPWD(AdminUserV vo) {
+        LzhAdminEntity dbUser = adminRepository.findById(vo.getId());
+        if (null == dbUser) {
+            return Result.error(SystemConstCode.USER_NOT_FOUND.getCode(), SystemConstCode.USER_NOT_FOUND.getMessage());
+        }
+        dbUser.setUserPassword(vo.getPassword());
+        adminRepository.saveAndFlush(dbUser);
+        return Result.ok(dbUser);
+    }
+
+    @Override
+    public Result reSetUserHead(AdminUserV vo) {
+        LzhAdminEntity dbUser = adminRepository.findById(vo.getId());
+        if (null == dbUser) {
+            return Result.error(SystemConstCode.USER_NOT_FOUND.getCode(), SystemConstCode.USER_NOT_FOUND.getMessage());
+        }
+        dbUser.setHeadPicture(vo.getHeadPicture());
+        adminRepository.saveAndFlush(dbUser);
+        return Result.ok(dbUser);
+    }
+
     @Autowired
     LzhAdminRepository adminRepository;
     @Autowired

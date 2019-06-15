@@ -15,6 +15,18 @@ public interface UserServiceFeignClient {
     public final static String USER_FEIGN_CLIENT_NAME = "spring-cloud-micoUSer-server";
 
     /**
+     * 根据用户ID查询用户
+     *
+     * @param userId
+     * @return
+     */
+    @Headers({"Content-Type:application/json", "Accept: application/json"})
+    @RequestMapping(method = RequestMethod.GET, value = "/adminInfo/userId",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    Result getUserByUserId(@RequestParam(value = "userId") String userId);
+
+    /**
      * 根据用户名查询用户
      *
      * @param userName

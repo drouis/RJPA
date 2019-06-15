@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RabbitListener(queues = CustomRabbitConfiguration.QUEUE_A)
+@RabbitListener(queues = CustomRabbitConfiguration.QUEUE_B)
 public class CustomEmailRabbitMQReceiver {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     Gson gson = new Gson();

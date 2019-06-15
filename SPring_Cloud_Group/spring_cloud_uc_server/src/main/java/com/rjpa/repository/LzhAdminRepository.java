@@ -22,4 +22,6 @@ public interface LzhAdminRepository extends JpaRepository<LzhAdminEntity, Intege
     List<LzhAdminEntity> findByUserNameOrPhoneNumber(
             @Param(value = "userName") String userName,
             @Param(value = "phoneNumber") String phoneNumber);
+
+    LzhAdminEntity findByUserUuidEquals(@Param(value = "userUuid") String userUuid);
 }

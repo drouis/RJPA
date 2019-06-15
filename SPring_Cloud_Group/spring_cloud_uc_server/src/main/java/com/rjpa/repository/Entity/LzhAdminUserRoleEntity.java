@@ -1,34 +1,27 @@
 package com.rjpa.repository.Entity;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Objects;
 
-@Proxy(lazy = false)
 @Entity
-@Table(name = "lzh_admin_user_role", schema = "driverschool", catalog = "")
-public class LzhAdminUserRoleEntity implements Serializable {
-    private static final long serialVersionUID = -9120609032109835739L;
-    private int id;
+@Table(name = "lzh_admin_user_role", schema = "system", catalog = "")
+public class LzhAdminUserRoleEntity {
+    private long id;
     private long userId;
     private long roleId;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    @Column(name = "id", nullable = false)
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     @Basic
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     public long getUserId() {
         return userId;
     }
@@ -38,7 +31,7 @@ public class LzhAdminUserRoleEntity implements Serializable {
     }
 
     @Basic
-    @Column(name = "role_id")
+    @Column(name = "role_id", nullable = false)
     public long getRoleId() {
         return roleId;
     }
@@ -59,6 +52,7 @@ public class LzhAdminUserRoleEntity implements Serializable {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(id, userId, roleId);
     }
 }

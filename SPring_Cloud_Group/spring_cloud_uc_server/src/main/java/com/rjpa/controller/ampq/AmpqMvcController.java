@@ -6,7 +6,6 @@ import com.rjpa.AuthConfig.vo.User;
 import com.rjpa.controller.IndexMvcController;
 import com.rjpa.service.IAmpqMessageService;
 import com.rjpa.vo.IndexPageMenuV;
-import com.rjpa.vo.MessageAmpqV;
 import feign.Param;
 import model.Result;
 import model.utils.SystemConstCode;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import vo.MessageAmpqV;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

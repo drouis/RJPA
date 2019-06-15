@@ -7,7 +7,6 @@ import com.rjpa.controller.IndexMvcController;
 import com.rjpa.repository.Entity.SysDictcodeEntity;
 import com.rjpa.service.ISysDictcodeService;
 import com.rjpa.vo.IndexPageMenuV;
-import com.rjpa.vo.SysDictV;
 import model.Result;
 import model.SelectObject;
 import model.utils.SystemConstCode;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import vo.SysDictV;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;

@@ -36,7 +36,7 @@ public class LoginMvcController {
             r = iLoginService.getUserByPhone(phoneNumber);
             loginDataName = loginDataPrexStr + phoneNumber;
         }
-        if (null != r && Integer.parseInt(r.getCode()) == (SystemConstCode.SUCCESS.getCode())) {
+        if (null != r && r.getCode() == (SystemConstCode.SUCCESS.getCode())) {
             return new ModelAndView("redirect:/welcome");
         }
         r = Result.error(SystemConstCode.USER_NOT_FOUND.getCode(), SystemConstCode.USER_NOT_FOUND.getMessage());
